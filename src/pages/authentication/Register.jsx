@@ -1,24 +1,97 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import { Button } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { styled } from "@mui/material/styles";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-const Login = () => {
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
+
+const img_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const img_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`;
+
+const Register = () => {
+  const { createUser } = useAuth();
+  const nav = useNavigate()
+  const [fileName, setFileName] = useState("");
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    // upload the image
+    const imageFile = { image: data.image[0] };
+    const result = await axios.post(img_hosting_api, imageFile, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    if (result.data.success) {
+      // create user with photoURL
+      const photoURL = result.data.data.display_url;
+      const user = await createUser(
+        data.email,
+        data.password,
+        data.name,
+        photoURL
+      );
+      if (user?.email) {
+        toast.success(`Welcome ${user.displayName}`);
+        nav("/")
+      } else {
+        toast.error("Oops! Something went wrong.");
+      }
+    }
   };
   return (
     <div className="max-w-7xl mx-auto">
       <div className="font-[sans-serif]">
         <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center py-6 px-4">
-          <div className="flex max-md:flex-col-reverse items-center gap-6 max-w-6xl w-full">
+          <div className="flex flex-row-reverse max-md:flex-col-reverse items-center gap-6 max-w-6xl w-full">
             <div className="flex-1 border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto">
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="mb-8">
-                  <h3 className="text-gray-800 text-3xl font-bold">Log in</h3>
+                  <h3 className="text-gray-800 text-3xl font-bold">Register</h3>
                   <p className="text-gray-500 text-sm mt-4 leading-relaxed">
-                    Log in to your account and explore a world of
-                    possibilities. Your eating journey begins here.
+                    Register your account and explore a world of possibilities.
+                    Your eating journey begins here.
                   </p>
+                </div>
+                <div>
+                  <label className="text-gray-800 text-sm mb-2 block">
+                    Name
+                  </label>
+                  <div className="relative flex items-center">
+                    <input
+                      type="text"
+                      {...register("name", { required: true })}
+                      className="w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg outline-blue-600"
+                      placeholder="Enter name"
+                    />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="#bbb"
+                      stroke="#bbb"
+                      className="w-[18px] h-[18px] absolute right-4"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle cx={10} cy={7} r={6} data-original="#000000" />
+                      <path
+                        d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z"
+                        data-original="#000000"
+                      />
+                    </svg>
+                  </div>
                 </div>
                 <div>
                   <label className="text-gray-800 text-sm mb-2 block">
@@ -71,6 +144,34 @@ const Login = () => {
                     </svg>
                   </div>
                 </div>
+                <div>
+                  <label className="text-gray-800 text-sm mb-2 block">
+                    Upload your profile picture
+                  </label>
+                  <div className="relative flex flex-col">
+                    <Button
+                      component="label"
+                      role={undefined}
+                      variant="contained"
+                      color="inherit"
+                      tabIndex={-1}
+                      startIcon={<CloudUploadIcon />}
+                    >
+                      Upload Picture
+                      <VisuallyHiddenInput
+                        type="file"
+                        {...register("image", { required: true })}
+                        onChange={(event) =>
+                          setFileName(event.target.files[0].name)
+                        }
+                        multiple
+                      />
+                    </Button>
+                    <p className="text-gray-800 px-2 py-1 border rounded-lg mt-2">
+                      {fileName}
+                    </p>
+                  </div>
+                </div>
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <div className="flex items-center">
                     <input
@@ -86,30 +187,22 @@ const Login = () => {
                       Remember me
                     </label>
                   </div>
-                  <div className="text-sm">
-                    <a
-                      href=""
-                      className="text-blue-600 hover:underline font-semibold"
-                    >
-                      Forgot your password?
-                    </a>
-                  </div>
                 </div>
                 <div className="!mt-8">
                   <button
                     type="submit"
                     className="w-full shadow-xl py-2.5 px-4 text-sm tracking-wide rounded-lg text-white bg-primary hover:bg-blue-600 transition duration-300 focus:outline-none"
                   >
-                    Log in
+                    Create Account
                   </button>
                 </div>
                 <p className="text-sm !mt-8 text-center text-gray-500">
-                  Don&apos;t have an account?
+                  Already have an account?
                   <Link
-                    to={"/register"}
+                    to={"/login"}
                     className="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap"
                   >
-                    Register here
+                    Log in here
                   </Link>
                 </p>
               </form>
@@ -128,4 +221,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

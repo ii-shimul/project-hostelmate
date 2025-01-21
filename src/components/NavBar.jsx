@@ -3,11 +3,13 @@ import Button from "./Button";
 import useAuth from "../hooks/useAuth";
 
 const NavBar = () => {
-  const {test} = useAuth();
-  console.log(test);
+  const { user } = useAuth();
   return (
     <nav className="py-5 flex justify-between items-center px-10">
-      <Link to={"/"} className="text-primary flex gap-3 items-center justify-center">
+      <Link
+        to={"/"}
+        className="text-primary flex gap-3 items-center justify-center"
+      >
         <span className="bg-secondary p-2 rounded-sm">
           <svg
             id="brandHeader"
@@ -30,31 +32,34 @@ const NavBar = () => {
       <div>
         <ul className="ul-parent">
           <li className="center text-lg">
-            <NavLink to={'/'} className="link px-3 py-1">
+            <NavLink to={"/"} className="link px-3 py-1">
               Home
             </NavLink>
           </li>
           <li className="center text-lg">
-            <NavLink to={'/meals'} className="link px-3 py-1">
+            <NavLink to={"/meals"} className="link px-3 py-1">
               Meals
             </NavLink>
           </li>
           <li className="center text-lg">
-            <NavLink to={'/upcoming-meals'} className="link px-3 py-1">
+            <NavLink to={"/upcoming-meals"} className="link px-3 py-1">
               Upcoming Meals
             </NavLink>
           </li>
           <li className="center text-lg">
-            <NavLink to={'/notifications'} className="link px-3 py-1">
+            <NavLink to={"/notifications"} className="link px-3 py-1">
               Home
             </NavLink>
           </li>
-          
         </ul>
       </div>
-      <Link to={'/login'}>
-        <Button text={"Join Us"}></Button>
-      </Link>
+      {user?.email ? (
+        <></>
+      ) : (
+        <Link to={"/login"}>
+          <Button text={"Join Us"}></Button>
+        </Link>
+      )}
     </nav>
   );
 };
