@@ -24,7 +24,5 @@ dist-ssr
 *.sw?
 
 
-authentication
 contexts
-firebase
 providers
