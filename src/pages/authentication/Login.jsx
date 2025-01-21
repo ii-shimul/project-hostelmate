@@ -1,10 +1,23 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const { logIn } = useAuth();
+  const nav = useNavigate();
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    logIn(data.email, data.password)
+      .then((res) => {
+        if (res.user.email) {
+          toast.success(`Welcome back ${res.user.displayName}`);
+          nav("/");
+        }
+      })
+      .catch((err) => {
+        toast.error(`${err}`);
+      });
   };
   return (
     <div className="max-w-7xl mx-auto">
@@ -16,8 +29,8 @@ const Login = () => {
                 <div className="mb-8">
                   <h3 className="text-gray-800 text-3xl font-bold">Log in</h3>
                   <p className="text-gray-500 text-sm mt-4 leading-relaxed">
-                    Log in to your account and explore a world of
-                    possibilities. Your eating journey begins here.
+                    Log in to your account and explore a world of possibilities.
+                    Your eating journey begins here.
                   </p>
                 </div>
                 <div>

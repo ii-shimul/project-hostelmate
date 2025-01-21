@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import Button from "./Button";
 import useAuth from "../hooks/useAuth";
+import { NavbarDropdown } from "./NavbarDropdown";
 
 const NavBar = () => {
   const { user } = useAuth();
@@ -54,7 +55,7 @@ const NavBar = () => {
         </ul>
       </div>
       {user?.email ? (
-        <></>
+        <NavbarDropdown></NavbarDropdown>
       ) : (
         <Link to={"/login"}>
           <Button text={"Join Us"}></Button>
