@@ -1,7 +1,7 @@
 "use client";
 
 import { Dropdown } from "flowbite-react";
-import { HiCog, HiLogout, HiViewGrid } from "react-icons/hi";
+import { HiLogout, HiViewGrid } from "react-icons/hi";
 import useAuth from "../hooks/useAuth";
 import { Avatar } from "@mui/material";
 

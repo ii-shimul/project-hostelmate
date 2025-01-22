@@ -2,11 +2,11 @@ import luLogo from "../../assets/lu-logo.svg";
 import sustLogo from "../../assets/sust-logo.png";
 import duLogo from "../../assets/du-logo.png";
 import buetLogo from "../../assets/buet-logo.png";
-import { Box, TextField } from "@mui/material";
+import bannerImg from "../../assets/banner.jpg"
 
 const Banner = () => {
   return (
-    <div className="max-w-7xl max-md:max-w-md mx-auto">
+    <div className="max-w-7xl w-[90%] max-md:max-w-md mx-auto lg:mt-10">
       <div className="grid md:grid-cols-2 items-center md:gap-8 gap-6">
         <div className="max-md:order-1 max-md:text-center">
           <p className="text-sm font-bold text-blue-600 mb-2">
@@ -66,26 +66,26 @@ const Banner = () => {
               Trusted by students around the country
             </h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center">
-              <img src={luLogo} className="w-28 mx-auto" alt="google-logo" />
+              <img src={luLogo} className="w-28 mx-auto" alt="lu-logo" />
               <img
                 src={sustLogo}
                 className="w-28 mx-auto"
-                alt="facebook-logo"
+                alt="sust-logo"
               />
-              <img src={duLogo} className="w-28 mx-auto" alt="linkedin-logo" />
+              <img src={duLogo} className="w-28 mx-auto" alt="du-logo" />
               <img
                 src={buetLogo}
                 className="w-28 mx-auto"
-                alt="pinterest-logo"
+                alt="buet-logo"
               />
             </div>
           </div>
         </div>
-        <div className="lg:h-[650px] md:h-[550px] flex items-center relative max-md:before:hidden before:absolute before:bg-blue-200 before:h-full before:w-3/4 before:right-0 before:z-0">
+        <div className="lg:h-[650px] md:h-[550px] flex items-center relative max-md:before:hidden before:absolute before:bg-blue-200 before:h-full before:rounded-md before:w-3/4 before:right-0 before:z-0">
           <img
-            src="https://readymadeui.com/photo.webp"
-            className="rounded-md lg:w-3/4 md:w-11/12 z-50 relative"
-            alt="Dining Experience"
+            src={bannerImg}
+            className="rounded-md  w-[95%] h-auto relative mx-auto"
+            alt="Meal Experience"
           />
         </div>
       </div>

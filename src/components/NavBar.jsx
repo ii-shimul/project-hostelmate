@@ -6,7 +6,7 @@ import { NavbarDropdown } from "./NavbarDropdown";
 const NavBar = () => {
   const { user } = useAuth();
   return (
-    <nav className="py-5 flex justify-between items-center px-10">
+    <nav id="start" className="py-3 flex bg-slate-50 justify-between items-center px-10 z-[100]">
       <Link
         to={"/"}
         className="text-primary flex gap-3 items-center justify-center"
