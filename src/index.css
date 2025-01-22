@@ -55,4 +55,14 @@
   color: #235784;
   background: #ddeaf6;
   border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.link {
+  transition: background-color 0.3s ease;
+  border-radius: 8px;
+}
+
+.link:hover {
+  background-color: #ddeaf6;
 }

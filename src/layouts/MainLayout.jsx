@@ -3,15 +3,16 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Headroom from "react-headroom";
 
-
 const MainLayout = () => {
   return (
     <div className="">
       <Headroom className="z-50">
         <NavBar />
       </Headroom>
-      <Outlet />
-      <Footer/>
+      <div className="min-h-[calc(100vh-608px)] mt-3">
+        <Outlet />
+      </div>
+      <Footer />
     </div>
   );
 };
