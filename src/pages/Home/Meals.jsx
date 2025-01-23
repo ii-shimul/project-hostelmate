@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 const Meals = () => {
   const [value, setValue] = useState("1");
-  const [meals, loading] = useMeals();
+  const [meals, loading, ] = useMeals();
   if (loading) {
     return <h1>Loading...</h1>;
   }
@@ -20,11 +20,11 @@ const Meals = () => {
   // filter meals by category
   const breakfasts = meals
     .filter((meal) => meal.category === "Breakfast")
-    .slice(0, 3);
-  const lunchs = meals.filter((meal) => meal.category === "Lunch").slice(0, 3);
+    .slice(0, 4);
+  const lunchs = meals.filter((meal) => meal.category === "Lunch").slice(0, 4);
   const dinners = meals
     .filter((meal) => meal.category === "Dinner")
-    .slice(0, 3);
+    .slice(0, 4);
 
   // function for tab change
   const handleChange = (event, newValue) => {
@@ -65,7 +65,11 @@ const Meals = () => {
         </TabContext>
       </Box>
       <Link to={"meals"} className="flex justify-center items-center">
-        <Button text="View All Meals" bgColor="bg-primary" textColor="text-secondary"></Button>
+        <Button
+          text="View All Meals"
+          bgColor="bg-primary"
+          textColor="text-secondary"
+        ></Button>
       </Link>
     </div>
   );

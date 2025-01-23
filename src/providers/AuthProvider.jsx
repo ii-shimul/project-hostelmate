@@ -13,7 +13,6 @@ import {
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
 import { useEffect, useState } from "react";
-import axios from "axios";
 const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
@@ -68,12 +67,13 @@ const AuthProvider = ({ children }) => {
       //       setLoading(false);
       //     });
       // }
+      console.log(user);
       setLoading(false);
     });
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [user]);
 
   const logOut = () => {
     setLoading(true);

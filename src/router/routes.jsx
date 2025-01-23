@@ -4,6 +4,7 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import Meals from "../pages/Meals/Meals";
+import MealDetails from "../pages/MealDetails/MealDetails";
 
 const router = createBrowserRouter([
   {
@@ -23,9 +24,14 @@ const router = createBrowserRouter([
         element: <Register></Register>,
       },
       {
-        path: '/meals',
-        element: <Meals></Meals>
-      }
+        path: "/meals",
+        element: <Meals></Meals>,
+      },
+      {
+        path: "/meals/:id",
+        element: <MealDetails></MealDetails>,
+        loader: ({ params }) => fetch(`http://localhost:5000/meals/${params.id}`),
+      },
     ],
   },
 ]);
