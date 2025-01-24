@@ -1,4 +1,4 @@
-import { Rating, Stack, styled } from "@mui/material";
+import { Button, Rating, Stack, styled } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link, useLoaderData } from "react-router-dom";
@@ -6,6 +6,9 @@ import Loader from "../../components/Loader";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { ThumbUp } from "@mui/icons-material";
+import moment from "moment/moment";
+import useAxios from "../../hooks/useAxios";
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
     color: "#1C64F2",
@@ -14,15 +17,44 @@ const StyledRating = styled(Rating)({
 
 const MealDetails = () => {
   const { user } = useAuth();
+  const [isLiked, setIsLiked] = useState(false);
   const [rating, setRating] = useState(0);
-  const meal = useLoaderData();
-  const { data: reviews, isPending, refetch } = useQuery({
+  const axiosPublic = useAxios();
+  const [meal, setMeal] = useState(useLoaderData());
+  const {
+    data: reviews,
+    isPending,
+    refetch,
+  } = useQuery({
     queryKey: ["getReviews"],
     queryFn: async () => {
       const data = await axios.get(`http://localhost:5000/reviews/${meal._id}`);
       return data.data;
     },
   });
+
+  const handleRequest = async () => {
+    const request = {
+      requester: {
+        name: user.displayName,
+        email: user.email,
+        image: user.photoURL,
+      },
+      requestedMeal: {
+        id: meal._id,
+        title: meal.title,
+        image: meal.image,
+      },
+      status: "Pending",
+      requestedAt: new Date().toISOString(),
+    };
+    const res = await axiosPublic.post("requestedMeals", request);
+    if (res.data.insertedId) {
+      toast.success(`Your request for ${meal.title} is submitted!`);
+    } else {
+      toast.success("Something went wrong!");
+    }
+  };
 
   const handleReview = async (event) => {
     event.preventDefault();
@@ -42,10 +74,28 @@ const MealDetails = () => {
       rating: rating,
       postedAt: postedAt,
     };
-    const response = await axios.post("http://localhost:5000/reviews", newReview);
+    const response = await axiosPublic.post("/reviews", newReview);
     if (response.data.reviewInsert.insertedId) {
       refetch();
+      event.target.reset();
+      setRating(0);
       toast.success("Your review is posted.");
+    } else {
+      toast.error("Something went wrong!");
+    }
+  };
+
+  const handleLike = async () => {
+    if (!user?.email) {
+      toast.error("You have to login first.");
+      return;
+    }
+    const res = await axiosPublic.put(`/likes/${meal._id}`);
+    if (res.data.modifiedCount > 0) {
+      const updatedMeal = await axiosPublic.get(`/meals/${meal._id}`);
+      setMeal(updatedMeal.data);
+      setIsLiked(true);
+      toast.success(`You liked ${meal.title}`);
     } else {
       toast.error("Something went wrong!");
     }
@@ -59,26 +109,12 @@ const MealDetails = () => {
       <div className="p-4 lg:max-w-7xl max-w-4xl mx-auto">
         <div className="grid items-start grid-cols-1 lg:grid-cols-5 gap-12 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6 rounded">
           <div className="lg:col-span-3 w-full lg:sticky top-0 text-center">
-            <div className="px-4 py-10 rounded shadow-md relative">
+            <div className=" rounded shadow-md relative">
               <img
                 src={meal.image}
                 alt={meal.title}
-                className="w-4/5 aspect-[251/171] rounded object-cover mx-auto"
+                className="w-full aspect-[251/171] rounded object-cover mx-auto"
               />
-              <button type="button" className="absolute top-4 right-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20px"
-                  fill="#ccc"
-                  className="mr-1 hover:fill-[#333]"
-                  viewBox="0 0 64 64"
-                >
-                  <path
-                    d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z"
-                    data-original="#000000"
-                  />
-                </svg>
-              </button>
             </div>
           </div>
           <div className="lg:col-span-2 flex flex-col h-full">
@@ -94,6 +130,9 @@ const MealDetails = () => {
               </Stack>
               <h4 className="text-gray-500 text-base !ml-3">
                 {reviews.length} Reviews
+              </h4>
+              <h4 className="text-gray-500 text-base !ml-3">
+                {meal.likes} Likes
               </h4>
             </div>
             <p className="text-sm text-gray-500 mt-2">{meal.description}</p>
@@ -118,17 +157,30 @@ const MealDetails = () => {
             </div>
             <div className="flex gap-4 mt-3 md:mt-12 max-w-md">
               <button
+                onClick={handleRequest}
                 type="button"
                 className="w-full px-4 py-2.5 outline-none border border-blue-600 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded"
               >
-                Buy now
+                Meal Request
               </button>
-              <button
-                type="button"
-                className="w-full px-4 py-2.5 outline-none border border-blue-600 bg-transparent hover:bg-gray-50 text-gray-800 text-sm font-semibold rounded"
-              >
-                Add to cart
-              </button>
+              {isLiked ? (
+                <Button
+                  onClick={handleLike}
+                  variant="outlined"
+                  startIcon={<ThumbUp />}
+                  disabled
+                >
+                  Liked
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleLike}
+                  variant="outlined"
+                  startIcon={<ThumbUp />}
+                >
+                  Like
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -139,11 +191,11 @@ const MealDetails = () => {
               Category <span className="ml-4 float-right">{meal.category}</span>
             </li>
             <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
-              Distributor{" "}
+              Distributor
               <span className="ml-4 float-right">{meal.distributor.name}</span>
             </li>
             <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
-              Distributor email{" "}
+              Distributor email
               <span className="ml-4 float-right">{meal.distributor.email}</span>
             </li>
             <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
@@ -158,8 +210,10 @@ const MealDetails = () => {
               Rating <span className="ml-4 float-right">{meal.rating}</span>
             </li>
             <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
-              Posted Time{" "}
-              <span className="ml-4 float-right">{meal.postTime}</span>
+              Posted at
+              <span className="ml-4 float-right">
+                {moment(meal.postTime).fromNow()}
+              </span>
             </li>
           </ul>
         </div>
@@ -190,7 +244,7 @@ const MealDetails = () => {
                 id="review"
                 name="review"
                 rows={4}
-                required="true"
+                required
                 className="block w-full p-3 text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Write your review"
               />
@@ -277,6 +331,9 @@ const MealDetails = () => {
                           <p className="mt-0.5 text-xs text-gray-400">
                             {review.reviewer.email}
                           </p>
+                          <span className="text-xs text-gray-500">
+                            {moment(review.postedAt).fromNow()}
+                          </span>
                         </div>
                       </div>
                       <div className="mt-6">

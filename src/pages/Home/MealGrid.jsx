@@ -55,7 +55,7 @@ const MealGrid = ({ meals }) => {
                   </button>
                 </div>
                 <div className="z-10 relative bg-white flex justify-between max-md:flex-col">
-                  <div className="max-md:">
+                  <div>
                     <h6 className="text-sm font-semibold text-gray-800 truncate">
                       {meal.title}
                     </h6>

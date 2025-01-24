@@ -5,7 +5,7 @@ import Headroom from "react-headroom";
 
 const MainLayout = () => {
   return (
-    <div className="">
+    <div>
       <Headroom className="z-50">
         <NavBar />
       </Headroom>
