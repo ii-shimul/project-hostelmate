@@ -1,27 +1,59 @@
 import { Rating, Stack, styled } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
+import Loader from "../../components/Loader";
+import useAuth from "../../hooks/useAuth";
+import { useState } from "react";
+import toast from "react-hot-toast";
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
     color: "#1C64F2",
   },
-  "& .MuiRating-iconHover": {
-    color: "#ff3d47",
-  },
 });
+
 const MealDetails = () => {
+  const { user } = useAuth();
+  const [rating, setRating] = useState(0);
   const meal = useLoaderData();
-  const { data } = useQuery({
+  const { data: reviews, isPending, refetch } = useQuery({
     queryKey: ["getReviews"],
     queryFn: async () => {
-      const reviews = await axios.get(
-        `http://localhost:5000/reviews/${meal._id}`
-      );
-      return reviews;
+      const data = await axios.get(`http://localhost:5000/reviews/${meal._id}`);
+      return data.data;
     },
   });
-  console.log(data);
+
+  const handleReview = async (event) => {
+    event.preventDefault();
+    if (!rating) {
+      return;
+    }
+    const review = event.target.review.value;
+    const postedAt = new Date().toISOString();
+    const newReview = {
+      mealId: meal._id,
+      reviewer: {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+      },
+      review: review,
+      rating: rating,
+      postedAt: postedAt,
+    };
+    const response = await axios.post("http://localhost:5000/reviews", newReview);
+    if (response.data.reviewInsert.insertedId) {
+      refetch();
+      toast.success("Your review is posted.");
+    } else {
+      toast.error("Something went wrong!");
+    }
+  };
+
+  if (isPending) {
+    return <Loader />;
+  }
   return (
     <div className="bg-white">
       <div className="p-4 lg:max-w-7xl max-w-4xl mx-auto">
@@ -61,7 +93,7 @@ const MealDetails = () => {
                 />
               </Stack>
               <h4 className="text-gray-500 text-base !ml-3">
-                {meal.reviews_count} Reviews
+                {reviews.length} Reviews
               </h4>
             </div>
             <p className="text-sm text-gray-500 mt-2">{meal.description}</p>
@@ -120,7 +152,7 @@ const MealDetails = () => {
             </li>
             <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
               Reviews
-              <span className="ml-4 float-right">{meal.reviews_count}</span>
+              <span className="ml-4 float-right">{reviews.length}</span>
             </li>
             <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
               Rating <span className="ml-4 float-right">{meal.rating}</span>
@@ -131,149 +163,141 @@ const MealDetails = () => {
             </li>
           </ul>
         </div>
-        <div className="mt-5 md:mt-12 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6">
-          <h3 className="text-xl font-bold text-gray-800">Reviews(10)</h3>
-          <div className="grid md:grid-cols-2 gap-12 mt-4">
-            <div className="space-y-3 max-w-md">
-              <div className="flex items-center">
-                <p className="text-sm text-gray-800 font-bold">5.0</p>
-                <svg
-                  className="w-5 fill-blue-600 ml-1"
-                  viewBox="0 0 14 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                </svg>
-                <div className="bg-gray-400 rounded w-full h-2 ml-3">
-                  <div className="w-2/3 h-full rounded bg-blue-600" />
-                </div>
-                <p className="text-sm text-gray-800 font-bold ml-3">66%</p>
-              </div>
-              <div className="flex items-center">
-                <p className="text-sm text-gray-800 font-bold">4.0</p>
-                <svg
-                  className="w-5 fill-blue-600 ml-1"
-                  viewBox="0 0 14 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                </svg>
-                <div className="bg-gray-400 rounded w-full h-2 ml-3">
-                  <div className="w-1/3 h-full rounded bg-blue-600" />
-                </div>
-                <p className="text-sm text-gray-800 font-bold ml-3">33%</p>
-              </div>
-              <div className="flex items-center">
-                <p className="text-sm text-gray-800 font-bold">3.0</p>
-                <svg
-                  className="w-5 fill-blue-600 ml-1"
-                  viewBox="0 0 14 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                </svg>
-                <div className="bg-gray-400 rounded w-full h-2 ml-3">
-                  <div className="w-1/6 h-full rounded bg-blue-600" />
-                </div>
-                <p className="text-sm text-gray-800 font-bold ml-3">16%</p>
-              </div>
-              <div className="flex items-center">
-                <p className="text-sm text-gray-800 font-bold">2.0</p>
-                <svg
-                  className="w-5 fill-blue-600 ml-1"
-                  viewBox="0 0 14 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                </svg>
-                <div className="bg-gray-400 rounded w-full h-2 ml-3">
-                  <div className="w-1/12 h-full rounded bg-blue-600" />
-                </div>
-                <p className="text-sm text-gray-800 font-bold ml-3">8%</p>
-              </div>
-              <div className="flex items-center">
-                <p className="text-sm text-gray-800 font-bold">1.0</p>
-                <svg
-                  className="w-5 fill-blue-600 ml-1"
-                  viewBox="0 0 14 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                </svg>
-                <div className="bg-gray-400 rounded w-full h-2 ml-3">
-                  <div className="w-[6%] h-full rounded bg-blue-600" />
-                </div>
-                <p className="text-sm text-gray-800 font-bold ml-3">6%</p>
-              </div>
-            </div>
-            <div>
-              <div className="flex items-start">
-                <img
-                  src="https://readymadeui.com/team-2.webp"
-                  className="w-12 h-12 rounded-full border-2 border-white"
+
+        <div className="p-4 mx-auto mt-5 md:mt-12 bg-secondary bg-opacity-30 rounded-lg shadow-md max-w-5xl sm:p-6 grid grid-cols-1 lg:grid-cols-6 gap-6">
+          <div className="lg:col-span-3 col-span-1">
+            <form
+              onSubmit={handleReview}
+              action
+              method="POST"
+              className="space-y-4"
+            >
+              <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+                Write a review
+              </h2>
+              <Stack spacing={1}>
+                <StyledRating
+                  name="customized-color"
+                  value={rating}
+                  precision={1}
+                  onChange={(event) => {
+                    setRating(parseInt(event.target.value));
+                    console.log(event.target.value);
+                  }}
                 />
-                <div className="ml-3">
-                  <h4 className="text-sm font-bold text-gray-800">John Doe</h4>
-                  <div className="flex items-center space-x-1 mt-1">
-                    <svg
-                      className="w-3 h-3 fill-blue-600"
-                      viewBox="0 0 14 13"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                    </svg>
-                    <svg
-                      className="w-3 h-3 fill-blue-600"
-                      viewBox="0 0 14 13"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                    </svg>
-                    <svg
-                      className="w-3 h-3 fill-blue-600"
-                      viewBox="0 0 14 13"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                    </svg>
-                    <svg
-                      className="w-3 h-3 fill-[#CED5D8]"
-                      viewBox="0 0 14 13"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                    </svg>
-                    <svg
-                      className="w-3 h-3 fill-[#CED5D8]"
-                      viewBox="0 0 14 13"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                    </svg>
-                    <p className="text-xs !ml-2 font-semibold text-gray-800">
-                      2 mins ago
-                    </p>
-                  </div>
-                  <p className="text-sm mt-3 text-gray-500">
-                    Lorem ipsum dolor sit amet, consectetur adipisci elit, sed
-                    eiusmod tempor incidunt ut labore et dolore magna aliqua.
-                  </p>
-                </div>
+              </Stack>
+              <textarea
+                id="review"
+                name="review"
+                rows={4}
+                required="true"
+                className="block w-full p-3 text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Write your review"
+              />
+              <div className="text-right py-4">
+                {user?.email ? (
+                  <button className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3">
+                    Post Review
+                  </button>
+                ) : (
+                  <Link
+                    to={"/login"}
+                    className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3"
+                  >
+                    Login to Post Review
+                  </Link>
+                )}
               </div>
-              <div>
-                <p className="text-blue-600 text-sm mt-6 cursor-pointer font-semibold">
-                  Read all reviews
+            </form>
+          </div>
+          <div className="lg:col-span-3 hidden lg:flex flex-col space-y-2">
+            <h1 className="text-2xl font-semibold text-gray-700">
+              Review Guidelines
+            </h1>
+            <p className="text-gray-700 mb-4">
+              We value your feedback and encourage you to share your experience
+              with us. To ensure a positive and helpful environment, please keep
+              the following in mind when writing your review:
+            </p>
+
+            <ul className="list-inside space-y-1 text-gray-700">
+              <li className="flex items-start">
+                <span className="font-bold">1. Be Respectful</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-bold">2. Be Honest and Specific</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-bold">3. Stay Relevant</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-bold">
+                  4. Avoid Sensitive Information
+                </span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-bold">5. Keep it Appropriate</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-5 md:mt-12 bg-gray-50 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6">
+          <h3 className="text-xl font-bold text-gray-800">
+            Reviews {reviews.length}
+          </h3>
+          <div className="lg:p-10 p-6">
+            <div className="max-w-6xl max-lg:max-w-3xl mx-auto">
+              <div className="max-w-2xl">
+                <h2 className="text-gray-800 text-2xl font-bold">
+                  What our happy client say
+                </h2>
+                <p className="text-sm text-gray-600 mt-4 leading-relaxed">
+                  Veniam proident aute magna anim excepteur et ex consectetur
+                  velit ullamco veniam minim aute sit. Elit occaecat officia et
+                  laboris Lorem minim. Officia do aliqua adipisicing ullamco in.
                 </p>
+              </div>
+              <div className="columns-1 sm:columns-2 lg:columns-3 space-y-4 mt-12 max-sm:max-w-md max-sm:mx-auto">
+                {reviews.map((review) => {
+                  return (
+                    <div
+                      key={review._id}
+                      className="break-inside-avoid p-6 rounded-lg bg-white shadow border"
+                    >
+                      <div className="flex items-center">
+                        <img
+                          src={review.reviewer.photoURL}
+                          className="w-11 h-11 rounded-full"
+                        />
+                        <div className="ml-4">
+                          <h4 className="text-gray-800 text-sm font-semibold">
+                            {review.reviewer.name}
+                          </h4>
+                          <p className="mt-0.5 text-xs text-gray-400">
+                            {review.reviewer.email}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="mt-6">
+                        <p className="text-gray-800 text-sm leading-relaxed">
+                          {review.review}
+                        </p>
+                      </div>
+                      <div className="flex space-x-1 mt-4">
+                        <Stack spacing={1}>
+                          <StyledRating
+                            name="customized-color"
+                            defaultValue={review.rating}
+                            precision={0.5}
+                            readOnly
+                            size="small"
+                          />
+                        </Stack>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

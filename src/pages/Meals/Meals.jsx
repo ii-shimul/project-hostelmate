@@ -48,7 +48,7 @@ const Meals = () => {
               return (
                 <div
                   key={index}
-                  className="hover:bg-secondary transition-all rounded-md duration-500 ease-in-out p-2 overflow-hidden cursor-pointer"
+                  className="hover:bg-secondary transition-all rounded-md duration-500 ease-in-out p-2 overflow-hidden"
                 >
                   <div className="bg-white flex flex-col h-full border rounded-md overflow-hidden">
                     <div className="w-full">

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Button from "../../components/Button";
 import PropTypes from "prop-types";
 
@@ -62,13 +63,15 @@ const MealGrid = ({ meals }) => {
                       ৳ {meal.price}
                     </h6>
                   </div>
-                  <Button
-                    text="Details"
-                    bgColor="bg-secondary"
-                    textSize="text-sm"
-                    textColor="text-primary"
-                    key={meal._id}
-                  ></Button>
+                  <Link to={`/meals/${meal._id}`}>
+                    <Button
+                      text="Details"
+                      bgColor="bg-secondary"
+                      textSize="text-sm"
+                      textColor="text-primary"
+                      key={meal._id}
+                    ></Button>
+                  </Link>
                 </div>
               </div>
             </div>
