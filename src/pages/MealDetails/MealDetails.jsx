@@ -17,10 +17,26 @@ const StyledRating = styled(Rating)({
 
 const MealDetails = () => {
   const { user } = useAuth();
+  const axiosPublic = useAxios();
   const [isLiked, setIsLiked] = useState(false);
   const [rating, setRating] = useState(0);
-  const axiosPublic = useAxios();
+  const [isRequested, setIsRequested] = useState(true);
   const [meal, setMeal] = useState(useLoaderData());
+
+  const checkIsRequested = async () => {
+    const res = await axiosPublic.get(
+      `/requestedMeals?userEmail=${user?.email}&mealId=${meal._id}`
+    );
+    console.log(res.data._id);
+    if (!res.data) {
+      setIsRequested(false);
+    }
+  };
+
+  if ((user?.email, meal?._id)) {
+    checkIsRequested();
+  }
+
   const {
     data: reviews,
     isPending,
@@ -34,6 +50,10 @@ const MealDetails = () => {
   });
 
   const handleRequest = async () => {
+    if (isRequested) {
+      toast.error(`You've already requested for ${meal.title}`);
+      return;
+    }
     const request = {
       requester: {
         name: user.displayName,
@@ -50,6 +70,7 @@ const MealDetails = () => {
     };
     const res = await axiosPublic.post("requestedMeals", request);
     if (res.data.insertedId) {
+      setIsRequested(true);
       toast.success(`Your request for ${meal.title} is submitted!`);
     } else {
       toast.success("Something went wrong!");
@@ -156,13 +177,20 @@ const MealDetails = () => {
               </div>
             </div>
             <div className="flex gap-4 mt-3 md:mt-12 max-w-md">
-              <button
-                onClick={handleRequest}
-                type="button"
-                className="w-full px-4 py-2.5 outline-none border border-blue-600 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded"
-              >
-                Meal Request
-              </button>
+              {isRequested ? (
+                <Button size="large" fullWidth variant="contained" disabled>
+                  Meal Requested
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleRequest}
+                  size="large"
+                  fullWidth
+                  variant="contained"
+                >
+                  Request Meal
+                </Button>
+              )}
               {isLiked ? (
                 <Button
                   onClick={handleLike}
@@ -236,7 +264,6 @@ const MealDetails = () => {
                   precision={1}
                   onChange={(event) => {
                     setRating(parseInt(event.target.value));
-                    console.log(event.target.value);
                   }}
                 />
               </Stack>
@@ -304,13 +331,8 @@ const MealDetails = () => {
             <div className="max-w-6xl max-lg:max-w-3xl mx-auto">
               <div className="max-w-2xl">
                 <h2 className="text-gray-800 text-2xl font-bold">
-                  What our happy client say
+                  What our happy customers say
                 </h2>
-                <p className="text-sm text-gray-600 mt-4 leading-relaxed">
-                  Veniam proident aute magna anim excepteur et ex consectetur
-                  velit ullamco veniam minim aute sit. Elit occaecat officia et
-                  laboris Lorem minim. Officia do aliqua adipisicing ullamco in.
-                </p>
               </div>
               <div className="columns-1 sm:columns-2 lg:columns-3 space-y-4 mt-12 max-sm:max-w-md max-sm:mx-auto">
                 {reviews.map((review) => {

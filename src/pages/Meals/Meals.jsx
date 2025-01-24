@@ -4,6 +4,7 @@ import useAxios from "../../hooks/useAxios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 import DotLoader from "react-spinners/DotLoader";
+import { Helmet } from "react-helmet";
 
 const Meals = () => {
   const axiosPublic = useAxios();
@@ -30,6 +31,9 @@ const Meals = () => {
 
   return (
     <div className="max-w-7xl w-[95%] lg:w-[90%] max-md:max-w-md mx-auto">
+      <Helmet>
+        <title>Meals | HostelMate</title>
+      </Helmet>
       <div className="font-sans p-4 mx-auto lg:max-w-7xl md:max-w-4xl max-w-xl">
         <SectionTitle
           title="Delicious Meals Just for You"

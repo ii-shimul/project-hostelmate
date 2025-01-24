@@ -6,7 +6,10 @@ import { NavbarDropdown } from "./NavbarDropdown";
 const NavBar = () => {
   const { user } = useAuth();
   return (
-    <nav id="start" className="py-3 flex bg-slate-50 justify-between items-center px-10 z-[100]">
+    <nav
+      id="start"
+      className="py-3 flex bg-slate-50 justify-between items-center px-10 z-[100]"
+    >
       <Link
         to={"/"}
         className="text-primary flex gap-3 items-center justify-center"
@@ -33,12 +36,12 @@ const NavBar = () => {
       <div>
         <ul className="ul-parent">
           <li className="center text-lg">
-            <NavLink to={"/"} className="link px-3 py-1">
+            <NavLink to={"/"} viewTransition className="link px-3 py-1">
               Home
             </NavLink>
           </li>
           <li className="center text-lg">
-            <NavLink to={"/meals"} className="link px-3 py-1">
+            <NavLink to={"/meals"} viewTransition className="link px-3 py-1">
               Meals
             </NavLink>
           </li>

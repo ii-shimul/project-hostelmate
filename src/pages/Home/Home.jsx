@@ -1,12 +1,15 @@
+import { Helmet } from "react-helmet";
 import Banner from "./Banner";
 import Meals from "./Meals";
 
 const Home = () => {
-
   return (
     <div>
-      <Banner/>
-      <Meals/>
+      <Helmet>
+        <title>Home | HostelMate</title>
+      </Helmet>
+      <Banner />
+      <Meals />
     </div>
   );
 };
