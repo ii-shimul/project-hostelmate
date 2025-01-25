@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import SocialLogin from "./SocialLogin";
 
 const Login = () => {
   const { logIn } = useAuth();
@@ -126,6 +127,8 @@ const Login = () => {
                   </Link>
                 </p>
               </form>
+              <hr className="my-3" />
+              <SocialLogin></SocialLogin>
             </div>
             <div className="flex-1 max-md:mt-8">
               <img

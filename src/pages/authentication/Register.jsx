@@ -7,6 +7,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import useAxios from "../../hooks/useAxios";
+import SocialLogin from "./SocialLogin";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -25,7 +27,8 @@ const img_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`;
 
 const Register = () => {
   const { createUser } = useAuth();
-  const nav = useNavigate()
+  const axiosPublic = useAxios();
+  const nav = useNavigate();
   const [fileName, setFileName] = useState("");
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
@@ -47,7 +50,16 @@ const Register = () => {
       );
       if (user?.email) {
         toast.success(`Welcome ${user.displayName}`);
-        nav("/")
+        nav("/");
+        const userDb = {
+          name: user.displayName,
+          email: user.email,
+          image: user.photoURL,
+          role: "student",
+          badge: "Bronze",
+          createdAt: new Date().toISOString(),
+        };
+        await axiosPublic.post("/users", userDb);
       } else {
         toast.error("Oops! Something went wrong.");
       }
@@ -206,6 +218,8 @@ const Register = () => {
                   </Link>
                 </p>
               </form>
+              <hr className="my-2" />
+              <SocialLogin></SocialLogin>
             </div>
             <div className="flex-1 max-md:mt-8">
               <img

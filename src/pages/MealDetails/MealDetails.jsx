@@ -23,13 +23,16 @@ const MealDetails = () => {
   const [isRequested, setIsRequested] = useState(true);
   const [meal, setMeal] = useState(useLoaderData());
 
+
+  // check if the user already requested for the meal
   const checkIsRequested = async () => {
     const res = await axiosPublic.get(
       `/requestedMeals?userEmail=${user?.email}&mealId=${meal._id}`
     );
-    console.log(res.data._id);
     if (!res.data) {
       setIsRequested(false);
+    } else if (res.data._id) {
+      setIsRequested(true);
     }
   };
 
@@ -50,7 +53,11 @@ const MealDetails = () => {
   });
 
   const handleRequest = async () => {
-    if (isRequested) {
+    if (!user) {
+      toast.error("You have to login first.")
+      return;
+    }
+    else if (isRequested) {
       toast.error(`You've already requested for ${meal.title}`);
       return;
     }
@@ -73,7 +80,7 @@ const MealDetails = () => {
       setIsRequested(true);
       toast.success(`Your request for ${meal.title} is submitted!`);
     } else {
-      toast.success("Something went wrong!");
+      toast.error("Something went wrong!");
     }
   };
 
