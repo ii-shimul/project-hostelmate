@@ -6,7 +6,9 @@ import Register from "../pages/authentication/Register";
 import Meals from "../pages/Meals/Meals";
 import MealDetails from "../pages/MealDetails/MealDetails";
 import DashboardLayout from "../pages/Dashboard/Dashboard";
-import Profile from "../pages/Dashboard/Profile";
+import Profile from "../pages/Dashboard/Student/Profile";
+import RequestedMeals from "../pages/Dashboard/Student/RequestedMeals";
+import Reviews from "../pages/Dashboard/Student/Reviews";
 
 const router = createBrowserRouter([
   {
@@ -42,8 +44,8 @@ const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       { path: "/dashboard", element: <Profile /> },
-      { path: "requested-meals", element: <h1>Orders</h1> },
-      { path: "my-reviews", element: <h1>reviews</h1> },
+      { path: "requested-meals", element: <RequestedMeals/>},
+      { path: "my-reviews", element: <Reviews/> },
       { path: "payment-history", element: <h1>payment</h1> },
     ],
   },

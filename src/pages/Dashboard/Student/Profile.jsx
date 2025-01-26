@@ -1,12 +1,12 @@
 import { Badge, Mail } from "@mui/icons-material";
-import useUser from "../../hooks/useUser";
-import LoadingHand from "../../components/LoadingHand";
+import useUser from "../../../hooks/useUser";
+import LoadingHand from "../../../components/LoadingHand";
 
 const Profile = () => {
   // Example user data (replace this with API data)
-  const {userDB, isPending} = useUser();
+  const { userDB, isPending } = useUser();
   if (isPending) {
-    return <LoadingHand/>
+    return <LoadingHand />;
   }
   return (
     <div className="max-w-4xl flex items-center justify-center h-auto lg:h-[calc(100vh-115px)] flex-wrap mx-auto my-32 lg:my-0">
@@ -21,8 +21,7 @@ const Profile = () => {
             style={{
               backgroundImage: `url(${userDB.image})`,
             }}
-          >
-          </div>
+          ></div>
 
           <h1 className="text-3xl font-bold pt-8 lg:pt-0">{userDB.name}</h1>
           <div className="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25" />
@@ -35,7 +34,6 @@ const Profile = () => {
             <br />
             {userDB.badge}
           </p>
-         
         </div>
       </div>
     </div>
