@@ -5,7 +5,8 @@ import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import Meals from "../pages/Meals/Meals";
 import MealDetails from "../pages/MealDetails/MealDetails";
-import DashboardLayoutBasic from "../pages/Dashboard/Dashboard";
+import DashboardLayout from "../pages/Dashboard/Dashboard";
+import Profile from "../pages/Dashboard/Profile";
 
 const router = createBrowserRouter([
   {
@@ -38,19 +39,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayoutBasic />,
+    element: <DashboardLayout />,
     children: [
-      { path: "home", element: <h1>Welcome to the Dashboard</h1> },
-      { path: "orders", element: <h1>Welcome to Orders</h1> },
-      {
-        path: "reports",
-        element: <h1>Welcome to Reports</h1>,
-        children: [
-          { path: "sales", element: <h1>Sales Reports</h1> },
-          { path: "traffic", element: <h1>Traffic Reports</h1> },
-        ],
-      },
-      { path: "integrations", element: <h1>Welcome to Integrations</h1> },
+      { path: "/dashboard", element: <Profile /> },
+      { path: "requested-meals", element: <h1>Orders</h1> },
+      { path: "my-reviews", element: <h1>reviews</h1> },
+      { path: "payment-history", element: <h1>payment</h1> },
     ],
   },
 ]);
