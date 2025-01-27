@@ -1,24 +1,25 @@
+import { Link } from "react-router-dom";
+import SectionTitle from "../../components/SectionTitle";
+
 const Membership = () => {
   return (
     <div className="mt-10 p-4">
       <div className="max-w-5xl max-lg:max-w-2xl mx-auto">
-        <div className="text-center">
-          <h2 className="text-gray-800 text-3xl font-bold mb-4">Pricing</h2>
-          <p className="text-sm text-gray-500">
-            Change your plant according your needs
-          </p>
-        </div>
+        <SectionTitle
+          title="Our Membership Plans"
+          subtitle={
+            "Subscribe to one of our membership plans according to your taste."
+          }
+        />
         <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-6 mt-10 max-sm:max-w-sm max-sm:mx-auto">
           <div className="border rounded-md p-6">
-            <h3 className="text-gray-800 text-xl font-semibold mb-2">
-              Starter
-            </h3>
+            <h3 className="text-gray-800 text-xl font-semibold mb-2">Silver</h3>
             <p className="text-sm text-gray-500">
               For Individuals and Small Teams
             </p>
             <div className="mt-6">
               <h3 className="text-gray-800 text-2xl font-semibold">
-                $10
+                ৳ 10,000
                 <sub className="text-gray-500 text-sm font-medium">
                   per month
                 </sub>
@@ -44,7 +45,7 @@ const Membership = () => {
                       data-original="#000000"
                     />
                   </svg>
-                  50 Page Unlock
+                  50 Shared Meals Per Month
                 </li>
                 <li className="flex items-center text-sm text-gray-500">
                   <svg
@@ -58,7 +59,7 @@ const Membership = () => {
                       data-original="#000000"
                     />
                   </svg>
-                  10 GB Storage
+                  Access to 10 Community Groups
                 </li>
                 <li className="flex items-center text-sm text-gray-500">
                   <svg
@@ -86,7 +87,7 @@ const Membership = () => {
                       data-original="#000000"
                     />
                   </svg>
-                  Unlimited Book Mark
+                  Unlimited Recipe Bookmarks
                 </li>
                 <li className="flex items-center text-sm text-gray-500">
                   <svg
@@ -100,20 +101,22 @@ const Membership = () => {
                       data-original="#000000"
                     />
                   </svg>
-                  Unlimited basic feature
+                  Basic Support
                 </li>
               </ul>
-              <button
-                type="button"
-                className="w-full mt-6 px-4 py-2 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-md"
-              >
-                Buy now
-              </button>
+              <Link to={"/checkout/Silver"}>
+                <button
+                  type="button"
+                  className="w-full mt-6 px-4 py-2 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-md"
+                >
+                  Buy now
+                </button>
+              </Link>
             </div>
           </div>
           <div className="border rounded-md p-6">
             <h3 className="text-gray-800 text-xl font-semibold mb-2 flex items-center">
-              Professional
+              Gold
               <span className="px-2 py-1 text-xs font-semibold text-white bg-blue-500 rounded-md ml-3">
                 Best Deal
               </span>
@@ -123,7 +126,7 @@ const Membership = () => {
             </p>
             <div className="mt-6">
               <h3 className="text-gray-800 text-2xl font-semibold">
-                $20
+                ৳ 20,000
                 <sub className="text-gray-500 text-sm font-medium">
                   per month
                 </sub>
@@ -149,7 +152,7 @@ const Membership = () => {
                       data-original="#000000"
                     />
                   </svg>
-                  100 Page Unlock
+                  100 Shared Meals Per Month
                 </li>
                 <li className="flex items-center text-sm text-gray-500">
                   <svg
@@ -163,7 +166,7 @@ const Membership = () => {
                       data-original="#000000"
                     />
                   </svg>
-                  20 GB Storage
+                  Access to 20 Community Groups
                 </li>
                 <li className="flex items-center text-sm text-gray-500">
                   <svg
@@ -191,7 +194,7 @@ const Membership = () => {
                       data-original="#000000"
                     />
                   </svg>
-                  Unlimited Book Mark
+                  Unlimited Recipe Bookmarks
                 </li>
                 <li className="flex items-center text-sm text-gray-500">
                   <svg
@@ -205,27 +208,29 @@ const Membership = () => {
                       data-original="#000000"
                     />
                   </svg>
-                  Unlimited basic feature
+                  Priority Support
                 </li>
               </ul>
-              <button
-                type="button"
-                className="w-full mt-6 px-4 py-2 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-md"
-              >
-                Buy now
-              </button>
+              <Link to={"/checkout/Gold"}>
+                <button
+                  type="button"
+                  className="w-full mt-6 px-4 py-2 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-md"
+                >
+                  Buy now
+                </button>
+              </Link>
             </div>
           </div>
           <div className="border rounded-md p-6">
             <h3 className="text-gray-800 text-xl font-semibold mb-2">
-              Business
+              Platinum
             </h3>
             <p className="text-sm text-gray-500">
               For Multiples and Largest Teams
             </p>
             <div className="mt-6">
               <h3 className="text-gray-800 text-2xl font-semibold">
-                $100
+                ৳ 30,000
                 <sub className="text-gray-500 text-sm font-medium">
                   per month
                 </sub>
@@ -251,7 +256,7 @@ const Membership = () => {
                       data-original="#000000"
                     />
                   </svg>
-                  300 Page Unlock
+                  300 Shared Meals Per Month
                 </li>
                 <li className="flex items-center text-sm text-gray-500">
                   <svg
@@ -265,7 +270,7 @@ const Membership = () => {
                       data-original="#000000"
                     />
                   </svg>
-                  100 GB Storage
+                  Access to All Community Groups
                 </li>
                 <li className="flex items-center text-sm text-gray-500">
                   <svg
@@ -293,7 +298,7 @@ const Membership = () => {
                       data-original="#000000"
                     />
                   </svg>
-                  Unlimited Book Mark
+                  Unlimited Recipe Bookmarks
                 </li>
                 <li className="flex items-center text-sm text-gray-500">
                   <svg
@@ -307,15 +312,17 @@ const Membership = () => {
                       data-original="#000000"
                     />
                   </svg>
-                  Unlimited basic feature
+                  Premium Support
                 </li>
               </ul>
-              <button
-                type="button"
-                className="w-full mt-6 px-4 py-2 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-md"
-              >
-                Buy now
-              </button>
+              <Link to={"/checkout/Platinum"}>
+                <button
+                  type="button"
+                  className="w-full mt-6 px-4 py-2 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-md"
+                >
+                  Buy now
+                </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ import DashboardLayout from "../pages/Dashboard/Dashboard";
 import Profile from "../pages/Dashboard/Student/Profile";
 import RequestedMeals from "../pages/Dashboard/Student/RequestedMeals";
 import Reviews from "../pages/Dashboard/Student/Reviews";
+import Checkout from "../pages/Checkout/Checkout";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
         loader: ({ params }) =>
           fetch(`http://localhost:5000/meals/${params.id}`),
       },
+      {
+        path: "/checkout/:badge",
+        element: <Checkout />,
+      },
     ],
   },
   {
@@ -44,8 +49,8 @@ const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       { path: "/dashboard", element: <Profile /> },
-      { path: "requested-meals", element: <RequestedMeals/>},
-      { path: "my-reviews", element: <Reviews/> },
+      { path: "requested-meals", element: <RequestedMeals /> },
+      { path: "my-reviews", element: <Reviews /> },
       { path: "payment-history", element: <h1>payment</h1> },
     ],
   },

@@ -9,12 +9,13 @@ import useMeals from "../../hooks/useMeals";
 import MealGrid from "./MealGrid";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 const Meals = () => {
   const [value, setValue] = useState("1");
   const [meals, loading, ] = useMeals();
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <Loader/>;
   }
 
   // filter meals by category
