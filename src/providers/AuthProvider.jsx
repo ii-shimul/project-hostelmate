@@ -13,13 +13,14 @@ import {
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
 import { useEffect, useState } from "react";
+import useAxios from "../hooks/useAxios";
 const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const googleProvider = new GoogleAuthProvider();
-
+  const axiosPublic = useAxios();
 
   const createUser = async (email, password, name = null, photoURL = null) => {
     setLoading(true);
@@ -27,7 +28,7 @@ const AuthProvider = ({ children }) => {
       const userCred = await createUserWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
 
       const userDetails = userCred.user;
@@ -45,28 +46,25 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      // if (currentUser?.email) {
-      //   const userJWT = { email: currentUser.email };
-      //   axios
-      //     .post("https://shareplate-smoky.vercel.app/jwt", userJWT, {
-      //       withCredentials: true,
-      //     })
-      //     .then((res) => {
-      //       console.log(res.data);
-      //       setLoading(false);
-      //     });
-      // } else {
-      //   axios
-      //     .post(
-      //       "https://shareplate-smoky.vercel.app/logout",
-      //       {},
-      //       { withCredentials: true }
-      //     )
-      //     .then((res) => {
-      //       console.log(res.data);
-      //       setLoading(false);
-      //     });
-      // }
+      if (currentUser?.email) {
+        const userJWT = { email: currentUser.email };
+        axiosPublic
+          .post("/jwt", userJWT, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            console.log(res);
+            if (res.data.token) {
+              localStorage.setItem("access-token", res.data.token);
+            }
+            setLoading(false);
+          });
+      } else {
+        axiosPublic.post("/logout", {}, { withCredentials: true }).then((res) => {
+          localStorage.setItem("access-token");
+          setLoading(false);
+        });
+      }
       setLoading(false);
     });
     return () => {

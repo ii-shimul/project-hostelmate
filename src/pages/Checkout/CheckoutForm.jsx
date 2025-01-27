@@ -1,22 +1,19 @@
-import {
-  CardElement,
-  useElements,
-  useStripe,
-} from "@stripe/react-stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import useAxios from "../../hooks/useAxios";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 
-
-const CheckoutForm = ({ price }) => {
+const CheckoutForm = ({ price, badge }) => {
   const [clientSecret, setClientSecret] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [transactionId, setTransactionId] = useState('');
+  const [transactionId, setTransactionId] = useState("");
+  const axiosPublic = useAxios();
   const stripe = useStripe();
   const { user } = useAuth();
   const elements = useElements();
-  const axiosPublic = useAxios();
   const getSecret = async () => {
     try {
       const res = await axiosPublic.post("/create-payment-intent", {
@@ -42,14 +39,16 @@ const CheckoutForm = ({ price }) => {
       return;
     }
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card,
-    });
-    if (error) {
-      console.log("[error]", error);
+    const { error: methodError, paymentMethod } =
+      await stripe.createPaymentMethod({
+        type: "card",
+        card,
+      });
+    if (methodError) {
+      setError(methodError.message);
     } else {
       console.log("[PaymentMethod]", paymentMethod);
+      setError("");
     }
 
     // confirm payment
@@ -64,13 +63,25 @@ const CheckoutForm = ({ price }) => {
         },
       });
     if (confirmError) {
-      console.log("confirm error", confirmError);
+      setError(confirmError.message);
       setLoading(false);
     } else {
       if (paymentIntent.status === "succeeded") {
         setTransactionId(paymentIntent.id);
-        setLoading(false);
         toast.success("Your payment was successful!");
+        const payment = {
+          userEmail: user.email,
+          amount: price,
+          transactionId: paymentIntent.id,
+          paymentMethod: "Stripe",
+          membership: badge,
+          status: "Success",
+          paidAt: new Date().toISOString(),
+        };
+        const res = await axiosPublic.post("/payments", payment);
+        console.log(res);
+        setError("");
+        setLoading(false);
       }
     }
   };
@@ -99,9 +110,19 @@ const CheckoutForm = ({ price }) => {
       >
         {loading ? "Please wait..." : "Pay"}
       </button>
-      {transactionId && <p className="mt-2 text-green-600">Your transaction id: {transactionId}</p>}
+      {transactionId && (
+        <p className="mt-2 text-green-600">
+          Your transaction id: {transactionId}
+        </p>
+      )}
+      {error && <p className="mt-2 text-red-500">{error}</p>}
     </form>
   );
+};
+
+CheckoutForm.propTypes = {
+  price: PropTypes.number.isRequired,
+  badge: PropTypes.string.isRequired,
 };
 
 export default CheckoutForm;

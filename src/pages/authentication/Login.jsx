@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import SocialLogin from "./SocialLogin";
 
 const Login = () => {
-  const { logIn } = useAuth();
+  const { user, logIn } = useAuth();
   const nav = useNavigate();
+  const location = useLocation();
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     logIn(data.email, data.password)
@@ -20,6 +21,9 @@ const Login = () => {
         toast.error(`${err}`);
       });
   };
+  if (user) {
+    nav(location.state ? location.state : "/");
+  }
   return (
     <div className="max-w-7xl mx-auto">
       <div className="font-[sans-serif]">

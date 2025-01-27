@@ -24,7 +24,6 @@ const Reviews = () => {
     queryKey: ["reviewQueryForAStudent"],
     queryFn: async () => {
       const res = await axiosPublic.get(`/student_reviews/${user.email}`);
-      console.log(res);
       return res.data;
     },
   });

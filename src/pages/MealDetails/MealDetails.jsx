@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 import { ThumbUp } from "@mui/icons-material";
 import moment from "moment/moment";
 import useAxios from "../../hooks/useAxios";
+import useUser from "../../hooks/useUser";
+import { Helmet } from "react-helmet";
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
     color: "#1C64F2",
@@ -17,17 +19,17 @@ const StyledRating = styled(Rating)({
 
 const MealDetails = () => {
   const { user } = useAuth();
+  const { userDB, loading } = useUser();
   const axiosPublic = useAxios();
   const [isLiked, setIsLiked] = useState(false);
   const [rating, setRating] = useState(0);
   const [isRequested, setIsRequested] = useState(true);
   const [meal, setMeal] = useState(useLoaderData());
 
-
   // check if the user already requested for the meal
   const checkIsRequested = async () => {
     const res = await axiosPublic.get(
-      `/requestedMeals?userEmail=${user?.email}&mealId=${meal._id}`
+      `/requestedMeals?userEmail=${user?.email}&mealId=${meal._id}`,
     );
     if (!res.data) {
       setIsRequested(false);
@@ -54,10 +56,12 @@ const MealDetails = () => {
 
   const handleRequest = async () => {
     if (!user) {
-      toast.error("You have to login first.")
+      toast.error("You have to login first.");
       return;
-    }
-    else if (isRequested) {
+    } else if (userDB.badge === "Bronze") {
+      toast.error(`You have to subscribe to a membership.`);
+      return;
+    } else if (isRequested) {
       toast.error(`You've already requested for ${meal.title}`);
       return;
     }
@@ -129,11 +133,14 @@ const MealDetails = () => {
     }
   };
 
-  if (isPending) {
+  if (isPending || loading) {
     return <Loader />;
   }
   return (
     <div className="bg-white">
+      <Helmet>
+        <title>{meal.title} | HostelMate</title>
+      </Helmet>
       <div className="p-4 lg:max-w-7xl max-w-4xl mx-auto">
         <div className="grid items-start grid-cols-1 lg:grid-cols-5 gap-12 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6 rounded">
           <div className="lg:col-span-3 w-full lg:sticky top-0 text-center">

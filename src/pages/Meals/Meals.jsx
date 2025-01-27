@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 import DotLoader from "react-spinners/DotLoader";
 import { Helmet } from "react-helmet";
+import { motion } from "motion/react";
 
 const Meals = () => {
   const axiosPublic = useAxios();
@@ -30,7 +31,13 @@ const Meals = () => {
   }
 
   return (
-    <div className="max-w-7xl w-[95%] lg:w-[90%] max-md:max-w-md mx-auto">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1.3 }}
+      className="max-w-7xl w-[95%] lg:w-[90%] max-md:max-w-md mx-auto"
+    >
       <Helmet>
         <title>Meals | HostelMate</title>
       </Helmet>
@@ -45,7 +52,7 @@ const Meals = () => {
           dataLength={meals.length}
           next={fetchMeals}
           hasMore={hasMore}
-          loader={<DotLoader className="mx-auto my-4" size={40}/>}
+          loader={<DotLoader className="mx-auto my-4" size={40} />}
         >
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-2">
             {meals.map((meal, index) => {
@@ -87,7 +94,7 @@ const Meals = () => {
           </div>
         </InfiniteScroll>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

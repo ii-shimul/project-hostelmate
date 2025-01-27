@@ -25,14 +25,15 @@ const Checkout = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 max-md:order-1">
             <h2 className="text-3xl font-extrabold text-gray-800">
-              Payment for {badge} package
+              Payment for {badge} Membership
             </h2>
             <p className="text-gray-800 text-sm mt-4">
               Complete your transaction swiftly and securely with our
               easy-to-use payment process.
             </p>
+            <p className="">We use Stripe for payment.</p>
             <Elements stripe={stripePromise}>
-              <CheckoutForm price={price}></CheckoutForm>
+              <CheckoutForm price={price} badge={badge}></CheckoutForm>
             </Elements>
           </div>
           <div className="bg-gray-100 p-6 rounded-md">

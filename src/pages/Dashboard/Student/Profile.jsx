@@ -1,21 +1,22 @@
 import { Badge, Mail } from "@mui/icons-material";
 import useUser from "../../../hooks/useUser";
 import LoadingHand from "../../../components/LoadingHand";
+import { ChartBar } from "lucide-react";
 
 const Profile = () => {
-  // Example user data (replace this with API data)
-  const { userDB, isPending } = useUser();
-  if (isPending) {
+  const { userDB, loading } = useUser();
+
+  if (loading) {
     return <LoadingHand />;
   }
+
   return (
     <div className="max-w-4xl flex items-center justify-center h-auto lg:h-[calc(100vh-115px)] flex-wrap mx-auto my-32 lg:my-0">
       <div
         id="profile"
-        className="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl mx-6 lg:mx-0"
+        className="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl lg:mx-0"
       >
         <div className="p-4 md:p-12 text-center lg:text-left">
-          {/* Image for mobile view*/}
           <div
             className="rounded-full shadow-xl mx-auto -mt-20 h-48 w-48 bg-cover bg-center mb-5"
             style={{
@@ -33,6 +34,11 @@ const Profile = () => {
             <Badge />
             <br />
             {userDB.badge}
+          </p>
+          <p className="pt-2 text-base font-bold flex items-center justify-center gap-2 lg:justify-start">
+            <ChartBar />
+            <br />
+            {userDB.role}
           </p>
         </div>
       </div>

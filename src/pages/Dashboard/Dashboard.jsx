@@ -14,6 +14,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import checkAdmin from "./checkAdmin";
 
 const drawerWidth = 240;
 
@@ -21,17 +22,25 @@ function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const location = useLocation();
+  const isAdmin = checkAdmin();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const drawerItems = [
+  const drawerItemsStudent = [
     { text: "My Profile", path: "/dashboard" },
     { text: "Requested Meals", path: "/dashboard/requested-meals" },
     { text: "My Reviews", path: "/dashboard/my-reviews" },
     { text: "Payment History", path: "/dashboard/payment-history" },
-    { text: "Go back to home", path: "/" },
+    { text: "← Home", path: "/" },
+  ];
+  const drawerItemsAdmin = [
+    { text: "Admin Profile", path: "/dashboard" },
+    { text: "Manage Users", path: "/dashboard/requested-meals" },
+    { text: "Add Meal", path: "/dashboard/my-reviews" },
+    { text: "Payment History", path: "/dashboard/payment-history" },
+    { text: "← Home", path: "/" },
   ];
 
 const drawer = (
@@ -45,25 +54,40 @@ const drawer = (
         backgroundColor: "#f5f5f5",
       }}
     >
-      <img
-        src="/public/logo.png"
-        alt="Logo"
-        style={{ maxWidth: "100%", maxHeight: "40px", objectFit: "contain" }}
-      />
+      <Link to={"/"} className="flex items-center justify-center gap-2">
+        <img
+          src="/logo.png"
+          alt="Logo"
+          style={{ maxWidth: "100%", maxHeight: "40px", objectFit: "contain" }}
+        />
+        <h1 className="text-primary text-2xl">HostelMate</h1>
+      </Link>
     </Toolbar>
     <Divider />
     <List>
-      {drawerItems.map((item) => (
-        <ListItem key={item.text} disablePadding>
-          <ListItemButton
-            component={Link}
-            to={item.path}
-            selected={location.pathname === item.path}
-          >
-            <ListItemText primary={item.text} />
-          </ListItemButton>
-        </ListItem>
-      ))}
+      {isAdmin
+        ? drawerItemsAdmin.map((item) => (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton
+                component={Link}
+                to={item.path}
+                selected={location.pathname === item.path}
+              >
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          ))
+        : drawerItemsStudent.map((item) => (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton
+                component={Link}
+                to={item.path}
+                selected={location.pathname === item.path}
+              >
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
     </List>
   </div>
 );
