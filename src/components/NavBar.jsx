@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import Button from "./Button";
 import useAuth from "../hooks/useAuth";
 import { NavbarDropdown } from "./NavbarDropdown";
+import { Notifications } from "@mui/icons-material";
 
 const NavBar = () => {
   const { user } = useAuth();
@@ -50,20 +51,18 @@ const NavBar = () => {
               Upcoming Meals
             </NavLink>
           </li>
-          <li className="center text-lg">
-            <NavLink to={"/notifications"} className="link px-3 py-1">
-              Home
-            </NavLink>
-          </li>
         </ul>
       </div>
-      {user?.email ? (
-        <NavbarDropdown></NavbarDropdown>
-      ) : (
-        <Link to={"/login"}>
-          <Button text={"Join Us"}></Button>
-        </Link>
-      )}
+      <div className="flex gap-1 items-center">
+        <Notifications className="text-primary" />
+        {user?.email ? (
+          <NavbarDropdown></NavbarDropdown>
+        ) : (
+          <Link to={"/login"}>
+            <Button text={"Join Us"}></Button>
+          </Link>
+        )}
+      </div>
     </nav>
   );
 };

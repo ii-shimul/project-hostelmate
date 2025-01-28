@@ -3,12 +3,8 @@ import useAxios from "../../../hooks/useAxios";
 import useAuth from "../../../hooks/useAuth";
 import LoadingHand from "../../../components/LoadingHand";
 import useMeals from "../../../hooks/useMeals";
-import toast from "react-hot-toast";
 import {
-  Details,
   Edit,
-  ViewAgenda,
-  ViewCozy,
   Wysiwyg,
 } from "@mui/icons-material";
 

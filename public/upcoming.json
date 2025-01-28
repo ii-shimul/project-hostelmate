@@ -1,0 +1,200 @@
+[
+  {
+    "title": "Biriyani",
+    "category": "Lunch",
+    "image": "https://example.com/biriyani.jpg",
+    "ingredients": ["Rice", "Chicken", "Spices", "Yogurt", "Onions"],
+    "description": "A flavorful and aromatic rice dish with chicken and spices.",
+    "price": 200,
+    "distributor": {
+      "name": "HostelMate",
+      "email": "hostel@mate.com"
+    },
+    "postTime": "2025-01-27T20:00:00Z",
+    "rating": 4.8,
+    "likes": 0,
+    "reviews_count": 0,
+    "createdAt": "2025-01-26T18:00:00Z",
+    "updatedAt": "2025-01-27T20:00:00Z"
+  },
+  {
+    "title": "Panta Bhat",
+    "category": "Breakfast",
+    "image": "https://example.com/panta_bhat.jpg",
+    "ingredients": ["Rice", "Water", "Salt", "Green Chili", "Fried Fish"],
+    "description": "Fermented rice dish, a traditional Bengali breakfast.",
+    "price": 50,
+    "distributor": {
+      "name": "HostelMate",
+      "email": "hostel@mate.com"
+    },
+    "postTime": "2025-01-27T20:00:00Z",
+    "rating": 4.5,
+    "likes": 0,
+    "reviews_count": 0,
+    "createdAt": "2025-01-26T18:00:00Z",
+    "updatedAt": "2025-01-27T20:00:00Z"
+  },
+  {
+    "title": "Hilsa Fish Curry",
+    "category": "Dinner",
+    "image": "https://example.com/hilsa_curry.jpg",
+    "ingredients": [
+      "Hilsa Fish",
+      "Mustard Paste",
+      "Turmeric",
+      "Green Chili",
+      "Mustard Oil"
+    ],
+    "description": "A traditional Bengali fish curry made with Hilsa fish.",
+    "price": 300,
+    "distributor": {
+      "name": "HostelMate",
+      "email": "hostel@mate.com"
+    },
+    "postTime": "2025-01-27T20:00:00Z",
+    "rating": 4.9,
+    "likes": 0,
+    "reviews_count": 0,
+    "createdAt": "2025-01-26T18:00:00Z",
+    "updatedAt": "2025-01-27T20:00:00Z"
+  },
+  {
+    "title": "Fuchka",
+    "category": "Snack",
+    "image": "https://example.com/fuchka.jpg",
+    "ingredients": [
+      "Flour",
+      "Spiced Water",
+      "Potato",
+      "Chickpeas",
+      "Tamarind Chutney"
+    ],
+    "description": "A popular street food, crispy shells filled with spicy and tangy flavors.",
+    "price": 20,
+    "distributor": {
+      "name": "HostelMate",
+      "email": "hostel@mate.com"
+    },
+    "postTime": "2025-01-27T20:00:00Z",
+    "rating": 4.7,
+    "likes": 0,
+    "reviews_count": 0,
+    "createdAt": "2025-01-26T18:00:00Z",
+    "updatedAt": "2025-01-27T20:00:00Z"
+  },
+  {
+    "title": "Roshogolla",
+    "category": "Breakfast",
+    "image": "https://example.com/roshogolla.jpg",
+    "ingredients": ["Cottage Cheese", "Sugar", "Water", "Cardamom"],
+    "description": "Soft and spongy Bengali sweet soaked in sugar syrup.",
+    "price": 80,
+    "distributor": {
+      "name": "HostelMate",
+      "email": "hostel@mate.com"
+    },
+    "postTime": "2025-01-27T20:00:00Z",
+    "rating": 4.9,
+    "likes": 0,
+    "reviews_count": 0,
+    "createdAt": "2025-01-26T18:00:00Z",
+    "updatedAt": "2025-01-27T20:00:00Z"
+  },
+  {
+    "title": "Beef Tehari",
+    "category": "Lunch",
+    "image": "https://example.com/beef_tehari.jpg",
+    "ingredients": ["Rice", "Beef", "Spices", "Ghee", "Onions"],
+    "description": "A spicy and flavorful rice dish with tender beef.",
+    "price": 250,
+    "distributor": {
+      "name": "HostelMate",
+      "email": "hostel@mate.com"
+    },
+    "postTime": "2025-01-27T20:00:00Z",
+    "rating": 4.6,
+    "likes": 0,
+    "reviews_count": 0,
+    "createdAt": "2025-01-26T18:00:00Z",
+    "updatedAt": "2025-01-27T20:00:00Z"
+  },
+  {
+    "title": "Chingri Malai Curry",
+    "category": "Dinner",
+    "image": "https://example.com/chingri_malai_curry.jpg",
+    "ingredients": [
+      "Prawns",
+      "Coconut Milk",
+      "Spices",
+      "Onions",
+      "Green Chili"
+    ],
+    "description": "A creamy and flavorful prawn curry with coconut milk.",
+    "price": 350,
+    "distributor": {
+      "name": "HostelMate",
+      "email": "hostel@mate.com"
+    },
+    "postTime": "2025-01-27T20:00:00Z",
+    "rating": 4.8,
+    "likes": 0,
+    "reviews_count": 0,
+    "createdAt": "2025-01-26T18:00:00Z",
+    "updatedAt": "2025-01-27T20:00:00Z"
+  },
+  {
+    "title": "Dal Puri",
+    "category": "Breakfast",
+    "image": "https://example.com/dal_puri.jpg",
+    "ingredients": ["Flour", "Lentils", "Spices", "Oil", "Onions"],
+    "description": "A flatbread stuffed with spiced lentils, served with curry.",
+    "price": 60,
+    "distributor": {
+      "name": "HostelMate",
+      "email": "hostel@mate.com"
+    },
+    "postTime": "2025-01-27T20:00:00Z",
+    "rating": 4.4,
+    "likes": 0,
+    "reviews_count": 0,
+    "createdAt": "2025-01-26T18:00:00Z",
+    "updatedAt": "2025-01-27T20:00:00Z"
+  },
+  {
+    "title": "Mishti Doi",
+    "category": "Breakfast",
+    "image": "https://example.com/mishti_doi.jpg",
+    "ingredients": ["Milk", "Sugar", "Yogurt Culture"],
+    "description": "A sweet and creamy yogurt, a Bengali specialty.",
+    "price": 70,
+    "distributor": {
+      "name": "HostelMate",
+      "email": "hostel@mate.com"
+    },
+    "postTime": "2025-01-27T20:00:00Z",
+    "rating": 4.7,
+    "likes": 0,
+    "reviews_count": 0,
+    "createdAt": "2025-01-26T18:00:00Z",
+    "updatedAt": "2025-01-27T20:00:00Z"
+  },
+  {
+    "title": "Kacchi Biriyani",
+    "category": "Lunch",
+    "image": "https://example.com/kacchi_biriyani.jpg",
+    "ingredients": ["Mutton", "Rice", "Spices", "Yogurt", "Potatoes"],
+    "description": "A flavorful biriyani made with marinated mutton and aromatic spices.",
+    "price": 400,
+    "distributor": {
+      "name": "HostelMate",
+      "email": "hostel@mate.com"
+    },
+    "postTime": "2025-01-27T20:00:00Z",
+    "rating": 4.9,
+    "likes": 0,
+    "reviews_count": 0,
+    "createdAt": "2025-01-26T18:00:00Z",
+    "updatedAt": "2025-01-27T20:00:00Z"
+  }
+]

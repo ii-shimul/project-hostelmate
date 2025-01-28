@@ -8,12 +8,12 @@ import { GrInProgress } from "react-icons/gr";
 const Profile = () => {
   const { userDB, loading: Loading } = useUser();
   const [meals, loading] = useMeals();
-  const mealsAdded = meals.filter(
-    (meal) => meal.distributor.email === userDB.email,
-  );
   if (loading || Loading) {
     return <LoadingHand />;
   }
+  const mealsAdded = meals.filter(
+    (meal) => meal.distributor.email === userDB.email,
+  );
 
   return (
     <div className="max-w-4xl flex items-center justify-center h-auto lg:h-[calc(100vh-115px)] flex-wrap mx-auto my-32 lg:my-0">

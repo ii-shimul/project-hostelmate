@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import handLottie from "../../public/LoadingHand.json"
+import handLottie from "/public/LoadingHand.json"
 const LoadingHand = () => {
 
   return (
