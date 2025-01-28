@@ -14,7 +14,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import checkAdmin from "./checkAdmin";
+import CheckAdmin from "./CheckAdmin";
 
 const drawerWidth = 240;
 
@@ -22,7 +22,7 @@ function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const location = useLocation();
-  const isAdmin = checkAdmin();
+  const isAdmin = CheckAdmin();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -37,61 +37,67 @@ function ResponsiveDrawer(props) {
   ];
   const drawerItemsAdmin = [
     { text: "Admin Profile", path: "/dashboard" },
-    { text: "Manage Users", path: "/dashboard/requested-meals" },
-    { text: "Add Meal", path: "/dashboard/my-reviews" },
-    { text: "Payment History", path: "/dashboard/payment-history" },
+    { text: "Manage Users", path: "/dashboard/manage-users" },
+    { text: "Add Meal", path: "/dashboard/add-meal" },
+    { text: "All Meals", path: "/dashboard/all-meals" },
+    { text: "All Reviews", path: "/dashboard/all-reviews" },
+    { text: "Serve Meals", path: "/dashboard/serve-meals" },
+    { text: "Upcoming Meals", path: "/dashboard/upcoming-meals" },
     { text: "← Home", path: "/" },
   ];
 
-const drawer = (
-  <div>
-    <Toolbar
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 1,
-        backgroundColor: "#f5f5f5",
-      }}
-    >
-      <Link to={"/"} className="flex items-center justify-center gap-2">
-        <img
-          src="/logo.png"
-          alt="Logo"
-          style={{ maxWidth: "100%", maxHeight: "40px", objectFit: "contain" }}
-        />
-        <h1 className="text-primary text-2xl">HostelMate</h1>
-      </Link>
-    </Toolbar>
-    <Divider />
-    <List>
-      {isAdmin
-        ? drawerItemsAdmin.map((item) => (
-            <ListItem key={item.text} disablePadding>
-              <ListItemButton
-                component={Link}
-                to={item.path}
-                selected={location.pathname === item.path}
-              >
-                <ListItemText primary={item.text} />
-              </ListItemButton>
-            </ListItem>
-          ))
-        : drawerItemsStudent.map((item) => (
-            <ListItem key={item.text} disablePadding>
-              <ListItemButton
-                component={Link}
-                to={item.path}
-                selected={location.pathname === item.path}
-              >
-                <ListItemText primary={item.text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-    </List>
-  </div>
-);
-
+  const drawer = (
+    <div>
+      <Toolbar
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 1,
+          backgroundColor: "#f5f5f5",
+        }}
+      >
+        <Link to={"/"} className="flex items-center justify-center gap-2">
+          <img
+            src="/logo.png"
+            alt="Logo"
+            style={{
+              maxWidth: "100%",
+              maxHeight: "40px",
+              objectFit: "contain",
+            }}
+          />
+          <h1 className="text-primary text-2xl">HostelMate</h1>
+        </Link>
+      </Toolbar>
+      <Divider />
+      <List>
+        {isAdmin
+          ? drawerItemsAdmin.map((item) => (
+              <ListItem key={item.text} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  to={item.path}
+                  selected={location.pathname === item.path}
+                >
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              </ListItem>
+            ))
+          : drawerItemsStudent.map((item) => (
+              <ListItem key={item.text} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  to={item.path}
+                  selected={location.pathname === item.path}
+                >
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+      </List>
+    </div>
+  );
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -162,14 +168,13 @@ const drawer = (
       </Box>
       <Box
         component="main"
+        className="md:p-3"
         sx={{
           flexGrow: 1,
-          p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
         <Toolbar />
-        {/* Render Route Content Here */}
         <Outlet />
       </Box>
     </Box>
@@ -177,10 +182,6 @@ const drawer = (
 }
 
 ResponsiveDrawer.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * Remove this when copying and pasting into your project.
-   */
   window: PropTypes.func,
 };
 

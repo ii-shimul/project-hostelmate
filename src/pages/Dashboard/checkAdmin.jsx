@@ -1,11 +1,14 @@
 import useUser from "../../hooks/useUser";
 
-const checkAdmin = () => {
+const CheckAdmin = () => {
   const { userDB, loading } = useUser();
+  if (loading) {
+    return;
+  }
   if (userDB.role === "admin") {
     return true;
   }
   return false;
 };
 
-export default checkAdmin;
+export default CheckAdmin;

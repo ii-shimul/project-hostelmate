@@ -26,12 +26,14 @@ export function NavbarDropdown() {
         <span className="block text-sm">{user.displayName}</span>
         <span className="block truncate text-sm font-medium">{user.email}</span>
       </Dropdown.Header>
-      <Dropdown.Item
-        icon={HiViewGrid}
-        className="py-2 text-sm hover:bg-slate-200 transition duration-150 ease-in-out flex gap-1 "
-      >
-        <Link to={"/dashboard"}>Dashboard</Link>
-      </Dropdown.Item>
+      <Link to={"/dashboard"}>
+        <Dropdown.Item
+          icon={HiViewGrid}
+          className="py-2 text-sm hover:bg-slate-200 transition duration-150 ease-in-out flex gap-1 "
+        >
+          Dashboard
+        </Dropdown.Item>
+      </Link>
       <Dropdown.Divider />
       <Dropdown.Item
         onClick={logOut}

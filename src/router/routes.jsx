@@ -12,6 +12,12 @@ import Reviews from "../pages/Dashboard/Student/Reviews";
 import Checkout from "../pages/Checkout/Checkout";
 import PrivateRoute from "./PrivateRoute";
 import PaymentHistory from "../pages/Dashboard/Student/PaymentHistory";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import AddMeal from "../pages/Dashboard/Admin/AddMeal";
+import AllMeals from "../pages/Dashboard/Admin/AllMeals";
+import AllReviews from "../pages/Dashboard/Admin/AllReviews";
+import ServeMeals from "../pages/Dashboard/Admin/ServeMeals";
+import UpcomingMeals from "../pages/Dashboard/Admin/UpcomingMeals";
 
 const router = createBrowserRouter([
   {
@@ -58,10 +64,18 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      // student routes
       { path: "/dashboard", element: <Profile /> },
       { path: "requested-meals", element: <RequestedMeals /> },
       { path: "my-reviews", element: <Reviews /> },
       { path: "payment-history", element: <PaymentHistory /> },
+      // admin routes
+      { path: "manage-users", element: <ManageUsers /> },
+      { path: "add-meal", element: <AddMeal /> },
+      { path: "all-meals", element: <AllMeals /> },
+      { path: "all-reviews", element: <AllReviews /> },
+      { path: "serve-meals", element: <ServeMeals /> },
+      { path: "upcoming-meals", element: <UpcomingMeals /> },
     ],
   },
 ]);

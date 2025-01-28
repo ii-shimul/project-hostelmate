@@ -2,11 +2,16 @@ import { Badge, Mail } from "@mui/icons-material";
 import useUser from "../../../hooks/useUser";
 import LoadingHand from "../../../components/LoadingHand";
 import { ChartBar } from "lucide-react";
+import useMeals from "../../../hooks/useMeals";
+import { GrInProgress } from "react-icons/gr";
 
 const Profile = () => {
-  const { userDB, loading } = useUser();
-
-  if (loading) {
+  const { userDB, loading: Loading } = useUser();
+  const [meals, loading] = useMeals();
+  const mealsAdded = meals.filter(
+    (meal) => meal.distributor.email === userDB.email,
+  );
+  if (loading || Loading) {
     return <LoadingHand />;
   }
 
@@ -40,6 +45,13 @@ const Profile = () => {
             <br />
             {userDB.role}
           </p>
+          {userDB.role === "admin" && (
+            <p className="pt-2 text-base font-bold flex items-center justify-center gap-3 lg:justify-start">
+              <GrInProgress />
+              <br />
+              Added {mealsAdded.length} meals
+            </p>
+          )}
         </div>
       </div>
     </div>
