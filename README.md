@@ -1,8 +1,54 @@
-# React + Vite
+# HostelMate - Food management platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a **food management web application** designed for users to request meals, discover upcoming meals, and manage their food activities. The platform is built with **React** and a variety of modern libraries and tools to ensure an interactive, efficient, and secure user experience.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+
+- **User Authentication:** Secure login/signup using Firebase.
+- **Stripe Payment Integration:** Seamlessly integrated payment processing for donations or premium features.
+- **Upcoming Meals:** Easily discover shared meals.
+- **Profile Management:** View and manage user profiles.
+- **Responsive UI:** Fully responsive and designed with Tailwind CSS and Material-UI.
+
+---
+
+## Tech Stack
+
+### Frontend
+- **React**: A JavaScript library for building user interfaces.
+- **React Router DOM**: For routing and navigation.
+- **Tailwind CSS**: A utility-first CSS framework for styling.
+- **Material-UI (MUI)**: For prebuilt React components and icons.
+- **Lucide Icons**: Additional set of lightweight icons.
+
+### Backend & APIs
+- **Firebase**: For authentication and real-time database functionality.
+- **Axios**: For making API requests.
+- **React Query**: For managing and caching server state.
+
+### Payment Integration
+- **Stripe**: For secure and reliable payment processing.
+
+### Animations
+- **Lottie React**: For engaging and lightweight animations.
+- **React Spinners**: For loading indicators.
+
+---
+
+## Important Packages
+
+Here are the key libraries used in this project:
+
+- **React**: Core framework for the application.
+- **React Router DOM**: Handles routing and navigation between pages.
+- **Firebase**: Used for authentication and data storage.
+- **Stripe**: Enables secure payment processing.
+- **Axios**: Simplifies HTTP requests to the backend.
+- **React Query**: Optimizes state management for API calls.
+- **Material-UI (MUI)**: Provides pre-styled components and icons.
+- **Lottie React**: Adds animations to enhance the UI.
+- **React Spinners**: Displays loading animations.
+
+---
