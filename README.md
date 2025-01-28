@@ -1,4 +1,8 @@
-# HostelMate - Food management platform
+# HostelMate - Food Management Platform
+
+**Admin Email**: hostel@mate.com  
+**Admin Password**: hostelmate <br/>
+**Live Site URL**: [HostelMate](https://hostelmate-b7e8e.web.app/)  
 
 This is a **food management web application** designed for users to request meals, discover upcoming meals, and manage their food activities. The platform is built with **React** and a variety of modern libraries and tools to ensure an interactive, efficient, and secure user experience.
 
@@ -24,7 +28,8 @@ This is a **food management web application** designed for users to request meal
 - **Lucide Icons**: Additional set of lightweight icons.
 
 ### Backend & APIs
-- **Firebase**: For authentication and real-time database functionality.
+- **Node.js**: For server and database functionality.
+- **Firebase**: For authentication.
 - **Axios**: For making API requests.
 - **React Query**: For managing and caching server state.
 
@@ -50,5 +55,3 @@ Here are the key libraries used in this project:
 - **Material-UI (MUI)**: Provides pre-styled components and icons.
 - **Lottie React**: Adds animations to enhance the UI.
 - **React Spinners**: Displays loading animations.
-
----
