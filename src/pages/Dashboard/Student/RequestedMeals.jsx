@@ -4,23 +4,44 @@ import LoadingHand from "../../../components/LoadingHand";
 import useMeals from "../../../hooks/useMeals";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import ReactPaginate from "react-paginate";
+import { useState } from "react";
 
 const RequestedMeals = () => {
-  const [meals, loading] = useMeals()
+  const [meals, loading] = useMeals();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  const { data: requestedMeals, isPending, refetch } = useQuery({
-    queryKey: ["requestedMealQueryForAStudent"],
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [poading, setPoading] = useState(false);
+  const handlePageClick = (event) => {
+    setPoading(true);
+    setPage(event.selected + 1);
+  };
+  const {
+    data: requestedMeals,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["requestedMealQueryForAStudent", page],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/requestedMeals/${user.email}`);
-      return res.data;
+      const res = await axiosSecure.get(
+        `/requestedMeals/${user.email}?page=${page}`,
+      );
+      setTotalPage(res.data.totalPages);
+      setPoading(false);
+      return res.data.meals;
     },
   });
-  if (isPending || loading) {
+  if (isLoading || loading) {
     return <LoadingHand />;
   }
   if (!requestedMeals.length) {
-    return <h1 className="h-[50%] text-center mt-[20%] text-xl md:text-3xl">You have not requested for any meal yet!</h1>
+    return (
+      <h1 className="h-[50%] text-center mt-[20%] text-xl md:text-3xl">
+        You have not requested for any meal yet!
+      </h1>
+    );
   }
 
   return (
@@ -49,11 +70,19 @@ const RequestedMeals = () => {
           </tr>
         </thead>
         <tbody className="whitespace-nowrap">
-          {
+          {poading ? (
+            <div className="w-full h-80">
+              <LoadingHand />
+            </div>
+          ) : (
             requestedMeals.map((requestedMeal, index) => {
-              const meal = meals.find(item => item._id === requestedMeal.requestedMeal.id)
+              const meal = meals.find(
+                (item) => item._id === requestedMeal.requestedMeal.id,
+              );
               const handleCancel = async () => {
-                const res = await axiosSecure.delete(`/requestedMeals/${requestedMeal._id}`);
+                const res = await axiosSecure.delete(
+                  `/requestedMeals/${requestedMeal._id}`,
+                );
                 refetch();
                 if (res.data.deletedCount > 0) {
                   toast.success("Request canceled!");
@@ -61,7 +90,9 @@ const RequestedMeals = () => {
               };
               return (
                 <tr key={requestedMeal._id} className="odd:bg-blue-50">
-                  <td className="p-4 text-sm text-black">{index+1}</td>
+                  <td className="p-4 text-sm text-black">
+                    {index + 1 + page * 10 - 10}
+                  </td>
 
                   <td className="p-4 text-sm">
                     <div className="flex items-center cursor-pointer w-max">
@@ -102,9 +133,24 @@ const RequestedMeals = () => {
                 </tr>
               );
             })
-          }
+          )}
         </tbody>
       </table>
+        <ReactPaginate
+          previousLabel={"previous"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          pageCount={totalPage}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={3}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          activeClassName={"activePage"}
+          activeLinkClassName="active-link"
+          pageLinkClassName="page-num"
+          previousLinkClassName="page-num"
+          nextLinkClassName="page-num"
+        />
     </div>
   );
 };

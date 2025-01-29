@@ -1,3 +1,5 @@
+import SectionTitle from "../../components/SectionTitle";
+
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".accordion").forEach((elm) => {
     const button = elm.querySelector(".toggle-button");
@@ -20,12 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const FAQ = () => {
   return (
-    <div className="divide-y rounded-lg max-w-5xl mx-auto px-4">
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-800">
-          Frequently asked questions
-        </h2>
-      </div>
+    <div className="divide-y rounded-lg max-w-5xl mx-auto px-4 mt-4 lg:mt-10">
+      <SectionTitle title="Frequently Asked Questions" />
       <div className="accordion" role="accordion">
         <button
           type="button"
@@ -146,7 +144,7 @@ const FAQ = () => {
         </button>
         <div className="content invisible max-h-0 overflow-hidden transition-all duration-300">
           <p className="text-sm text-gray-600">
-            You can cancel your order before it's prepared. Refunds depend on
+            You can cancel your order before it&apos;s prepared. Refunds depend on
             the cancellation time.
           </p>
         </div>

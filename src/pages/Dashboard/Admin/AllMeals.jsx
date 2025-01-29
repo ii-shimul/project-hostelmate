@@ -1,19 +1,37 @@
 import { Button } from "@mui/material";
 import LoadingHand from "../../../components/LoadingHand";
-import useMeals from "../../../hooks/useMeals";
 import { Edit, Trash, View } from "lucide-react";
 import useAxios from "../../../hooks/useAxios";
-import { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 const AllMeals = () => {
   const axiosPublic = useAxios();
   const [searchMeals, setSearchMeals] = useState([]);
-  const [meals, loading, refetch] = useMeals();
-  useEffect(() => {
-    setSearchMeals(meals);
-  }, [meals]);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [poading, setPoading] = useState(false);
+  const handlePageClick = (event) => {
+    setPoading(true);
+    setPage(event.selected + 1);
+  };
+  const {
+    data,
+    isLoading,
+    refetch
+  } = useQuery({
+    queryKey: ["allReviewsQuery", page],
+    queryFn: async () => {
+      const result = await axiosPublic.get(`/meals/paginate?page=${page}`);
+      setTotalPage(result.data.totalPages);
+      setSearchMeals(result.data.reviews);
+      setPoading(false);
+      return result.data;
+    },
+  });
 
-  if (loading) {
+  if (isLoading) {
     return <LoadingHand />;
   }
   const sortMeals = async (sort) => {
@@ -59,55 +77,78 @@ const AllMeals = () => {
             </tr>
           </thead>
           <tbody className="whitespace-nowrap">
-            {searchMeals.map((meal, index) => {
-              return (
-                <tr key={meal._id} className="odd:bg-blue-50">
-                  <td className="p-4 text-sm text-black">{index + 1}</td>
+            {poading ? (
+              <div className="w-full h-80">
+                <LoadingHand />
+              </div>
+            ) : (
+              searchMeals.map((meal, index) => {
+                return (
+                  <tr key={meal._id} className="odd:bg-blue-50">
+                    <td className="p-4 text-sm text-black">
+                      {index + 1 + page * 10 - 10}
+                    </td>
 
-                  <td className="p-4 text-sm">
-                    <div className="flex items-center cursor-pointer w-max">
-                      <img
-                        src={meal.image}
-                        className="w-9 h-9 rounded-full shrink-0"
-                      />
-                      <div className="ml-4">
-                        <p className="text-md text-black">{meal.title}</p>
+                    <td className="p-4 text-sm">
+                      <div className="flex items-center cursor-pointer w-max">
+                        <img
+                          src={meal.image}
+                          className="w-9 h-9 rounded-full shrink-0"
+                        />
+                        <div className="ml-4">
+                          <p className="text-md text-black">{meal.title}</p>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="p-4 text-sm text-black">
-                    {meal.distributor.name}
-                  </td>
-                  <td className="p-4 text-sm text-black">{meal.likes}</td>
-                  <td className="p-4 text-sm text-black">
-                    {meal.reviews_count}
-                  </td>
-                  <td className="p-4 text-sm text-black">{meal.rating}</td>
-                  <td className="p-4 space-x-2">
-                    <button
-                      title="Update"
-                      className="text-yellow-500 hover:text-yellow-300 transition-all duration-200"
-                    >
-                      <Edit />
-                    </button>
-                    <button
-                      title="Delete"
-                      className="text-red-500 hover:text-red-300 transition-all duration-200"
-                    >
-                      <Trash />
-                    </button>
-                    <button
-                      title="View"
-                      className="text-blue-500 hover:text-blue-300 transition-all duration-200"
-                    >
-                      <View />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                    <td className="p-4 text-sm text-black">
+                      {meal.distributor.name}
+                    </td>
+                    <td className="p-4 text-sm text-black">{meal.likes}</td>
+                    <td className="p-4 text-sm text-black">
+                      {meal.reviews_count}
+                    </td>
+                    <td className="p-4 text-sm text-black">{meal.rating}</td>
+                    <td className="p-4 space-x-2">
+                      <button
+                        title="Update"
+                        className="text-yellow-500 hover:text-yellow-300 transition-all duration-200"
+                      >
+                        <Edit />
+                      </button>
+                      <button
+                        title="Delete"
+                        className="text-red-500 hover:text-red-300 transition-all duration-200"
+                      >
+                        <Trash />
+                      </button>
+                      <button
+                        title="View"
+                        className="text-blue-500 hover:text-blue-300 transition-all duration-200"
+                      >
+                        <View />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
+        <ReactPaginate
+          previousLabel={"previous"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          pageCount={totalPage}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={3}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          activeClassName={"activePage"}
+          activeLinkClassName="active-link"
+          pageLinkClassName="page-num"
+          previousLinkClassName="page-num"
+          nextLinkClassName="page-num"
+        />
       </div>
     </>
   );

@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import axios from "axios";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import ReactPaginate from "react-paginate";
 const key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 
 const ModalForm = ({ isOpen, onRequestClose }) => {
@@ -57,7 +58,9 @@ const ModalForm = ({ isOpen, onRequestClose }) => {
     <ReactModal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className={"max-w-2xl mx-auto mt-16 lg:mt-40 rounded-lg border p-5 bg-white"}
+      className={
+        "max-w-2xl mx-auto mt-16 lg:mt-40 rounded-lg border p-5 bg-white"
+      }
     >
       <button onClick={onRequestClose} className="text-red-500 float-right">
         ✖
@@ -163,15 +166,24 @@ const ModalForm = ({ isOpen, onRequestClose }) => {
 const UpcomingMealsDash = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const axiosPublic = useAxios();
+   const [page, setPage] = useState(1);
+   const [totalPage, setTotalPage] = useState(1);
+   const [poading, setPoading] = useState(false);
+   const handlePageClick = (event) => {
+     setPoading(true);
+     setPage(event.selected + 1);
+   };
   const {
     data: meals,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["upcoming-meals"],
+    queryKey: ["upcoming-meals", page],
     queryFn: async () => {
-      const result = await axiosPublic.get("/upcoming-meals/sort");
-      return result.data;
+      const result = await axiosPublic.get("/upcoming-meals/paginate");
+      setTotalPage(result.data.totalPages);
+      setPoading(false);
+      return result.data.meals;
     },
   });
   if (isLoading) {
@@ -184,9 +196,11 @@ const UpcomingMealsDash = () => {
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
       />
-      <Button onClick={() => setModalIsOpen(true)} variant="contained">
-        Add Meal
-      </Button>
+      <div className="flex justify-center my-3">
+        <Button onClick={() => setModalIsOpen(true)} variant="contained">
+          Add Upcoming Meal
+        </Button>
+      </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
           <thead className="whitespace-nowrap">
@@ -212,50 +226,73 @@ const UpcomingMealsDash = () => {
             </tr>
           </thead>
           <tbody className="whitespace-nowrap">
-            {meals.map((meal, index) => {
-              const handlePublish = async () => {
-                const result = await axiosPublic.patch(
-                  `/upcoming-meals/publish/${meal._id}`,
-                );
-                if (result.data.deletedCount > 0) {
-                  toast.success(`${meal.title} is published.`);
-                  refetch();
-                }
-              };
-              return (
-                <tr key={meal._id} className="odd:bg-blue-50">
-                  <td className="p-4 text-sm text-black">{index + 1}</td>
+            {poading ? (
+              <div className="w-full h-80">
+                <LoadingHand />
+              </div>
+            ) : (
+              meals.map((meal, index) => {
+                const handlePublish = async () => {
+                  const result = await axiosPublic.patch(
+                    `/upcoming-meals/publish/${meal._id}`,
+                  );
+                  if (result.data.deletedCount > 0) {
+                    toast.success(`${meal.title} is published.`);
+                    refetch();
+                  }
+                };
+                return (
+                  <tr key={meal._id} className="odd:bg-blue-50">
+                    <td className="p-4 text-sm text-black">
+                      {index + 1 + page * 10 - 10}
+                    </td>
 
-                  <td className="p-4 text-sm">
-                    <div className="flex items-center cursor-pointer w-max">
-                      <img
-                        src={meal.image}
-                        className="w-9 h-9 rounded-full shrink-0"
-                      />
-                      <div className="ml-4">
-                        <p className="text-md text-black">{meal.title}</p>
+                    <td className="p-4 text-sm">
+                      <div className="flex items-center cursor-pointer w-max">
+                        <img
+                          src={meal.image}
+                          className="w-9 h-9 rounded-full shrink-0"
+                        />
+                        <div className="ml-4">
+                          <p className="text-md text-black">{meal.title}</p>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="p-4 text-sm text-black">
-                    {meal.distributor.name}
-                  </td>
-                  <td className="p-4 text-sm text-black">{meal.likes}</td>
-                  <td className="p-4 text-sm text-black">{meal.price}</td>
-                  <td className="p-4 space-x-2">
-                    <button
-                      onClick={handlePublish}
-                      title="Update"
-                      className="text-yellow-500 hover:text-yellow-300 transition-all duration-200"
-                    >
-                      <Publish />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                    <td className="p-4 text-sm text-black">
+                      {meal.distributor.name}
+                    </td>
+                    <td className="p-4 text-sm text-black">{meal.likes}</td>
+                    <td className="p-4 text-sm text-black">{meal.price}</td>
+                    <td className="p-4 space-x-2">
+                      <button
+                        onClick={handlePublish}
+                        title="Update"
+                        className="text-yellow-500 hover:text-yellow-300 transition-all duration-200"
+                      >
+                        <Publish />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
+        <ReactPaginate
+          previousLabel={"previous"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          pageCount={totalPage}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={3}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          activeClassName={"activePage"}
+          activeLinkClassName="active-link"
+          pageLinkClassName="page-num"
+          previousLinkClassName="page-num"
+          nextLinkClassName="page-num"
+        />
       </div>
     </>
   );

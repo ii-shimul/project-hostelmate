@@ -5,16 +5,27 @@ import toast from "react-hot-toast";
 import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import ReactPaginate from "react-paginate";
 
 const ManageUsers = () => {
   const [searchValue, setSearchValue] = useState();
   const [users, setUsers] = useState([]);
   const axiosSecure = useAxiosSecure();
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [poading, setPoading] = useState(false);
+  const handlePageClick = (event) => {
+    setPoading(true);
+    setPage(event.selected + 1);
+  };
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ["usersQuery"],
+    queryKey: ["usersQuery", page],
     queryFn: async () => {
-      const result = await axiosSecure.get("/users");
-      setUsers(result.data);
+      const result = await axiosSecure.get(`/users?page=${page}`);
+      console.log(result);
+      setTotalPage(result.data.totalPages);
+      setUsers(result.data.meals);
+      setPoading(false);
       return result.data;
     },
   });
@@ -76,42 +87,63 @@ const ManageUsers = () => {
               </th>
             </tr>
           </thead>
-          <tbody className="">
-            {users.map((user, index) => {
-              return (
-                <tr key={user._id} className="odd:bg-blue-50">
-                  <td className="p-4 text-sm text-black">{index + 1}</td>
+          <tbody>
+            {poading ? (
+              <div className="w-full h-80">
+                <LoadingHand />
+              </div>
+            ) : (
+              users.map((user, index) => {
+                return (
+                  <tr key={user._id} className="odd:bg-blue-50">
+                    <td className="p-4 text-sm text-black">{index + 1}</td>
 
-                  <td className="p-4 text-sm">
-                    <div className="flex items-center cursor-pointer w-max">
-                      <img
-                        src={user.image}
-                        className="w-9 h-9 rounded-full shrink-0"
-                      />
-                      <div className="ml-4">
-                        <p className="text-md text-black">{user.name}</p>
+                    <td className="p-4 text-sm">
+                      <div className="flex items-center cursor-pointer w-max">
+                        <img
+                          src={user.image}
+                          className="w-9 h-9 rounded-full shrink-0"
+                        />
+                        <div className="ml-4">
+                          <p className="text-md text-black">{user.name}</p>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="p-4 text-sm text-black">{user.email}</td>
-                  <td className="p-4 text-sm text-black">{user.badge}</td>
-                  <td className="p-4">
-                    {user.role === "admin" ? (
-                      "Admin"
-                    ) : (
-                      <button
-                        onClick={() => handleMakeAdmin(user.email, user.name)}
-                        className="text-xl text-primary hover:text-secondary transition-all duration-300 ease-in-out"
-                      >
-                        <GrUserAdmin />
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                    <td className="p-4 text-sm text-black">{user.email}</td>
+                    <td className="p-4 text-sm text-black">{user.badge}</td>
+                    <td className="p-4">
+                      {user.role === "admin" ? (
+                        "Admin"
+                      ) : (
+                        <button
+                          onClick={() => handleMakeAdmin(user.email, user.name)}
+                          className="text-xl text-primary hover:text-secondary transition-all duration-300 ease-in-out"
+                        >
+                          <GrUserAdmin />
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
+        <ReactPaginate
+          previousLabel={"previous"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          pageCount={totalPage}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={3}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          activeClassName={"activePage"}
+          activeLinkClassName="active-link"
+          pageLinkClassName="page-num"
+          previousLinkClassName="page-num"
+          nextLinkClassName="page-num"
+        />
       </div>
     </>
   );

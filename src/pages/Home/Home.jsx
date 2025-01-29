@@ -4,6 +4,7 @@ import Meals from "./Meals";
 import Membership from "./Membership";
 import Features from "./Features";
 import FAQ from "./FAQ";
+import Stats from "./Stats";
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       <Banner />
       <Meals />
       <Features/>
+      <Stats/>
       <Membership/>
       <FAQ/>
     </div>
