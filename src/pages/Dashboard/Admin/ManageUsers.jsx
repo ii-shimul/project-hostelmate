@@ -1,19 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxios from "../../../hooks/useAxios";
 import LoadingHand from "../../../components/LoadingHand";
 import { GrUserAdmin } from "react-icons/gr";
 import toast from "react-hot-toast";
 import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const ManageUsers = () => {
   const [searchValue, setSearchValue] = useState();
   const [users, setUsers] = useState([]);
-  const axiosPublic = useAxios();
+  const axiosSecure = useAxiosSecure();
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["usersQuery"],
     queryFn: async () => {
-      const result = await axiosPublic.get("/users");
+      const result = await axiosSecure.get("/users");
       setUsers(result.data);
       return result.data;
     },
@@ -21,7 +21,7 @@ const ManageUsers = () => {
 
   useEffect(() => {
     const searchUsers = async () => {
-      const result = await axiosPublic.post("/search-users", { searchValue });
+      const result = await axiosSecure.post("/search-users", { searchValue });
       setUsers(result.data.results);
     };
     if (searchValue) {
@@ -29,10 +29,10 @@ const ManageUsers = () => {
     } else {
       refetch();
     }
-  }, [searchValue, axiosPublic, refetch]);
+  }, [searchValue, axiosSecure, refetch]);
 
   const handleMakeAdmin = async (email, name) => {
-    const result = await axiosPublic.patch("/user/admin", { email });
+    const result = await axiosSecure.patch("/user/admin", { email });
     if (result.data.modifiedCount > 0) {
       toast.success(`${name} is now admin.`);
       refetch();

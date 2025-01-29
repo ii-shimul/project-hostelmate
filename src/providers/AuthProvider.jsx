@@ -48,28 +48,22 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       if (currentUser?.email) {
         const userJWT = { email: currentUser.email };
-        axiosPublic
-          .post("/jwt", userJWT, {
-            withCredentials: true,
-          })
-          .then((res) => {
-            if (res.data.token) {
-              localStorage.setItem("access-token", res.data.token);
-            }
-            setLoading(false);
-          });
-      } else {
-        axiosPublic.post("/logout", {}, { withCredentials: true }).then((res) => {
-          localStorage.setItem("access-token", res.data.token);
+        axiosPublic.post("/jwt", userJWT).then((res) => {
+          if (res.data.token) {
+            localStorage.setItem("access-token", res.data.token);
+          }
           setLoading(false);
         });
+      } else {
+        localStorage.removeItem("access-token");
+        setLoading(false);
       }
       setLoading(false);
     });
     return () => {
       unsubscribe();
     };
-  }, [user]);
+  }, [user, axiosPublic]);
 
   const logOut = () => {
     setLoading(true);

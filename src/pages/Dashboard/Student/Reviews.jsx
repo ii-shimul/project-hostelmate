@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxios from "../../../hooks/useAxios";
 import useAuth from "../../../hooks/useAuth";
 import LoadingHand from "../../../components/LoadingHand";
 import useMeals from "../../../hooks/useMeals";
@@ -7,10 +6,11 @@ import {
   Edit,
   Wysiwyg,
 } from "@mui/icons-material";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Reviews = () => {
   const [meals, loading] = useMeals();
-  const axiosPublic = useAxios();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const {
     data: reviews,
@@ -19,7 +19,7 @@ const Reviews = () => {
   } = useQuery({
     queryKey: ["reviewQueryForAStudent"],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/student_reviews/${user.email}`);
+      const res = await axiosSecure.get(`/student_reviews/${user.email}`);
       return res.data;
     },
   });

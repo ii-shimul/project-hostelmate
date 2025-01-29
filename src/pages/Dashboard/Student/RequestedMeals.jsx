@@ -1,18 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxios from "../../../hooks/useAxios";
 import useAuth from "../../../hooks/useAuth";
 import LoadingHand from "../../../components/LoadingHand";
 import useMeals from "../../../hooks/useMeals";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const RequestedMeals = () => {
   const [meals, loading] = useMeals()
-  const axiosPublic = useAxios();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const { data: requestedMeals, isPending, refetch } = useQuery({
     queryKey: ["requestedMealQueryForAStudent"],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/requestedMeals/${user.email}`);
+      const res = await axiosSecure.get(`/requestedMeals/${user.email}`);
       return res.data;
     },
   });
@@ -53,7 +53,7 @@ const RequestedMeals = () => {
             requestedMeals.map((requestedMeal, index) => {
               const meal = meals.find(item => item._id === requestedMeal.requestedMeal.id)
               const handleCancel = async () => {
-                const res = await axiosPublic.delete(`/requestedMeals/${requestedMeal._id}`);
+                const res = await axiosSecure.delete(`/requestedMeals/${requestedMeal._id}`);
                 refetch();
                 if (res.data.deletedCount > 0) {
                   toast.success("Request canceled!");

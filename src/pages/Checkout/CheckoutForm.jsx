@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import useAxios from "../../hooks/useAxios";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const CheckoutForm = ({ price, badge }) => {
   const [clientSecret, setClientSecret] = useState("");
@@ -11,6 +12,7 @@ const CheckoutForm = ({ price, badge }) => {
   const [loading, setLoading] = useState(false);
   const [transactionId, setTransactionId] = useState("");
   const axiosPublic = useAxios();
+  const axiosSecure = useAxiosSecure();
   const stripe = useStripe();
   const { user } = useAuth();
   const elements = useElements();
@@ -78,8 +80,7 @@ const CheckoutForm = ({ price, badge }) => {
           status: "Success",
           paidAt: new Date().toISOString(),
         };
-        const res = await axiosPublic.post("/payments", payment);
-        console.log(res);
+        const res = await axiosSecure.post("/payments", payment);
         setError("");
         setLoading(false);
       }

@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const FAQ = () => {
   return (
-    <div className="font-sans divide-y rounded-lg max-w-5xl mx-auto px-4">
+    <div className="divide-y rounded-lg max-w-5xl mx-auto px-4">
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-800">
           Frequently asked questions

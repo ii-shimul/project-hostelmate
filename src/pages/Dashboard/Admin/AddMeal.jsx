@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
-import useAxios from "../../../hooks/useAxios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 const key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const AddMeal = () => {
-  const axiosPublic = useAxios();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
@@ -37,7 +37,7 @@ const AddMeal = () => {
         likes: 0,
         reviews_count: 0,
       };
-      const res = await axiosPublic.post("/meals", newMeal);
+      const res = await axiosSecure.post("/meals", newMeal);
       if (res.data.insertedId) {
         toast.success(`${title} added to the meals collection.`)
       }

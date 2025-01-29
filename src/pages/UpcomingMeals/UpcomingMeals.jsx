@@ -7,9 +7,11 @@ import { Helmet } from "react-helmet";
 import { motion } from "motion/react";
 import toast from "react-hot-toast";
 import useUser from "../../hooks/useUser";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const UpcomingMeals = () => {
   const axiosPublic = useAxios();
+  const axiosSecure = useAxiosSecure();
   const [meals, setMeals] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -68,13 +70,13 @@ const UpcomingMeals = () => {
                   toast.error("You have to have a membership.");
                   return;
                 }
-                const result = await axiosPublic.patch(
+                const result = await axiosSecure.patch(
                   `/upcoming-likes/${meal._id}`,
                 );
                 if (result.data.modifiedCount > 0) {
                   toast.success(`You liked ${meal.title}`);
                   if (meal.likes == 9) {
-                    const result = await axiosPublic.patch(
+                    const result = await axiosSecure.patch(
                       `/upcoming-meals/publish/${meal._id}`,
                     );
                     if (result.data.deletedCount > 0) {

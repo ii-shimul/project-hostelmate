@@ -1,6 +1,5 @@
 import { Button, Rating, Stack, styled } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { Link, useLoaderData } from "react-router-dom";
 import Loader from "../../components/Loader";
 import useAuth from "../../hooks/useAuth";
@@ -11,6 +10,7 @@ import moment from "moment/moment";
 import useAxios from "../../hooks/useAxios";
 import useUser from "../../hooks/useUser";
 import { Helmet } from "react-helmet";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
     color: "#1C64F2",
@@ -20,16 +20,17 @@ const StyledRating = styled(Rating)({
 const MealDetails = () => {
   const { user } = useAuth();
   const { userDB, loading } = useUser();
-  const axiosPublic = useAxios();
   const [isLiked, setIsLiked] = useState(false);
   const [rating, setRating] = useState(0);
   const [isRequested, setIsRequested] = useState(true);
   const [meal, setMeal] = useState(useLoaderData());
-
+  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxios();
   // check if the user already requested for the meal
   const checkIsRequested = async () => {
+    
     const res = await axiosPublic.get(
-      `/requestedMeals?userEmail=${user?.email}&mealId=${meal._id}`,
+      `/requestedMeals/check?userEmail=${user?.email}&mealId=${meal._id}`,
     );
     if (!res.data) {
       setIsRequested(false);
@@ -79,7 +80,7 @@ const MealDetails = () => {
       status: "Pending",
       requestedAt: new Date().toISOString(),
     };
-    const res = await axiosPublic.post("requestedMeals", request);
+    const res = await axiosSecure.post("requestedMeals", request);
     if (res.data.insertedId) {
       setIsRequested(true);
       toast.success(`Your request for ${meal.title} is submitted!`);
@@ -106,7 +107,7 @@ const MealDetails = () => {
       rating: rating,
       postedAt: postedAt,
     };
-    const response = await axiosPublic.post("/reviews", newReview);
+    const response = await axiosSecure.post("/reviews", newReview);
     if (response.data.reviewInsert.insertedId) {
       refetch();
       event.target.reset();
@@ -122,7 +123,7 @@ const MealDetails = () => {
       toast.error("You have to login first.");
       return;
     }
-    const res = await axiosPublic.put(`/likes/${meal._id}`);
+    const res = await axiosSecure.put(`/likes/${meal._id}`);
     if (res.data.modifiedCount > 0) {
       const updatedMeal = await axiosPublic.get(`/meals/${meal._id}`);
       setMeal(updatedMeal.data);
@@ -193,7 +194,7 @@ const MealDetails = () => {
             <div className="flex gap-4 mt-3 md:mt-12 max-w-md">
               {isRequested ? (
                 <Button size="large" fullWidth variant="contained" disabled>
-                  Meal Requested
+                  Request Meal
                 </Button>
               ) : (
                 <Button

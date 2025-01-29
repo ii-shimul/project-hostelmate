@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxios from "../../../hooks/useAxios";
 import LoadingHand from "../../../components/LoadingHand";
 import useMeals from "../../../hooks/useMeals";
 import toast from "react-hot-toast";
 import { DeliveryDining } from "@mui/icons-material";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const ServeMeals = () => {
   const [meals, loading] = useMeals();
-  const axiosPublic = useAxios();
+  const axiosSecure = useAxiosSecure();
   const {
     data: requestedMeals,
     isPending,
@@ -15,7 +15,7 @@ const ServeMeals = () => {
   } = useQuery({
     queryKey: ["requestedMealQueryForAStudent"],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/requestedMeals`);
+      const res = await axiosSecure.get(`/requestedMeals`);
       return res.data;
     },
   });
@@ -58,7 +58,7 @@ const ServeMeals = () => {
         <tbody className="whitespace-nowrap">
           {requestedMeals.map((requestedMeal, index) => {
             const handleServe = async () => {
-              const res = await axiosPublic.patch(
+              const res = await axiosSecure.patch(
                 `/requestedMeals/${requestedMeal._id}`,
               );
               if (res.data.modifiedCount) {

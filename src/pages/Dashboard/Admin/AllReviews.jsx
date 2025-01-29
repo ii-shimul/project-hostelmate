@@ -1,21 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxios from "../../../hooks/useAxios";
 import LoadingHand from "../../../components/LoadingHand";
 import { Edit } from "lucide-react";
 import useMeals from "../../../hooks/useMeals";
 import { Wysiwyg } from "@mui/icons-material";
 import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AllReviews = () => {
   const [searchValue, setSearchValue] = useState("");
-  const axiosPublic = useAxios();
+  const axiosSecure = useAxiosSecure();
   const [meals, loading, refetch] = useMeals();
   const [reviews, setReviews] = useState([]);
   const { data, isLoading } = useQuery({
     queryKey: ["allReviewsQuery"],
     queryFn: async () => {
-      const result = await axiosPublic.get("/reviews");
+      const result = await axiosSecure.get("/reviews");
       setReviews(result.data)
       return result.data;
     },
@@ -23,7 +23,7 @@ const AllReviews = () => {
 
   useEffect(() => {
     const searchReviews = async () => {
-      const result = await axiosPublic.post("/search-review", { searchValue });
+      const result = await axiosSecure.post("/search-review", { searchValue });
       setReviews(result.data);
     };
     if (searchValue !== "") {
@@ -31,7 +31,7 @@ const AllReviews = () => {
     } else {
       refetch();
     }
-  }, [searchValue, axiosPublic, refetch]);
+  }, [searchValue, axiosSecure, refetch]);
 
   if (isLoading || loading) {
     return <LoadingHand />;
@@ -44,7 +44,7 @@ const AllReviews = () => {
           onChange={(e) => setSearchValue(e.target.value)}
           fullWidth
           className="max-w-xl"
-          label="Search users"
+          label="Search reviews"
           id="fullWidth"
         />
       </div>
