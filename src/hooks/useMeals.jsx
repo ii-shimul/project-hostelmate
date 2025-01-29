@@ -14,7 +14,6 @@ const useMeals = () => {
       return meals.data;
     },
   });
-  console.log(meals);
   return [meals, loading, refetch] ;
 };
 

@@ -19,6 +19,7 @@ import AllReviews from "../pages/Dashboard/Admin/AllReviews";
 import ServeMeals from "../pages/Dashboard/Admin/ServeMeals";
 import UpcomingMealsDash from "../pages/Dashboard/Admin/UpcomingMealsDash";
 import UpcomingMeals from "../pages/UpcomingMeals/UpcomingMeals";
+import AdminRoute from "./AdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -43,13 +44,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/upcoming-meals",
-        element: <UpcomingMeals/>,
+        element: <UpcomingMeals />,
       },
       {
         path: "/meals/:id",
         element: <MealDetails></MealDetails>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/meals/${params.id}`),
+          fetch(`https://hostelmateserver.vercel.app/meals/${params.id}`),
       },
       {
         path: "/checkout/:badge",
@@ -70,17 +71,87 @@ const router = createBrowserRouter([
     ),
     children: [
       // student routes
-      { path: "/dashboard", element: <Profile /> },
-      { path: "requested-meals", element: <RequestedMeals /> },
-      { path: "my-reviews", element: <Reviews /> },
-      { path: "payment-history", element: <PaymentHistory /> },
+      {
+        path: "/dashboard",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "requested-meals",
+        element: (
+          <PrivateRoute>
+            <RequestedMeals />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-reviews",
+        element: (
+          <PrivateRoute>
+            <Reviews />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "payment-history",
+        element: (
+          <PrivateRoute>
+            <PaymentHistory />
+          </PrivateRoute>
+        ),
+      },
       // admin routes
-      { path: "manage-users", element: <ManageUsers /> },
-      { path: "add-meal", element: <AddMeal /> },
-      { path: "all-meals", element: <AllMeals /> },
-      { path: "all-reviews", element: <AllReviews /> },
-      { path: "serve-meals", element: <ServeMeals /> },
-      { path: "upcoming-meals", element: <UpcomingMealsDash /> },
+      {
+        path: "manage-users",
+        element: (
+          <AdminRoute>
+            <ManageUsers />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "add-meal",
+        element: (
+          <AdminRoute>
+            <AddMeal />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "all-meals",
+        element: (
+          <AdminRoute>
+            <AllMeals />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "all-reviews",
+        element: (
+          <AdminRoute>
+            <AllReviews />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "serve-meals",
+        element: (
+          <AdminRoute>
+            <ServeMeals />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "upcoming-meals",
+        element: (
+          <AdminRoute>
+            <UpcomingMealsDash />
+          </AdminRoute>
+        ),
+      },
     ],
   },
 ]);

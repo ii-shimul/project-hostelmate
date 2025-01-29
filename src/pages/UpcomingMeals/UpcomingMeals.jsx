@@ -6,12 +6,14 @@ import DotLoader from "react-spinners/DotLoader";
 import { Helmet } from "react-helmet";
 import { motion } from "motion/react";
 import toast from "react-hot-toast";
+import useUser from "../../hooks/useUser";
 
 const UpcomingMeals = () => {
   const axiosPublic = useAxios();
   const [meals, setMeals] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const { userDB, loading } = useUser();
 
   const fetchMeals = async () => {
     try {
@@ -59,12 +61,30 @@ const UpcomingMeals = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 mb-3 sm:gap-2">
             {meals.map((meal) => {
               const handleLike = async () => {
+                if (!userDB) {
+                  toast.error("You have to login first.");
+                  return;
+                } else if (userDB.badge === "Bronze") {
+                  toast.error("You have to have a membership.");
+                  return;
+                }
                 const result = await axiosPublic.patch(
                   `/upcoming-likes/${meal._id}`,
                 );
-                console.log(result);
                 if (result.data.modifiedCount > 0) {
                   toast.success(`You liked ${meal.title}`);
+                  if (meal.likes == 9) {
+                    const result = await axiosPublic.patch(
+                      `/upcoming-meals/publish/${meal._id}`,
+                    );
+                    if (result.data.deletedCount > 0) {
+                      toast.success(
+                        `${meal.title} got 10 likes and is published.`,
+                      );
+                    } else {
+                      toast.error("Something went wrong while publishing!");
+                    }
+                  }
                 } else {
                   toast.error("Something went wrong!");
                 }

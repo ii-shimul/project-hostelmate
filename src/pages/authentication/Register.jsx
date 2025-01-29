@@ -21,10 +21,7 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
-
-const img_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const img_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`;
-
+const key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const Register = () => {
   const { createUser } = useAuth();
   const axiosPublic = useAxios();
@@ -33,20 +30,23 @@ const Register = () => {
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
     // upload the image
-    const imageFile = { image: data.image[0] };
-    const result = await axios.post(img_hosting_api, imageFile, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    if (result.data.success) {
+    const imageFile = data.image[0];
+    const formData = new FormData();
+    formData.append("file", imageFile);
+    formData.append("upload_preset", "bombax");
+    formData.append("cloud_name", `${key}`);
+    const result = await axios.post(
+      "https://api.cloudinary.com/v1_1/dqhaqoupz/image/upload",
+      formData,
+    );
+    if (result.data.url) {
       // create user with photoURL
-      const photoURL = result.data.data.display_url;
+      const photoURL = result.data.url;
       const user = await createUser(
         data.email,
         data.password,
         data.name,
-        photoURL
+        photoURL,
       );
       if (user?.email) {
         toast.success(`Welcome ${user.displayName}`);
@@ -63,8 +63,11 @@ const Register = () => {
       } else {
         toast.error("Oops! Something went wrong.");
       }
+    } else {
+      toast.error("Oops! Something went wrong.");
     }
   };
+
   return (
     <div className="max-w-7xl mx-auto">
       <div className="font-[sans-serif]">

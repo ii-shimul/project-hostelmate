@@ -1,17 +1,59 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SectionTitle from "../../components/SectionTitle";
 import useAxios from "../../hooks/useAxios";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Link } from "react-router-dom";
 import DotLoader from "react-spinners/DotLoader";
 import { Helmet } from "react-helmet";
 import { motion } from "motion/react";
+import { TextField } from "@mui/material";
+import MealCard from "./MealCard";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const Meals = () => {
   const axiosPublic = useAxios();
   const [meals, setMeals] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [searchValue, setSearchValue] = useState("");
+  const [category, setCategory] = useState("");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
+  useEffect(() => {
+    const searchMeals = async () => {
+      try {
+        const result = await axiosPublic.post("/search-meals", { searchValue });
+        setMeals(result.data.results);
+      } catch (error) {
+        console.error("Error fetching meals:", error);
+      }
+    };
+
+    if (searchValue) {
+      searchMeals();
+    }
+  }, [searchValue, axiosPublic]);
+
+  useEffect(() => {
+    const searchMeals = async () => {
+      try {
+        const result = await axiosPublic.post("/filter-meals", {
+          minPrice,
+          maxPrice,
+          category,
+        });
+        setMeals(result.data);
+      } catch (error) {
+        console.error("Error fetching meals:", error);
+      }
+    };
+
+    if (minPrice || maxPrice || category) {
+      searchMeals();
+    }
+  }, [minPrice, maxPrice, category, axiosPublic]);
 
   const fetchMeals = async () => {
     try {
@@ -48,51 +90,60 @@ const Meals = () => {
             "Explore a variety of freshly prepared dishes to satisfy every craving."
           }
         ></SectionTitle>
-        <InfiniteScroll
-          dataLength={meals.length}
-          next={fetchMeals}
-          hasMore={hasMore}
-          loader={<DotLoader className="mx-auto my-4" size={40} />}
-        >
+        <div className="mb-3 flex gap-2 items-center">
+          <TextField
+            onChange={(event) => setSearchValue(event.target.value)}
+            className=""
+            fullWidth
+            label="Search"
+            id="fullWidth"
+          />
+          <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-select-small-label">Category</InputLabel>
+            <Select
+              labelId="demo-select-small-label"
+              id="demo-select-small"
+              value={category}
+              label="Category"
+              onChange={(event) => setCategory(event.target.value)}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={"Breakfast"}>Breakfast</MenuItem>
+              <MenuItem value={"Lunch"}>Lunch</MenuItem>
+              <MenuItem value={"Dinner"}>Dinner</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            id="outlined-basic"
+            onChange={(e) => setMinPrice(e.target.value)}
+            label="MinPrice"
+            variant="outlined"
+          />
+          <TextField
+            id="outlined-basic"
+            onChange={(e) => setMaxPrice(e.target.value)}
+            label="MaxPrice"
+            variant="outlined"
+          />
+        </div>
+        {searchValue === "" ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-2">
-            {meals.map((meal, index) => {
-              return (
-                <div
-                  key={index}
-                  className="hover:bg-secondary transition-all rounded-md duration-500 ease-in-out p-2 overflow-hidden"
-                >
-                  <div className="bg-white flex flex-col h-full border rounded-md overflow-hidden">
-                    <div className="w-full">
-                      <img
-                        src={meal.image}
-                        alt={meal.title}
-                        className="aspect-[139/125] w-full object-cover"
-                      />
-                    </div>
-                    <div className="p-4 text-center flex-1">
-                      <h4 className="text-sm sm:text-base font-bold text-gray-800">
-                        {meal.title}
-                      </h4>
-                      <h4 className="text-sm sm:text-base text-gray-800 font-bold mt-2">
-                        ৳ {meal.price}{" "}
-                        <strike className="text-gray-500 ml-1">
-                          ৳{Math.ceil(meal.price * 1.09)}
-                        </strike>
-                      </h4>
-                    </div>
-                    <Link
-                      to={`/meals/${meal._id}`}
-                      type="button"
-                      className="bg-primary text-center font-semibold hover:bg-gray-800 text-white text-sm px-2 py-2 w-full"
-                    >
-                      View Details
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
+            <MealCard meals={meals} />
           </div>
-        </InfiniteScroll>
+        ) : (
+          <InfiniteScroll
+            dataLength={meals.length}
+            next={fetchMeals}
+            hasMore={hasMore}
+            loader={<DotLoader className="mx-auto my-4" size={40} />}
+          >
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-2">
+              <MealCard meals={meals} />
+            </div>
+          </InfiniteScroll>
+        )}
       </div>
     </motion.div>
   );

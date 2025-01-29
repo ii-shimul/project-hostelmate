@@ -53,7 +53,6 @@ const AuthProvider = ({ children }) => {
             withCredentials: true,
           })
           .then((res) => {
-            console.log(res);
             if (res.data.token) {
               localStorage.setItem("access-token", res.data.token);
             }
@@ -61,7 +60,7 @@ const AuthProvider = ({ children }) => {
           });
       } else {
         axiosPublic.post("/logout", {}, { withCredentials: true }).then((res) => {
-          localStorage.setItem("access-token");
+          localStorage.setItem("access-token", res.data.token);
           setLoading(false);
         });
       }

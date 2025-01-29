@@ -49,7 +49,7 @@ const MealDetails = () => {
   } = useQuery({
     queryKey: ["getReviews"],
     queryFn: async () => {
-      const data = await axios.get(`http://localhost:5000/reviews/${meal._id}`);
+      const data = await axiosPublic.get(`/reviews/${meal._id}`);
       return data.data;
     },
   });
