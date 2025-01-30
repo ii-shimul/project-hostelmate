@@ -9,6 +9,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import ReactModal from "react-modal";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 const Reviews = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [meals, loading] = useMeals();
@@ -207,7 +208,9 @@ const Reviews = () => {
                         </button>
                       </td>
                       <td className="p-4 text-sm text-black">
-                        <Wysiwyg className="hover:text-gray-600 cursor-pointer" />
+                        <Link to={`/meals/${meal._id}`}>
+                          <Wysiwyg className="hover:text-gray-600 cursor-pointer" />
+                        </Link>
                       </td>
                     </tr>
                   </>

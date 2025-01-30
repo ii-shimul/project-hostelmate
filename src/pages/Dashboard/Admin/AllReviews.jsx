@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import ReactPaginate from "react-paginate";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const AllReviews = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -150,7 +151,9 @@ const AllReviews = () => {
                       </button>
                     </td>
                     <td className="p-4 text-sm text-black">
-                      <Wysiwyg className="hover:text-gray-600 cursor-pointer" />
+                      <Link to={`/meals/${review.mealId}`}>
+                        <Wysiwyg className="hover:text-gray-600 cursor-pointer" />
+                      </Link>
                     </td>
                   </tr>
                 );

@@ -49,6 +49,7 @@ const ModalForm = ({ isOpen, onRequestClose }) => {
       const res = await axiosSecure.post("/upcoming-meals", newMeal);
       if (res.data.insertedId) {
         toast.success(`${title} added to the meals collection.`);
+        onRequestClose();
       }
     } else {
       toast.error("Error uploading image!");
@@ -166,13 +167,13 @@ const ModalForm = ({ isOpen, onRequestClose }) => {
 const UpcomingMealsDash = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const axiosPublic = useAxios();
-   const [page, setPage] = useState(1);
-   const [totalPage, setTotalPage] = useState(1);
-   const [poading, setPoading] = useState(false);
-   const handlePageClick = (event) => {
-     setPoading(true);
-     setPage(event.selected + 1);
-   };
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [poading, setPoading] = useState(false);
+  const handlePageClick = (event) => {
+    setPoading(true);
+    setPage(event.selected + 1);
+  };
   const {
     data: meals,
     isLoading,

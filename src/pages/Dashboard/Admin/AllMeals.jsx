@@ -5,27 +5,27 @@ import useAxios from "../../../hooks/useAxios";
 import ReactPaginate from "react-paginate";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const AllMeals = () => {
   const axiosPublic = useAxios();
-  const [searchMeals, setSearchMeals] = useState([]);
+  const [meals, setMeals] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [poading, setPoading] = useState(false);
+  const axiosSecure = useAxiosSecure();
   const handlePageClick = (event) => {
     setPoading(true);
     setPage(event.selected + 1);
   };
-  const {
-    data,
-    isLoading,
-    refetch
-  } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["allReviewsQuery", page],
     queryFn: async () => {
       const result = await axiosPublic.get(`/meals/paginate?page=${page}`);
       setTotalPage(result.data.totalPages);
-      setSearchMeals(result.data.reviews);
+      setMeals(result.data.reviews);
       setPoading(false);
       return result.data;
     },
@@ -36,8 +36,7 @@ const AllMeals = () => {
   }
   const sortMeals = async (sort) => {
     const result = await axiosPublic.post("/meals/sort", { sort });
-    console.log(result);
-    setSearchMeals(result.data);
+    setMeals(result.data);
   };
   return (
     <>
@@ -82,7 +81,16 @@ const AllMeals = () => {
                 <LoadingHand />
               </div>
             ) : (
-              searchMeals.map((meal, index) => {
+              meals.map((meal, index) => {
+                const handleDelete = async () => {
+                  const result = await axiosSecure.delete(`/meals/${meal._id}`);
+                  if (result.data.deletedCount > 0) {
+                    toast.success(`${meal.title} deleted.`)
+                    refetch();
+                  } else {
+                    toast.error("Something went wrong.")
+                  }
+                };
                 return (
                   <tr key={meal._id} className="odd:bg-blue-50">
                     <td className="p-4 text-sm text-black">
@@ -116,6 +124,7 @@ const AllMeals = () => {
                         <Edit />
                       </button>
                       <button
+                        onClick={handleDelete}
                         title="Delete"
                         className="text-red-500 hover:text-red-300 transition-all duration-200"
                       >
@@ -125,7 +134,9 @@ const AllMeals = () => {
                         title="View"
                         className="text-blue-500 hover:text-blue-300 transition-all duration-200"
                       >
-                        <View />
+                        <Link to={`/meals/${meal._id}`}>
+                          <View />
+                        </Link>
                       </button>
                     </td>
                   </tr>
