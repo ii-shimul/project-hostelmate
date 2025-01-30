@@ -7,6 +7,7 @@ import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import ReactPaginate from "react-paginate";
+import toast from "react-hot-toast";
 
 const AllReviews = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -20,7 +21,7 @@ const AllReviews = () => {
     setPoading(true);
     setPage(event.selected + 1);
   };
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch: reload } = useQuery({
     queryKey: ["allReviewsQuery", page],
     queryFn: async () => {
       const result = await axiosSecure.get(`/reviews/paginate?page=${page}`);
@@ -96,6 +97,15 @@ const AllReviews = () => {
             ) : (
               reviews.map((review, index) => {
                 const meal = meals.find((item) => item._id === review.mealId);
+                const handleDelete = async () => {
+                  const result = await axiosSecure.delete(
+                    `/reviews/${review._id}?mealId=${meal._id}`,
+                  );
+                  if (result.data.result.deletedCount > 0) {
+                    reload();
+                    toast.success(`Review deleted.`);
+                  }
+                };
                 return (
                   <tr key={review._id} className="odd:bg-blue-50">
                     <td className="p-4 text-sm text-black">
@@ -122,7 +132,7 @@ const AllReviews = () => {
                       <Edit className="text-blue-600 hover:text-blue-300 cursor-pointer" />
                     </td>
                     <td className="p-4">
-                      <button title="Delete">
+                      <button onClick={handleDelete} title="Delete">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="w-5 fill-red-500 hover:fill-red-700"
