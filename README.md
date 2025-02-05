@@ -1,6 +1,6 @@
 # 🍽️ HostelMate - Food Management Platform  
 
-**Live Site URL:** [HostelMate](#)  
+**Live Site URL:** [HostelMate](https://hostelmate-b7e8e.web.app/)  
 
 ## 📌 Introduction  
 
