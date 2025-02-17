@@ -1,57 +1,127 @@
-# HostelMate - Food Management Platform
+# 🍽️ HostelMate - Food Management Platform  
 
-**Admin Email**: hostel@mate.com  
-**Admin Password**: hostelmate <br/>
-**Live Site URL**: [HostelMate](https://hostelmate-b7e8e.web.app/)  
+**Live Site URL:** [HostelMate](https://hostelmate-b7e8e.web.app/)  
 
-This is a **food management web application** designed for users to request meals, discover upcoming meals, and manage their food activities. The platform is built with **React** and a variety of modern libraries and tools to ensure an interactive, efficient, and secure user experience.
+## 📌 Introduction  
 
----
-
-## Features
-
-- **User Authentication:** Secure login/signup using Firebase.
-- **Stripe Payment Integration:** Seamlessly integrated payment processing for donations or premium features.
-- **Upcoming Meals:** Easily discover shared meals.
-- **Profile Management:** View and manage user profiles.
-- **Responsive UI:** Fully responsive and designed with Tailwind CSS and Material-UI.
+HostelMate is a **food management web application** designed to help users **request meals, discover upcoming meals, and manage their food activities** efficiently. It is built with **React** and modern libraries to ensure an **interactive, responsive, and secure** user experience.  
 
 ---
 
-## Tech Stack
+## 📜 Table of Contents  
 
-### Frontend
-- **React**: A JavaScript library for building user interfaces.
-- **React Router DOM**: For routing and navigation.
-- **Tailwind CSS**: A utility-first CSS framework for styling.
-- **Material-UI (MUI)**: For prebuilt React components and icons.
-- **Lucide Icons**: Additional set of lightweight icons.
-
-### Backend & APIs
-- **Node.js**: For server and database functionality.
-- **Firebase**: For authentication.
-- **Axios**: For making API requests.
-- **React Query**: For managing and caching server state.
-
-### Payment Integration
-- **Stripe**: For secure and reliable payment processing.
-
-### Animations
-- **Lottie React**: For engaging and lightweight animations.
-- **React Spinners**: For loading indicators.
+- [Features](#-features)  
+- [Tech Stack](#-tech-stack)  
+- [Installation](#-installation)  
+- [Usage](#-usage)  
+- [Configuration](#-configuration)  
+- [Dependencies](#-dependencies)  
 
 ---
 
-## Important Packages
+## 🚀 Features  
 
-Here are the key libraries used in this project:
+✅ **User Authentication** – Secure login/signup using Firebase.  
+✅ **Stripe Payment Integration** – Easy and secure payment processing.  
+✅ **Upcoming Meals** – Discover and request upcoming shared meals.  
+✅ **Profile Management** – Manage user profiles efficiently.  
+✅ **Responsive UI** – Fully responsive design with Tailwind CSS & Material-UI.  
 
-- **React**: Core framework for the application.
-- **React Router DOM**: Handles routing and navigation between pages.
-- **Firebase**: Used for authentication and data storage.
-- **Stripe**: Enables secure payment processing.
-- **Axios**: Simplifies HTTP requests to the backend.
-- **React Query**: Optimizes state management for API calls.
-- **Material-UI (MUI)**: Provides pre-styled components and icons.
-- **Lottie React**: Adds animations to enhance the UI.
-- **React Spinners**: Displays loading animations.
+---
+
+## 🛠 Tech Stack  
+
+### 🔹 **Frontend**  
+- **React** – JavaScript library for building UI.  
+- **React Router DOM** – For routing and navigation.  
+- **Tailwind CSS** – Utility-first CSS framework.  
+- **Material-UI (MUI)** – Prebuilt React components.  
+- **Lucide Icons** – Lightweight icon set.  
+
+### 🔹 **Backend & APIs**  
+- **Node.js** – Handles server and database functionality.  
+- **Firebase** – Authentication and data storage.  
+- **Axios** – Simplifies API requests.  
+- **React Query** – Manages and caches server state.  
+
+### 🔹 **Payment Integration**  
+- **Stripe** – Secure payment processing.  
+
+### 🔹 **Animations & UI Enhancements**  
+- **Lottie React** – Lightweight animations.  
+- **React Spinners** – Loading indicators.  
+
+---
+
+## ⚙️ Installation 
+
+1️⃣ **Clone the repository**  
+```bash
+git clone https://github.com/yourusername/hostelmate.git
+cd hostelmate
+```
+
+2️⃣ **Install dependencies**  
+```bash
+npm install
+```
+
+3️⃣ **Start the development server**  
+```bash
+npm start
+```
+> The app will run on `http://localhost:3000/`.  
+
+---
+
+## 📖 Usage  
+
+### **Admin Login Credentials**  
+- **Email:** hostel@mate.com  
+- **Password:** hostelmate  
+
+### **General Usage**  
+1. **Sign Up/Login** using Firebase authentication.  
+2. **Explore Meals** – View and request upcoming meals.  
+3. **Manage Profile** – Update user details.  
+4. **Make Payments** – Use **Stripe** for secure transactions.  
+
+---
+
+## 🛠 Configuration  
+
+To configure environment variables, create a `.env.local` file in the root directory and add:  
+
+```.env.local
+VITE_apiKey=firebase_api_key
+VITE_authDomain=firebase_authDomain
+VITE_projectId=firebase_projectId
+VITE_storageBucket=firebase_storageBucket
+VITE_messagingSenderId=firebase_messagingSenderId
+VITE_appId=firebase_appId
+VITE_IMAGE_HOSTING_KEY=cloudinary_image_hosting_key
+VITE_PAYMENT_GATEWAY_PK=stripe_pk
+```
+> Ensure that you replace everything with actual values.
+
+---
+
+## 📦 Dependencies  
+
+Here are the key packages used in this project:  
+
+| Package       | Description |
+|--------------|------------|
+| `react`      | Core framework for building UI |
+| `react-router-dom` | Handles routing between pages |
+| `firebase`   | Manages authentication and data storage |
+| `stripe`     | Enables secure payment processing |
+| `axios`      | Handles HTTP requests |
+| `react-query` | Optimizes API state management |
+| `material-ui` | Provides pre-styled components |
+| `lottie-react` | Adds UI animations |
+| `react-spinners` | Displays loading animations |
+
+---
+
+🚀 **Enjoy using HostelMate!** Let me know if you need any changes. 😊  
