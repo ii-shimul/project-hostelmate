@@ -22,7 +22,7 @@ const Meals = () => {
   const breakfasts = meals
     .filter((meal) => meal.category === "Breakfast")
     .slice(0, 4);
-  const lunchs = meals.filter((meal) => meal.category === "Lunch").slice(0, 4);
+  const lunches = meals.filter((meal) => meal.category === "Lunch").slice(0, 4);
   const dinners = meals
     .filter((meal) => meal.category === "Dinner")
     .slice(0, 4);
@@ -58,7 +58,7 @@ const Meals = () => {
             <MealGrid meals={breakfasts}></MealGrid>
           </TabPanel>
           <TabPanel value="2">
-            <MealGrid meals={lunchs}></MealGrid>
+            <MealGrid meals={lunches}></MealGrid>
           </TabPanel>
           <TabPanel value="3">
             <MealGrid meals={dinners}></MealGrid>
