@@ -11,13 +11,15 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { useLocation } from "react-router";
 
 const Meals = () => {
+  const value = useLocation().state || "";
   const axiosPublic = useAxios();
   const [meals, setMeals] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState(value);
   const [category, setCategory] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
@@ -93,7 +95,7 @@ const Meals = () => {
         <div className="mb-3 flex gap-2 items-center">
           <TextField
             onChange={(event) => setSearchValue(event.target.value)}
-            className=""
+            defaultValue={value}
             fullWidth
             label="Search"
             id="fullWidth"

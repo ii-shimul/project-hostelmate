@@ -8,7 +8,9 @@ const MainLayout = () => {
   return (
     <div>
       <Headroom className="z-50">
-        <NavBar />
+        <div className="bg-blue-50">
+          <NavBar />
+        </div>
       </Headroom>
       <motion.div
         initial={{ opacity: 0 }}

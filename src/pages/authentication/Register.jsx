@@ -9,6 +9,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import useAxios from "../../hooks/useAxios";
 import SocialLogin from "./SocialLogin";
+import Lottie from "lottie-react";
+import sign from "/src/assets/register.json"
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -224,12 +226,8 @@ const Register = () => {
               <hr className="my-2" />
               <SocialLogin></SocialLogin>
             </div>
-            <div className="flex-1 max-md:mt-8">
-              <img
-                src="https://readymadeui.com/login-image.webp"
-                className="w-full aspect-[71/50] max-md:w-4/5 mx-auto block object-cover"
-                alt="Dining Experience"
-              />
+            <div className="flex-1 w-full aspect-[71/50] max-md:w-4/5 mx-auto block object-cover">
+              <Lottie animationData={sign}></Lottie>
             </div>
           </div>
         </div>

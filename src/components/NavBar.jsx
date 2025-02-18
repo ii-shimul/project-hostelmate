@@ -9,7 +9,7 @@ const NavBar = () => {
   return (
     <nav
       id="start"
-      className="py-3 flex bg-slate-50 justify-between items-center px-10 z-[100]"
+      className="py-3 flex justify-between items-center max-md:px-4 z-[100] max-w-7xl mx-auto"
     >
       <Link
         to={"/"}

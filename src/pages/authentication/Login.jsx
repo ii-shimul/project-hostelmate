@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import SocialLogin from "./SocialLogin";
+import Lottie from "lottie-react";
+import login from "/src/assets/login.json";
 
 const Login = () => {
   const { user, logIn } = useAuth();
@@ -134,12 +136,8 @@ const Login = () => {
               <hr className="my-3" />
               <SocialLogin></SocialLogin>
             </div>
-            <div className="flex-1 max-md:mt-8">
-              <img
-                src="https://readymadeui.com/login-image.webp"
-                className="w-full aspect-[71/50] max-md:w-4/5 mx-auto block object-cover"
-                alt="Dining Experience"
-              />
+            <div className="flex-1 w-full aspect-[71/50] max-md:w-4/5 mx-auto block object-cover">
+              <Lottie animationData={login}></Lottie>
             </div>
           </div>
         </div>
