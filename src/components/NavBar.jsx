@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link, NavLink } from "react-router-dom";
 import Button from "./Button";
 import useAuth from "../hooks/useAuth";
-import { MenuOpenRounded, Notifications } from "@mui/icons-material";
+import { MenuOpenRounded } from "@mui/icons-material";
 import DropdownNav from "./DropdownNav";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -11,6 +11,24 @@ import { IconButton } from "@mui/material";
 
 const NavBar = () => {
   const { user } = useAuth();
+  const [theme, setTheme] = React.useState(
+    localStorage.getItem("theme") ? localStorage.getItem("theme") : "light",
+  );
+  const handleTheme = (e) => {
+    if (e.target.checked) {
+      document.querySelector("html").setAttribute("class", "dark");
+      setTheme("dark");
+    } else {
+      document.querySelector("html").setAttribute("class", "light");
+      setTheme("light");
+    }
+  };
+  React.useEffect(() => {
+    localStorage.setItem("theme", theme);
+    const localTheme = localStorage.getItem("theme");
+    document.querySelector("html").setAttribute("data-theme", localTheme);
+  }, [theme]);
+
   return (
     <nav
       id="start"
@@ -59,7 +77,11 @@ const NavBar = () => {
         </ul>
       </div>
       <div className="flex gap-1 items-center">
-        <Notifications className="text-primary" />
+        <label className="swap swap-rotate mr-2">
+          <input type="checkbox" onClick={handleTheme} className="opacity-0"/>
+          <span className="swap-on icon-[tabler--sun] size-7"></span>
+          <span className="swap-off icon-[tabler--moon] size-7"></span>
+        </label>
         {user?.email ? (
           <DropdownNav />
         ) : (
