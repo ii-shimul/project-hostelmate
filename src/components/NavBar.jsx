@@ -1,16 +1,20 @@
+import * as React from "react";
 import { Link, NavLink } from "react-router-dom";
 import Button from "./Button";
 import useAuth from "../hooks/useAuth";
-import { NavbarDropdown } from "./NavbarDropdown";
-import { Notifications } from "@mui/icons-material";
+import { MenuOpenRounded, Notifications } from "@mui/icons-material";
 import DropdownNav from "./DropdownNav";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+import { IconButton } from "@mui/material";
 
 const NavBar = () => {
   const { user } = useAuth();
   return (
     <nav
       id="start"
-      className="py-3 flex justify-between items-center max-md:px-4 z-[100] max-w-7xl mx-auto"
+      className="py-3 flex justify-between items-center max-sm:px-4 max-xl:px-5 z-[100] max-w-7xl mx-auto"
     >
       <Link
         to={"/"}
@@ -33,9 +37,9 @@ const NavBar = () => {
             ></path>
           </svg>
         </span>
-        <span className="text-3xl font-semibold">HostelMate</span>
+        <span className="text-xl md:text-3xl font-semibold">HostelMate</span>
       </Link>
-      <div>
+      <div className="max-md:hidden">
         <ul className="ul-parent">
           <li className="center text-lg">
             <NavLink to={"/"} viewTransition className="link px-3 py-1">
@@ -63,6 +67,30 @@ const NavBar = () => {
             <Button text={"Join Us"}></Button>
           </Link>
         )}
+        <div className="px-0 md:hidden">
+          <PopupState variant="popover" popupId="demo-popup-menu">
+            {(popupState) => (
+              <React.Fragment>
+                <IconButton color="primary" {...bindTrigger(popupState)}>
+                  <MenuOpenRounded />
+                </IconButton>
+                <Menu {...bindMenu(popupState)}>
+                  <NavLink to={"/"} viewTransition>
+                    <MenuItem onClick={popupState.close}>Home</MenuItem>
+                  </NavLink>
+                  <NavLink to={"/meals"} viewTransition>
+                    <MenuItem onClick={popupState.close}>Meals</MenuItem>
+                  </NavLink>
+                  <NavLink to={"/upcoming-meals"} viewTransition>
+                    <MenuItem onClick={popupState.close}>
+                      Upcoming Meals
+                    </MenuItem>
+                  </NavLink>
+                </Menu>
+              </React.Fragment>
+            )}
+          </PopupState>
+        </div>
       </div>
     </nav>
   );
