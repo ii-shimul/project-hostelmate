@@ -22,7 +22,7 @@ const MealCard = ({ meals }) => {
                 {meal.title}
               </h4>
               <h4 className="text-sm sm:text-base text-gray-800 font-bold mt-2">
-                ৳ {meal.price}{" "}
+                ৳ {meal.price}
                 <strike className="text-gray-500 ml-1">
                   ৳{Math.ceil(meal.price * 1.09)}
                 </strike>

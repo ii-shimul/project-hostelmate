@@ -20,11 +20,13 @@ import ServeMeals from "../pages/Dashboard/Admin/ServeMeals";
 import UpcomingMealsDash from "../pages/Dashboard/Admin/UpcomingMealsDash";
 import UpcomingMeals from "../pages/UpcomingMeals/UpcomingMeals";
 import AdminRoute from "./AdminRoute";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <ErrorPage/>,
     children: [
       {
         path: "/",
