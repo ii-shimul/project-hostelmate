@@ -17,10 +17,10 @@ const Banner = () => {
             <span className="rotate-90 inline-block mr-2">|</span> ALL IN ONE
             MEALS
           </p>
-          <h2 className="text-gray-800 md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]">
+          <h2 className="text-gray-800 md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px] dark:text-white">
             Amazing hostel for the spirited students
           </h2>
-          <p className="mt-4 text-base text-gray-600 leading-relaxed">
+          <p className="mt-4 text-base text-gray-600 leading-relaxed dark:text-white dark:opacity-75">
             Embark on a gastronomic journey with our curated dishes, delivered
             promptly to your doorstep. Elevate your dining experience today.
           </p>
@@ -61,7 +61,7 @@ const Banner = () => {
               />
               <button
                 onClick={() => {
-                  navigate("/meals", {state: value});
+                  navigate("/meals", { state: value });
                 }}
                 className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
@@ -71,7 +71,7 @@ const Banner = () => {
           </div>
           <hr className="mt-8 border-gray-300" />
           <div className="mt-8">
-            <h4 className="text-gray-800 font-bold text-base mb-4">
+            <h4 className="text-gray-800 font-bold text-base mb-4 dark:text-white">
               Trusted by students around the country
             </h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center">
@@ -82,7 +82,7 @@ const Banner = () => {
             </div>
           </div>
         </div>
-        <div className="lg:h-[650px] md:h-[550px] flex items-center relative max-md:before:hidden before:absolute before:bg-blue-200 before:h-full before:rounded-md before:w-3/4 before:right-0 before:z-0">
+        <div className="lg:h-[650px] md:h-[550px] flex items-center relative max-md:before:hidden before:absolute before:bg-blue-200 dark:before:bg-slate-500 before:h-full before:rounded-md before:w-3/4 before:right-0 before:z-0">
           <img
             src={bannerImg}
             className="rounded-md  w-[95%] h-auto relative mx-auto"
