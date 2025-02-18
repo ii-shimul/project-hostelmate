@@ -3,6 +3,7 @@ import Button from "./Button";
 import useAuth from "../hooks/useAuth";
 import { NavbarDropdown } from "./NavbarDropdown";
 import { Notifications } from "@mui/icons-material";
+import DropdownNav from "./DropdownNav";
 
 const NavBar = () => {
   const { user } = useAuth();
@@ -56,7 +57,7 @@ const NavBar = () => {
       <div className="flex gap-1 items-center">
         <Notifications className="text-primary" />
         {user?.email ? (
-          <NavbarDropdown></NavbarDropdown>
+          <DropdownNav />
         ) : (
           <Link to={"/login"}>
             <Button text={"Join Us"}></Button>
