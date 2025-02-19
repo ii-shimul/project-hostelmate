@@ -7,9 +7,9 @@ const MealCard = ({ meals }) => {
       {meals.map((meal, index) => (
         <div
           key={index}
-          className="hover:bg-secondary transition-all rounded-md duration-500 ease-in-out p-2 overflow-hidden"
+          className="hover:bg-secondary dark:hover:bg-primary transition-all rounded-md duration-500 ease-in-out p-2 overflow-hidden"
         >
-          <div className="bg-white flex flex-col h-full border rounded-md overflow-hidden">
+          <div className="bg-white dark:bg-slate-800 flex flex-col h-full border rounded-md overflow-hidden">
             <div className="w-full">
               <img
                 src={meal.image}
@@ -18,10 +18,10 @@ const MealCard = ({ meals }) => {
               />
             </div>
             <div className="p-4 text-center flex-1">
-              <h4 className="text-sm sm:text-base font-bold text-gray-800">
+              <h4 className="text-sm sm:text-base font-bold text-gray-800 dark:text-slate-300">
                 {meal.title}
               </h4>
-              <h4 className="text-sm sm:text-base text-gray-800 font-bold mt-2">
+              <h4 className="text-sm sm:text-base text-gray-800 dark:text-slate-300 font-bold mt-2">
                 ৳ {meal.price}
                 <strike className="text-gray-500 ml-1">
                   ৳{Math.ceil(meal.price * 1.09)}

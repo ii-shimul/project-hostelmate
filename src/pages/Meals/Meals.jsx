@@ -99,6 +99,12 @@ const Meals = () => {
             fullWidth
             label="Search"
             id="fullWidth"
+            InputProps={{
+              sx: {
+                color: "text.primary",
+                backgroundColor: "background.paper",
+              },
+            }}
           />
           <FormControl sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="demo-select-small-label">Category</InputLabel>
