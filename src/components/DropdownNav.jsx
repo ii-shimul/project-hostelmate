@@ -35,7 +35,13 @@ export default function DropdownNav() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }} src={user.photoURL} alt={user.displayName}>{user.displayName}</Avatar>
+            <Avatar
+              sx={{ width: 32, height: 32 }}
+              src={user.photoURL}
+              alt={user.displayName}
+            >
+              {user.displayName}
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>

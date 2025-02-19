@@ -1,7 +1,14 @@
+import { useState } from "react";
 
 const Footer = () => {
+  const [submit, setSubmit] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmit("You will hear from us soon.");
+    e.target.reset();
+  };
   return (
-    <footer className="bg-white py-10 px-10 font-sans tracking-wide">
+    <footer className="bg-white dark:bg-slate-800 py-10 px-10 font-sans tracking-wide">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div>
@@ -26,7 +33,9 @@ const Footer = () => {
                   ></path>
                 </svg>
               </span>
-              <span className="text-3xl font-semibold">HostelMate</span>
+              <span className="text-3xl font-semibold dark:text-secondary">
+                HostelMate
+              </span>
             </a>
             <p className="text-sm mt-6 text-gray-500 leading-relaxed">
               We promise the best meal service in the country. Once you start
@@ -48,10 +57,7 @@ const Footer = () => {
                     />
                   </svg>
                 </div>
-                <a
-                  href=""
-                  className="text-gray-500 text-sm ml-3"
-                >
+                <a href="" className="text-gray-500 text-sm ml-3">
                   <small className="block">Tel</small>
                   <strong>180-548-2588</strong>
                 </a>
@@ -71,10 +77,7 @@ const Footer = () => {
                     />
                   </svg>
                 </div>
-                <a
-                  href=""
-                  className="text-gray-500 text-sm ml-3"
-                >
+                <a href="" className="text-gray-500 text-sm ml-3">
                   <small className="block">Mail</small>
                   <strong>hostel@mate.com</strong>
                 </a>
@@ -98,10 +101,7 @@ const Footer = () => {
                     />
                   </svg>
                 </div>
-                <a
-                  href=""
-                  className="text-gray-500 text-sm ml-3"
-                >
+                <a href="" className="text-gray-500 text-sm ml-3">
                   <small className="block">Address</small>
                   <strong>123 Main Street City, Hostelia</strong>
                 </a>
@@ -121,10 +121,7 @@ const Footer = () => {
                     />
                   </svg>
                 </div>
-                <a
-                  href=""
-                  className="text-gray-500 text-sm ml-3"
-                >
+                <a href="" className="text-gray-500 text-sm ml-3">
                   <small className="block">Fax</small>
                   <strong>+1-548-2588</strong>
                 </a>
@@ -136,30 +133,33 @@ const Footer = () => {
             <p className="text-sm text-gray-500 mt-2">
               We usually respond before 24 hours.
             </p>
-            <form className="mt-6 space-y-2">
+            <form onSubmit={handleSubmit} className="mt-6 space-y-2">
               <input
                 type="text"
                 placeholder="Name"
+                required
                 className="w-full rounded-md outline-none h-10 px-4 bg-gray-100 text-sm"
               />
               <input
-                type="text"
+                type="email"
                 placeholder="Email"
+                required
                 className="w-full rounded-md outline-none h-10 px-4 bg-gray-100 text-sm"
               />
               <textarea
                 placeholder="Message"
+                required
                 rows={6}
                 className="w-full rounded-md outline-none px-4 bg-gray-100 text-sm pt-3 min-h-[100px]"
-                defaultValue={""}
               />
-            </form>
+            <p className="text-green-500 text-center">{submit}</p>
             <button
-              type="button"
+              type="submit"
               className="text-white bg-blue-500 hover:bg-blue-600 font-semibold rounded-md text-sm px-4 h-10 block w-full mt-4"
             >
               Submit
             </button>
+            </form>
           </div>
         </div>
         <div className>
@@ -167,32 +167,23 @@ const Footer = () => {
           <div className="lg:flex lg:item-center">
             <ul className="flex flex-wrap gap-4">
               <li>
-                <a
-                  href=""
-                  className="text-gray-500 text-sm hover:underline"
-                >
+                <a href="" className="text-gray-500 text-sm hover:underline">
                   Terms of Service
                 </a>
               </li>
               <li>
-                <a
-                  href=""
-                  className="text-gray-500 text-sm hover:underline"
-                >
+                <a href="" className="text-gray-500 text-sm hover:underline">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a
-                  href=""
-                  className="text-gray-500 text-sm hover:underline"
-                >
+                <a href="" className="text-gray-500 text-sm hover:underline">
                   Security
                 </a>
               </li>
             </ul>
             <p className="text-sm text-gray-500 ml-auto max-lg:mt-4">
-              © ReadymadeUI. All rights reserved.
+              © HostelMate. All rights reserved.
             </p>
           </div>
         </div>

@@ -8,7 +8,7 @@ const MainLayout = () => {
   return (
     <div>
       <Headroom className="z-50">
-        <div className="bg-blue-50">
+        <div className="bg-blue-50 dark:bg-slate-600">
           <NavBar />
         </div>
       </Headroom>

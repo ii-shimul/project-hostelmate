@@ -2,7 +2,7 @@ import SectionTitle from "../../components/SectionTitle";
 
 const Stats = () => {
   return (
-    <div className="bg-gray-50 dark:bg-black dark:bg-opacity-10 p- min-h-[350px] flex flex-col items-center justify-center">
+    <div className="bg-gray-50 dark:bg-black dark:bg-opacity-10 p- min-h-[350px] flex flex-col py-6 px-4 items-center justify-center">
       <div className="w-full mb-5">
         <SectionTitle title="Our Achievements" />
       </div>

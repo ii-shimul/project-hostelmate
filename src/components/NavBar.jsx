@@ -55,9 +55,9 @@ const NavBar = () => {
             ></path>
           </svg>
         </span>
-        <span className="text-xl md:text-3xl font-semibold">HostelMate</span>
+        <span className="text-xl md:text-3xl font-semibold dark:text-white">HostelMate</span>
       </Link>
-      <div className="max-md:hidden">
+      <div className="max-md:hidden dark:text-white">
         <ul className="ul-parent">
           <li className="center text-lg">
             <NavLink to={"/"} viewTransition className="link px-3 py-1">
@@ -79,8 +79,8 @@ const NavBar = () => {
       <div className="flex gap-1 items-center">
         <label className="swap swap-rotate mr-2">
           <input type="checkbox" onClick={handleTheme} className="opacity-0"/>
-          <span className="swap-on icon-[tabler--sun] size-7"></span>
-          <span className="swap-off icon-[tabler--moon] size-7"></span>
+          <span className="swap-on icon-[tabler--sun] size-7 dark:text-white"></span>
+          <span className="swap-off icon-[tabler--moon] size-7 dark:text-white"></span>
         </label>
         {user?.email ? (
           <DropdownNav />
