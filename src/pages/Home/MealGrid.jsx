@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 
 const MealGrid = ({ meals }) => {
   return (
-    <div className="bg-white mx-auto max-w-[1400px]">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+    <div className="bg-white dark:bg-inherit mx-auto max-w-[1400px]">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 md:gap-6">
         {meals.map((meal) => {
           return (
             <div
               key={meal._id}
-              className="group overflow-hidden cursor-pointer relative"
+              className="group overflow-hidden relative p-3 dark:bg-slate-700 dark:rounded-md"
             >
               <div className="bg-gray-100 w-full overflow-hidden">
                 <img
@@ -19,16 +19,16 @@ const MealGrid = ({ meals }) => {
                   className="md:aspect-[4/4] aspect-[3/4] w-full object-cover object-top hover:scale-110 transition-all duration-700"
                 />
               </div>
-              <div className="p-4 relative">
-                <div className="flex flex-wrap w-full absolute px-4 pt-3 z-10 transition-all duration-500 left-0 right-0 group-hover:bottom-20 lg:bottom-5 lg:opacity-0 lg:bg-white lg:group-hover:opacity-100 max-lg:bottom-20 max-lg:py-3 max-lg:bg-white/60">
+              <div className="p-2 md:p-4 relative">
+                <div className="flex flex-wrap w-full absolute px-4 pt-3 z-10 transition-all duration-500 left-0 right-0 group-hover:bottom-20 bottom-5 opacity-0 bg-white dark:bg-slate-700 group-hover:opacity-100 max-lg:bottom-20 py-3 bg-white/60">
                   <p className="text-xs md:text-sm">{meal.description}</p>
                 </div>
-                <div className="z-10 relative bg-white flex justify-between max-md:flex-col">
+                <div className="z-10 relative bg-white dark:bg-slate-700 flex justify-between max-md:flex-col">
                   <div>
-                    <h6 className="text-sm font-semibold text-gray-800 truncate">
+                    <h6 className="text-sm font-semibold text-gray-800 dark:text-white truncate">
                       {meal.title}
                     </h6>
-                    <h6 className="text-sm text-gray-600 mt-2">
+                    <h6 className="text-sm text-gray-600 dark:text-white dark:opacity-65 mt-2">
                       ৳ {meal.price}
                     </h6>
                   </div>

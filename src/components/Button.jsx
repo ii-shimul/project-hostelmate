@@ -8,7 +8,7 @@ const Button = ({
 }) => {
   return (
     <button
-      className={`${textSize} ${bgColor} ${textColor} font-semibold px-3 py-1 rounded-md hover:scale-110 transition duration-300 ease-in-out`}
+      className={`${textSize} ${bgColor} ${textColor} dark:text-secondary dark:bg-primary font-semibold px-3 py-1 rounded-md hover:scale-110 transition duration-300 ease-in-out`}
     >
       {text}
     </button>

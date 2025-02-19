@@ -1,10 +1,28 @@
 import SectionTitle from "../../components/SectionTitle";
-import "../../../index.js"
 const FAQ = () => {
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".accordion").forEach((elm) => {
+      const button = elm.querySelector(".toggle-button");
+      const content = elm.querySelector(".content");
+      const plusIcon = button.querySelector(".plus");
+
+      button.addEventListener("click", () => {
+        const isHidden = content.classList.toggle("invisible");
+        content.style.maxHeight = isHidden
+          ? "0px"
+          : `${content.scrollHeight + 100}px`;
+        button.classList.toggle("text-blue-600", !isHidden);
+        button.classList.toggle("text-gray-800 dark:text-gray-100", isHidden);
+        content.classList.toggle("pb-6", !isHidden);
+        plusIcon.classList.toggle("hidden", !isHidden);
+        plusIcon.classList.toggle("block", isHidden);
+      });
+    });
+  });
   return (
-    <div className="divide-y rounded-lg max-w-5xl mx-auto px-4 mt-4 lg:mt-10">
+    <div className="divide-y rounded-lg max-w-5xl mx-auto px-4 mt-4 lg:mt-10 mb-6">
       <SectionTitle title="Frequently Asked Questions" />
-      <div className="accordion" role="accordion">
+      <div className="accordion dark:text-gray-100" role="accordion">
         <button
           type="button"
           className="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-blue-600 hover:text-blue-600 flex items-center"
@@ -23,7 +41,7 @@ const FAQ = () => {
           </svg>
         </button>
         <div className="content pb-6 max-h-[1000px] overflow-hidden transition-all duration-300">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-300">
             Our platform connects you with local cooks who share homemade meals.
             Simply browse, order, and enjoy!
           </p>
@@ -32,7 +50,7 @@ const FAQ = () => {
       <div className="accordion" role="accordion">
         <button
           type="button"
-          className="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-gray-800 hover:text-blue-600 flex items-center"
+          className="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-gray-800 dark:text-gray-100 hover:text-blue-600 flex items-center"
         >
           <span className="mr-4">Is the food prepared safely?</span>
           <svg
@@ -48,7 +66,7 @@ const FAQ = () => {
           </svg>
         </button>
         <div className="content invisible max-h-0 overflow-hidden transition-all duration-300">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-300">
             All cooks are vetted, and they follow strict hygiene standards to
             ensure safe and healthy meals.
           </p>
@@ -57,7 +75,7 @@ const FAQ = () => {
       <div className="accordion" role="accordion">
         <button
           type="button"
-          className="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-gray-800 hover:text-blue-600 flex items-center"
+          className="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-gray-800 dark:text-gray-100 hover:text-blue-600 flex items-center"
         >
           <span className="mr-4">Can I customize my order?</span>
           <svg
@@ -73,7 +91,7 @@ const FAQ = () => {
           </svg>
         </button>
         <div className="content invisible max-h-0 overflow-hidden transition-all duration-300">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-300">
             Yes, many meals come with customization options. Check the meal
             description for details.
           </p>
@@ -82,7 +100,7 @@ const FAQ = () => {
       <div className="accordion" role="accordion">
         <button
           type="button"
-          className="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-gray-800 hover:text-blue-600 flex items-center"
+          className="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-gray-800 dark:text-gray-100 hover:text-blue-600 flex items-center"
         >
           <span className="mr-4">How do I pay for my order?</span>
           <svg
@@ -98,7 +116,7 @@ const FAQ = () => {
           </svg>
         </button>
         <div className="content invisible max-h-0 overflow-hidden transition-all duration-300">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-300">
             You can pay securely online using our integrated payment system,
             including card options.
           </p>
@@ -107,7 +125,7 @@ const FAQ = () => {
       <div className="accordion" role="accordion">
         <button
           type="button"
-          className="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-gray-800 hover:text-blue-600 flex items-center"
+          className="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-gray-800 dark:text-gray-100 hover:text-blue-600 flex items-center"
         >
           <span className="mr-4">What if I need to cancel my order?</span>
           <svg
@@ -123,16 +141,16 @@ const FAQ = () => {
           </svg>
         </button>
         <div className="content invisible max-h-0 overflow-hidden transition-all duration-300">
-          <p className="text-sm text-gray-600">
-            You can cancel your order before it&apos;s prepared. Refunds depend on
-            the cancellation time.
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            You can cancel your order before it&apos;s prepared. Refunds depend
+            on the cancellation time.
           </p>
         </div>
       </div>
       <div className="accordion" role="accordion">
         <button
           type="button"
-          className="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-gray-800 hover:text-blue-600 flex items-center"
+          className="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-gray-800 dark:text-gray-100 hover:text-blue-600 flex items-center"
         >
           <span className="mr-4">How can I contact the cook or support?</span>
           <svg
@@ -148,7 +166,7 @@ const FAQ = () => {
           </svg>
         </button>
         <div className="content invisible max-h-0 overflow-hidden transition-all duration-300">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-300">
             Use our in-app messaging feature to contact cooks or reach our
             support team for assistance.
           </p>

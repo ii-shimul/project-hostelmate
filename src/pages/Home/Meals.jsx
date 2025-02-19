@@ -37,7 +37,7 @@ const Meals = () => {
       <SectionTitle
         title={"Our Top Meals"}
         subtitle={
-          "Whether you are looking for a hearty breakfast, a light lunch, or adelicious dinner, we have something for everyone."
+          "Whether you are looking for a hearty breakfast, a light lunch, or a delicious dinner, we have something for everyone."
         }
       ></SectionTitle>
 
@@ -47,20 +47,20 @@ const Meals = () => {
             <TabList
               onChange={handleChange}
               centered
-              aria-label="lab API tabs example"
+              aria-label="meals"
             >
-              <Tab label="Breakfast" value="1" />
-              <Tab label="Lunch" value="2" />
-              <Tab label="Dinner" value="3" />
+              <Tab className="dark:text-white" label="Breakfast" value="1" />
+              <Tab className="dark:text-white" label="Lunch" value="2" />
+              <Tab className="dark:text-white" label="Dinner" value="3" />
             </TabList>
           </Box>
-          <TabPanel value="1">
+          <TabPanel sx={{ p: { xs: 1, sm: 3 } }} value="1">
             <MealGrid meals={breakfasts}></MealGrid>
           </TabPanel>
-          <TabPanel value="2">
+          <TabPanel sx={{ p: { xs: 1, sm: 3 } }} value="2">
             <MealGrid meals={lunches}></MealGrid>
           </TabPanel>
-          <TabPanel value="3">
+          <TabPanel sx={{ p: { xs: 1, sm: 3 } }} value="3">
             <MealGrid meals={dinners}></MealGrid>
           </TabPanel>
         </TabContext>

@@ -13,27 +13,27 @@ const Membership = () => {
         />
         <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-6 mt-10 max-sm:max-w-sm max-sm:mx-auto">
           <div className="border rounded-md p-6">
-            <h3 className="text-gray-800 text-xl font-semibold mb-2">Silver</h3>
-            <p className="text-sm text-gray-500">
+            <h3 className="text-gray-800 dark:text-secondary text-xl font-semibold mb-2">Silver</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-300">
               For Individuals and Small Teams
             </p>
             <div className="mt-6">
-              <h3 className="text-gray-800 text-2xl font-semibold">
+              <h3 className="text-gray-800 dark:text-secondary text-2xl font-semibold">
                 ৳ 10,000
-                <sub className="text-gray-500 text-sm font-medium">
+                <sub className="text-gray-500 dark:text-gray-300 text-sm font-medium">
                   per month
                 </sub>
               </h3>
             </div>
             <div className="mt-6">
-              <h4 className="text-gray-800 text-lg font-semibold mb-2">
+              <h4 className="text-gray-800 dark:text-secondary text-lg font-semibold mb-2">
                 Include
               </h4>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-300">
                 Everything you get in this plan
               </p>
               <ul className="mt-6 space-y-4">
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -47,7 +47,7 @@ const Membership = () => {
                   </svg>
                   50 Shared Meals Per Month
                 </li>
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -61,7 +61,7 @@ const Membership = () => {
                   </svg>
                   Access to 10 Community Groups
                 </li>
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -75,7 +75,7 @@ const Membership = () => {
                   </svg>
                   6 Team Members
                 </li>
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -89,7 +89,7 @@ const Membership = () => {
                   </svg>
                   Unlimited Recipe Bookmarks
                 </li>
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -115,32 +115,32 @@ const Membership = () => {
             </div>
           </div>
           <div className="border rounded-md p-6">
-            <h3 className="text-gray-800 text-xl font-semibold mb-2 flex items-center">
+            <h3 className="text-gray-800 dark:text-secondary text-xl font-semibold mb-2 flex items-center">
               Gold
               <span className="px-2 py-1 text-xs font-semibold text-white bg-blue-500 rounded-md ml-3">
                 Best Deal
               </span>
             </h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-300">
               For Individuals and Largest Teams
             </p>
             <div className="mt-6">
-              <h3 className="text-gray-800 text-2xl font-semibold">
+              <h3 className="text-gray-800 dark:text-secondary text-2xl font-semibold">
                 ৳ 20,000
-                <sub className="text-gray-500 text-sm font-medium">
+                <sub className="text-gray-500 dark:text-gray-300 text-sm font-medium">
                   per month
                 </sub>
               </h3>
             </div>
             <div className="mt-6">
-              <h4 className="text-gray-800 text-lg font-semibold mb-2">
+              <h4 className="text-gray-800 dark:text-secondary text-lg font-semibold mb-2">
                 Include
               </h4>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-300">
                 Everything you get in this plan
               </p>
               <ul className="mt-6 space-y-4">
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -154,7 +154,7 @@ const Membership = () => {
                   </svg>
                   100 Shared Meals Per Month
                 </li>
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -168,7 +168,7 @@ const Membership = () => {
                   </svg>
                   Access to 20 Community Groups
                 </li>
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -182,7 +182,7 @@ const Membership = () => {
                   </svg>
                   8 Team Members
                 </li>
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -196,7 +196,7 @@ const Membership = () => {
                   </svg>
                   Unlimited Recipe Bookmarks
                 </li>
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -222,29 +222,29 @@ const Membership = () => {
             </div>
           </div>
           <div className="border rounded-md p-6">
-            <h3 className="text-gray-800 text-xl font-semibold mb-2">
+            <h3 className="text-gray-800 dark:text-secondary text-xl font-semibold mb-2">
               Platinum
             </h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-300">
               For Multiples and Largest Teams
             </p>
             <div className="mt-6">
-              <h3 className="text-gray-800 text-2xl font-semibold">
+              <h3 className="text-gray-800 dark:text-secondary text-2xl font-semibold">
                 ৳ 30,000
-                <sub className="text-gray-500 text-sm font-medium">
+                <sub className="text-gray-500 dark:text-gray-300 text-sm font-medium">
                   per month
                 </sub>
               </h3>
             </div>
             <div className="mt-6">
-              <h4 className="text-gray-800 text-lg font-semibold mb-2">
+              <h4 className="text-gray-800 dark:text-secondary text-lg font-semibold mb-2">
                 Include
               </h4>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-300">
                 Everything you get in this plan
               </p>
               <ul className="mt-6 space-y-4">
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -258,7 +258,7 @@ const Membership = () => {
                   </svg>
                   300 Shared Meals Per Month
                 </li>
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -272,7 +272,7 @@ const Membership = () => {
                   </svg>
                   Access to All Community Groups
                 </li>
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -286,7 +286,7 @@ const Membership = () => {
                   </svg>
                   100 Team Members
                 </li>
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}
@@ -300,7 +300,7 @@ const Membership = () => {
                   </svg>
                   Unlimited Recipe Bookmarks
                 </li>
-                <li className="flex items-center text-sm text-gray-500">
+                <li className="flex items-center text-sm text-gray-500 dark:text-gray-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={16}

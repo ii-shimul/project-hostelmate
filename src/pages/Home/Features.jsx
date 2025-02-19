@@ -1,10 +1,10 @@
+import SectionTitle from "../../components/SectionTitle";
+
 const Features = () => {
   return (
-    <div className="mt-6 lg:mt-10 bg-secondary py-5 lg:py-12 px-4">
+    <div className="mt-6 lg:mt-10 bg-secondary dark:bg-inherit py-5 lg:py-12 px-4">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-primary sm:text-4xl text-2xl font-bold text-center mb-7 lg:mb-16">
-          Discover Our Exclusive Features
-        </h2>
+        <SectionTitle title={"Discover Our Exclusive Features"}></SectionTitle>
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-12 max-md:max-w-lg mx-auto">
           <div className="rounded-xl group p-8 text-center hover:bg-white  hover:text-primary hover:shadow-xl transition duration-300">
             <svg
