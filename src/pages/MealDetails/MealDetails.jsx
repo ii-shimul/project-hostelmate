@@ -138,7 +138,7 @@ const MealDetails = () => {
     return <Loader />;
   }
   return (
-    <div className="bg-white">
+    <div className="bg-white dark:bg-inherit">
       <Helmet>
         <title>{meal.title} | HostelMate</title>
       </Helmet>
@@ -154,7 +154,7 @@ const MealDetails = () => {
             </div>
           </div>
           <div className="lg:col-span-2 flex flex-col h-full">
-            <h3 className="text-xl font-bold text-gray-800">{meal.title}</h3>
+            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">{meal.title}</h3>
             <div className="flex items-center space-x-1 mt-2">
               <Stack spacing={1}>
                 <StyledRating
@@ -164,23 +164,23 @@ const MealDetails = () => {
                   readOnly
                 />
               </Stack>
-              <h4 className="text-gray-500 text-base !ml-3">
+              <h4 className="text-gray-500 dark:text-gray-400 text-base !ml-3">
                 {reviews.length} Reviews
               </h4>
-              <h4 className="text-gray-500 text-base !ml-3">
+              <h4 className="text-gray-500 dark:text-gray-400 text-base !ml-3">
                 {meal.likes} Likes
               </h4>
             </div>
-            <p className="text-sm text-gray-500 mt-2">{meal.description}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">{meal.description}</p>
             <div className="flex flex-wrap gap-4 mt-3 md:mt-6">
-              <p className="text-gray-800 text-2xl font-bold">৳{meal.price}</p>
-              <p className="text-gray-500 text-base">
+              <p className="text-gray-800 dark:text-gray-300 text-2xl font-bold">৳{meal.price}</p>
+              <p className="text-gray-500 dark:text-gray-400 text-base">
                 <strike>৳{Math.ceil(meal.price * 1.09)}</strike>
                 <span className="text-sm ml-1">Tax included</span>
               </p>
             </div>
             <div className="mt-3 md:mt-6 flex-1">
-              <h3 className="text-xl font-bold text-gray-800">Ingredients</h3>
+              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">Ingredients</h3>
               <div className="flex flex-col flex-wrap gap-1 mt-4">
                 {meal.ingredients.map((ingred, indx) => {
                   return (
@@ -228,8 +228,8 @@ const MealDetails = () => {
           </div>
         </div>
         <div className="mt-5 md:mt-12 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6">
-          <h3 className="text-xl font-bold text-gray-800">Meal information</h3>
-          <ul className="mt-4 space-y-2 text-gray-800">
+          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">Meal information</h3>
+          <ul className="mt-4 space-y-2 text-gray-800 dark:text-gray-300">
             <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
               Category <span className="ml-4 float-right">{meal.category}</span>
             </li>
@@ -261,7 +261,7 @@ const MealDetails = () => {
           </ul>
         </div>
 
-        <div className="p-4 mx-auto mt-5 md:mt-12 bg-secondary bg-opacity-30 rounded-lg shadow-md max-w-5xl sm:p-6 grid grid-cols-1 lg:grid-cols-6 gap-6">
+        <div className="p-4 mx-auto mt-5 md:mt-12 bg-secondary dark:bg-inherit dark:border bg-opacity-30 rounded-lg shadow-md max-w-5xl sm:p-6 grid grid-cols-1 lg:grid-cols-6 gap-6">
           <div className="lg:col-span-3 col-span-1">
             <form
               onSubmit={handleReview}
@@ -269,7 +269,7 @@ const MealDetails = () => {
               method="POST"
               className="space-y-4"
             >
-              <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+              <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
                 Write a review
               </h2>
               <Stack spacing={1}>
@@ -280,6 +280,7 @@ const MealDetails = () => {
                   onChange={(event) => {
                     setRating(parseInt(event.target.value));
                   }}
+                  className="dark:bg-gray-500 rounded px-1"
                 />
               </Stack>
               <textarea
@@ -287,7 +288,7 @@ const MealDetails = () => {
                 name="review"
                 rows={4}
                 required
-                className="block w-full p-3 text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full p-3 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Write your review"
               />
               <div className="text-right py-4">
@@ -307,16 +308,16 @@ const MealDetails = () => {
             </form>
           </div>
           <div className="lg:col-span-3 hidden lg:flex flex-col space-y-2">
-            <h1 className="text-2xl font-semibold text-gray-700">
+            <h1 className="text-2xl font-semibold text-gray-700 dark:text-gray-300">
               Review Guidelines
             </h1>
-            <p className="text-gray-700 mb-4">
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
               We value your feedback and encourage you to share your experience
               with us. To ensure a positive and helpful environment, please keep
               the following in mind when writing your review:
             </p>
 
-            <ul className="list-inside space-y-1 text-gray-700">
+            <ul className="list-inside space-y-1 text-gray-700 dark:text-gray-300">
               <li className="flex items-start">
                 <span className="font-bold">1. Be Respectful</span>
               </li>
@@ -338,14 +339,14 @@ const MealDetails = () => {
           </div>
         </div>
 
-        <div className="mt-5 md:mt-12 bg-gray-50 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6">
-          <h3 className="text-xl font-bold text-gray-800">
+        <div className="mt-5 md:mt-12 bg-gray-50 dark:bg-inherit rounded-md shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6">
+          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">
             Reviews {reviews.length}
           </h3>
           <div className="lg:p-10 p-6">
             <div className="max-w-6xl max-lg:max-w-3xl mx-auto">
               <div className="max-w-2xl">
-                <h2 className="text-gray-800 text-2xl font-bold">
+                <h2 className="text-gray-800 dark:text-gray-300 text-2xl font-bold">
                   What our happy customers say
                 </h2>
               </div>
@@ -354,7 +355,7 @@ const MealDetails = () => {
                   return (
                     <div
                       key={review._id}
-                      className="break-inside-avoid p-6 rounded-lg bg-white shadow border"
+                      className="break-inside-avoid p-6 rounded-lg bg-white dark:bg-gray-800 shadow border"
                     >
                       <div className="flex items-center">
                         <img
@@ -362,19 +363,19 @@ const MealDetails = () => {
                           className="w-11 h-11 rounded-full"
                         />
                         <div className="ml-4">
-                          <h4 className="text-gray-800 text-sm font-semibold">
+                          <h4 className="text-gray-800 dark:text-gray-300 text-sm font-semibold">
                             {review.reviewer.name}
                           </h4>
                           <p className="mt-0.5 text-xs text-gray-400">
                             {review.reviewer.email}
                           </p>
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
                             {moment(review.postedAt).fromNow()}
                           </span>
                         </div>
                       </div>
                       <div className="mt-6">
-                        <p className="text-gray-800 text-sm leading-relaxed">
+                        <p className="text-gray-800 dark:text-gray-300 text-sm leading-relaxed">
                           {review.review}
                         </p>
                       </div>

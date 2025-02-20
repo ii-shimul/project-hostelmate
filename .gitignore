@@ -27,3 +27,5 @@ revs.json
 
 .vscode
 .firebase
+.firebaserc
+firebase.json

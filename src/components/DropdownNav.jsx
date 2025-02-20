@@ -14,7 +14,6 @@ import { Link } from "react-router";
 
 export default function DropdownNav() {
   const { user, logOut } = useAuth();
-  console.log(user.photoURL);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {

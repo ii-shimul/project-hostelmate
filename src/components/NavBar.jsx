@@ -55,7 +55,9 @@ const NavBar = () => {
             ></path>
           </svg>
         </span>
-        <span className="text-xl md:text-3xl font-semibold dark:text-white">HostelMate</span>
+        <span className="text-xl md:text-3xl font-semibold dark:text-white">
+          HostelMate
+        </span>
       </Link>
       <div className="max-md:hidden dark:text-white">
         <ul className="ul-parent">
@@ -74,11 +76,25 @@ const NavBar = () => {
               Upcoming Meals
             </NavLink>
           </li>
+          {user?.email && (
+            <li className="center text-lg">
+              <NavLink to={"/requests"} className="link px-3 py-1">
+                My Requests
+              </NavLink>
+            </li>
+          )}
+          {user?.email && (
+            <li className="center text-lg">
+              <NavLink to={"/memberships"} className="link px-3 py-1">
+                Memberships
+              </NavLink>
+            </li>
+          )}
         </ul>
       </div>
       <div className="flex gap-1 items-center">
         <label className="swap swap-rotate mr-2">
-          <input type="checkbox" onClick={handleTheme} className="opacity-0"/>
+          <input type="checkbox" onClick={handleTheme} className="opacity-0" />
           <span className="swap-on icon-[tabler--sun] size-7 dark:text-white"></span>
           <span className="swap-off icon-[tabler--moon] size-7 dark:text-white"></span>
         </label>
@@ -108,6 +124,20 @@ const NavBar = () => {
                       Upcoming Meals
                     </MenuItem>
                   </NavLink>
+                  {user?.email && (
+                    <NavLink to={"/requests"} className="link px-3 py-1">
+                      <MenuItem onClick={popupState.close}>
+                        My Requests
+                      </MenuItem>
+                    </NavLink>
+                  )}
+                  {user?.email && (
+                    <NavLink to={"/memberships"} className="link px-3 py-1">
+                      <MenuItem onClick={popupState.close}>
+                        Memberships
+                      </MenuItem>
+                    </NavLink>
+                  )}
                 </Menu>
               </React.Fragment>
             )}

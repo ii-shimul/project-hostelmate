@@ -100,14 +100,22 @@ const Meals = () => {
             label="Search"
             id="fullWidth"
             InputProps={{
-              sx: {
-                color: "text.primary",
-                backgroundColor: "background.paper",
-              },
+              className: "dark:bg-slate-700",
+            }}
+            InputLabelProps={{
+              className: "dark:text-white",
             }}
           />
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-select-small-label">Category</InputLabel>
+          <FormControl
+            sx={{ m: 1, minWidth: 120 }}
+            className="dark:bg-slate-700 rounded-md"
+          >
+            <InputLabel
+              className="dark:text-white"
+              id="demo-select-small-label"
+            >
+              Category
+            </InputLabel>
             <Select
               labelId="demo-select-small-label"
               id="demo-select-small"
@@ -128,12 +136,24 @@ const Meals = () => {
             onChange={(e) => setMinPrice(e.target.value)}
             label="MinPrice"
             variant="outlined"
+            InputProps={{
+              className: "dark:bg-slate-700",
+            }}
+            InputLabelProps={{
+              className: "dark:text-white",
+            }}
           />
           <TextField
             id="outlined-basic"
             onChange={(e) => setMaxPrice(e.target.value)}
             label="MaxPrice"
             variant="outlined"
+            InputProps={{
+              className: "dark:bg-slate-700",
+            }}
+            InputLabelProps={{
+              className: "dark:text-white",
+            }}
           />
         </div>
         {searchValue !== "" ? (

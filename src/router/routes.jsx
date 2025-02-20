@@ -21,12 +21,14 @@ import UpcomingMealsDash from "../pages/Dashboard/Admin/UpcomingMealsDash";
 import UpcomingMeals from "../pages/UpcomingMeals/UpcomingMeals";
 import AdminRoute from "./AdminRoute";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import Requests from "../pages/Requests/Requests";
+import Memberships from "../pages/Memberships/Memberships";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    errorElement: <ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -52,13 +54,29 @@ const router = createBrowserRouter([
         path: "/meals/:id",
         element: <MealDetails></MealDetails>,
         loader: ({ params }) =>
-          fetch(`https://hostelmateserver.vercel.app/meals/${params.id}`),
+          fetch(`http://localhost:5000/meals/${params.id}`),
       },
       {
         path: "/checkout/:badge",
         element: (
           <PrivateRoute>
             <Checkout />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/requests",
+        element: (
+          <PrivateRoute>
+            <Requests />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/memberships",
+        element: (
+          <PrivateRoute>
+            <Memberships/>
           </PrivateRoute>
         ),
       },

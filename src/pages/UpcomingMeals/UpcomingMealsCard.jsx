@@ -44,7 +44,7 @@ const UpcomingMealsCard = ({meal, userDB, refetch}) => {
   return (
     <div
       key={meal._id}
-      className="bg-white shadow-[0_4px_12px_-5px_rgba(0,0,0,0.4)] w-full max-w-sm rounded-2xl font-[sans-serif] overflow-hidden mx-auto mt-4"
+      className="bg-white dark:bg-gray-800 shadow-[0_4px_12px_-5px_rgba(0,0,0,0.4)] w-full max-w-sm rounded-2xl font-[sans-serif] overflow-hidden mx-auto mt-4"
     >
       <div className="max-h-[190px]">
         <img
@@ -53,9 +53,9 @@ const UpcomingMealsCard = ({meal, userDB, refetch}) => {
         />
       </div>
       <div className="p-6">
-        <h3 className="text-2xl text-gray-800 font-extrabold">{meal.title}</h3>
+        <h3 className="text-2xl text-gray-800 dark:text-gray-300 font-extrabold">{meal.title}</h3>
         <div className="mt-6 flex items-center">
-          <h3 className="text-xl text-gray-800 font-bold flex-1">
+          <h3 className="text-xl text-gray-800 dark:text-gray-300 font-bold flex-1">
             ৳ {meal.price}
           </h3>
           <div className="flex items-center justify-center gap-3">
