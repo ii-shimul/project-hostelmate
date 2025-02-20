@@ -23,6 +23,7 @@ import AdminRoute from "./AdminRoute";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Requests from "../pages/Requests/Requests";
 import Memberships from "../pages/Memberships/Memberships";
+import Overview from "../pages/Dashboard/Overview";
 
 const router = createBrowserRouter([
   {
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
         path: "/meals/:id",
         element: <MealDetails></MealDetails>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/meals/${params.id}`),
+          fetch(`https://hostelmateserver.vercel.app/meals/${params.id}`),
       },
       {
         path: "/checkout/:badge",
@@ -76,7 +77,7 @@ const router = createBrowserRouter([
         path: "/memberships",
         element: (
           <PrivateRoute>
-            <Memberships/>
+            <Memberships />
           </PrivateRoute>
         ),
       },
@@ -93,6 +94,14 @@ const router = createBrowserRouter([
       // student routes
       {
         path: "/dashboard",
+        element: (
+          <PrivateRoute>
+            <Overview/>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "profile",
         element: (
           <PrivateRoute>
             <Profile />

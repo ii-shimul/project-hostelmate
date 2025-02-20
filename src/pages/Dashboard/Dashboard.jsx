@@ -29,14 +29,16 @@ function ResponsiveDrawer(props) {
   };
 
   const drawerItemsStudent = [
-    { text: "My Profile", path: "/dashboard" },
+    { text: "Overview", path: "/dashboard" },
+    { text: "My Profile", path: "/dashboard/profile" },
     { text: "Requested Meals", path: "/dashboard/requested-meals" },
     { text: "My Reviews", path: "/dashboard/my-reviews" },
     { text: "Payment History", path: "/dashboard/payment-history" },
     { text: "← Home", path: "/" },
   ];
   const drawerItemsAdmin = [
-    { text: "Admin Profile", path: "/dashboard" },
+    { text: "Overview", path: "/dashboard" },
+    { text: "Admin Profile", path: "/dashboard/profile" },
     { text: "Manage Users", path: "/dashboard/manage-users" },
     { text: "Add Meal", path: "/dashboard/add-meal" },
     { text: "All Meals", path: "/dashboard/all-meals" },

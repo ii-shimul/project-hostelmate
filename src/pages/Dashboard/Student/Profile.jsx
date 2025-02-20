@@ -11,7 +11,6 @@ const Profile = () => {
   if (loading || Loading) {
     return <LoadingHand />;
   }
-  console.log(userDB);
   const mealsAdded = meals.filter(
     (meal) => meal.distributor.email === userDB.email,
   );
