@@ -101,7 +101,7 @@ const NavBar = () => {
         {user?.email ? (
           <DropdownNav />
         ) : (
-          <Link to={"/login"}>
+          <Link className="ml-2" to={"/login"}>
             <Button text={"Join Us"}></Button>
           </Link>
         )}

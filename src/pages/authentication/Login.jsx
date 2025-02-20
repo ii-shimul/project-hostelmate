@@ -5,10 +5,13 @@ import toast from "react-hot-toast";
 import SocialLogin from "./SocialLogin";
 import Lottie from "lottie-react";
 import login from "/src/assets/login.json";
+import Button from "../../components/Button";
+import { useState } from "react";
 
 const Login = () => {
   const { user, logIn } = useAuth();
   const nav = useNavigate();
+  const [cred, setCred] = useState({ email: "", pass: "" });
   const location = useLocation();
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
@@ -23,6 +26,12 @@ const Login = () => {
         toast.error(`${err}`);
       });
   };
+  const handleAdmin = () => {
+    setCred({ email: "hostel@mate.com", pass: "hostelmate" });
+  };
+  const handleStudent = () => {
+    setCred({ email: "islamshimul27@gmail.com", pass: "shimul.." });
+  };
   if (user) {
     nav(location.state ? location.state : "/");
   }
@@ -32,14 +41,28 @@ const Login = () => {
         <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center py-6 px-4">
           <div className="flex max-md:flex-col-reverse items-center gap-6 max-w-6xl w-full">
             <div className="flex-1 border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto">
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div className="mb-8">
-                  <h3 className="text-gray-800 text-3xl font-bold">Log in</h3>
-                  <p className="text-gray-500 text-sm mt-4 leading-relaxed">
-                    Log in to your account and explore a world of possibilities.
-                    Your eating journey begins here.
-                  </p>
+              <div className="mb-3">
+                <h3 className="text-gray-800 text-3xl font-bold">Log in</h3>
+                <p className="text-gray-500 text-sm mt-4 leading-relaxed">
+                  Log in to your account and explore a world of possibilities.
+                  Your eating journey begins here.
+                </p>
+              </div>
+              <div>
+                <p className="uppercase text-sm text-center">
+                  Fill form with demo credentials
+                </p>
+                <div className="flex gap-3 items-center justify-center py-2">
+                  <span onClick={handleAdmin}>
+                    <Button textSize="text-base" text="Admin"></Button>
+                  </span>
+                  <span onClick={handleStudent}>
+                    <Button textSize="text-base" text="Student"></Button>
+                  </span>
                 </div>
+                <p className="text-sm py-2 text-center">NOTE: Click Log in button three times if you fill the form with above buttons.</p>
+              </div>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
                   <label className="text-gray-800 text-sm mb-2 block">
                     Email
@@ -50,6 +73,9 @@ const Login = () => {
                       {...register("email", { required: true })}
                       className="w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg outline-blue-600"
                       placeholder="Enter email"
+                      defaultValue={
+                        (cred.email && cred.email)
+                      }
                     />
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -76,6 +102,9 @@ const Login = () => {
                       {...register("password", { required: true })}
                       className="w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg outline-blue-600"
                       placeholder="Enter password"
+                      defaultValue={
+                        (cred.pass && cred.pass)
+                      }
                     />
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
