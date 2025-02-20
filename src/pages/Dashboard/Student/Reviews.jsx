@@ -53,28 +53,28 @@ const Reviews = () => {
   return (
     <>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
+        <table className="min-w-full bg-white dark:bg-inherit">
           <thead className="whitespace-nowrap">
             <tr>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 No.
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Meal Title
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Likes
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Your Review
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Edit
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Delete
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 View
               </th>
             </tr>
@@ -124,7 +124,7 @@ const Reviews = () => {
                             readOnly
                             value={review._id}
                             {...register("id", { required: true })}
-                            className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+                            className="px-2 py-3 rounded-md bg-white w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
                           />
                         </div>
                         <div className="">
@@ -134,7 +134,7 @@ const Reviews = () => {
                               type="text"
                               placeholder="Write your review..."
                               {...register("review", { required: true })}
-                              className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+                              className="px-2 py-3 rounded-md bg-white w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
                             />
                           </div>
                         </div>
@@ -163,8 +163,11 @@ const Reviews = () => {
                       isOpen={modalIsOpen}
                       onRequestClose={() => setModalIsOpen(false)}
                     />
-                    <tr key={review._id} className="odd:bg-blue-50">
-                      <td className="p-4 text-sm text-black">
+                    <tr
+                      key={review._id}
+                      className="odd:bg-blue-50 dark:odd:bg-opacity-15"
+                    >
+                      <td className="p-4 text-sm">
                         {index + 1 + page * 10 - 10}
                       </td>
 
@@ -175,15 +178,13 @@ const Reviews = () => {
                             className="w-9 h-9 rounded-full shrink-0"
                           />
                           <div className="ml-4">
-                            <p className="text-md text-black">{meal.title}</p>
+                            <p className="text-md">{meal.title}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="p-4 text-sm text-black">{meal.likes}</td>
-                      <td className="p-4 text-sm text-black">
-                        {review.review}
-                      </td>
-                      <td className="p-4 text-sm text-black">
+                      <td className="p-4 text-sm">{meal.likes}</td>
+                      <td className="p-4 text-sm">{review.review}</td>
+                      <td className="p-4 text-sm">
                         <Edit
                           onClick={() => setModalIsOpen(true)}
                           className="text-blue-600 hover:text-blue-300 cursor-pointer"
@@ -207,7 +208,7 @@ const Reviews = () => {
                           </svg>
                         </button>
                       </td>
-                      <td className="p-4 text-sm text-black">
+                      <td className="p-4 text-sm">
                         <Link to={`/meals/${meal._id}`}>
                           <Wysiwyg className="hover:text-gray-600 cursor-pointer" />
                         </Link>

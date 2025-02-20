@@ -44,25 +44,25 @@ const ServeMeals = () => {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-white">
+      <table className="min-w-full bg-white dark:bg-inherit">
         <thead className="whitespace-nowrap">
           <tr>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               No.
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               Meal Title
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               User Email
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               User Name
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               Status
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               Serve
             </th>
           </tr>
@@ -88,22 +88,21 @@ const ServeMeals = () => {
                 }
               };
               return (
-                <tr key={requestedMeal._id} className="odd:bg-blue-50">
-                  <td className="p-4 text-sm text-black">
-                    {index + 1 + page * 10 - 10}
-                  </td>
-                  <td className="p-4 text-sm text-black">
+                <tr
+                  key={requestedMeal._id}
+                  className="odd:bg-blue-50 dark:odd:bg-opacity-15"
+                >
+                  <td className="p-4 text-sm">{index + 1 + page * 10 - 10}</td>
+                  <td className="p-4 text-sm">
                     {requestedMeal.requestedMeal.title}
                   </td>
-                  <td className="p-4 text-sm text-black">
+                  <td className="p-4 text-sm">
                     {requestedMeal.requester.email}
                   </td>
-                  <td className="p-4 text-sm text-black">
+                  <td className="p-4 text-sm">
                     {requestedMeal.requester.name}
                   </td>
-                  <td className="p-4 text-sm text-black">
-                    {requestedMeal.status}
-                  </td>
+                  <td className="p-4 text-sm">{requestedMeal.status}</td>
                   <td
                     className={`p-4 ${requestedMeal.status === "Delivered" ? "text-secondary" : "text-primary"} hover:text-blue-400 transition-all duration-200 ease-in-out`}
                   >

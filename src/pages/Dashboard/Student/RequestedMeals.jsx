@@ -46,25 +46,25 @@ const RequestedMeals = () => {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-white">
+      <table className="min-w-full bg-white dark:bg-inherit">
         <thead className="whitespace-nowrap">
           <tr>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               No.
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               Meal Title
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               Likes
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               Reviews
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               Status
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               Cancel
             </th>
           </tr>
@@ -89,10 +89,11 @@ const RequestedMeals = () => {
                 }
               };
               return (
-                <tr key={requestedMeal._id} className="odd:bg-blue-50">
-                  <td className="p-4 text-sm text-black">
-                    {index + 1 + page * 10 - 10}
-                  </td>
+                <tr
+                  key={requestedMeal._id}
+                  className="odd:bg-blue-50 dark:odd:bg-opacity-15"
+                >
+                  <td className="p-4 text-sm">{index + 1 + page * 10 - 10}</td>
 
                   <td className="p-4 text-sm">
                     <div className="flex items-center cursor-pointer w-max">
@@ -101,17 +102,13 @@ const RequestedMeals = () => {
                         className="w-9 h-9 rounded-full shrink-0"
                       />
                       <div className="ml-4">
-                        <p className="text-md text-black">{meal.title}</p>
+                        <p className="text-md">{meal.title}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="p-4 text-sm text-black">{meal.likes}</td>
-                  <td className="p-4 text-sm text-black">
-                    {meal.reviews_count}
-                  </td>
-                  <td className="p-4 text-sm text-black">
-                    {requestedMeal.status}
-                  </td>
+                  <td className="p-4 text-sm">{meal.likes}</td>
+                  <td className="p-4 text-sm">{meal.reviews_count}</td>
+                  <td className="p-4 text-sm">{requestedMeal.status}</td>
                   <td className="p-4">
                     <button onClick={handleCancel} title="Delete">
                       <svg

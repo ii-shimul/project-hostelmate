@@ -37,25 +37,25 @@ const PaymentHistory = () => {
   }
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-white">
+      <table className="min-w-full bg-white dark:bg-inherit">
         <thead className="whitespace-nowrap">
           <tr>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               No.
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               Method
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               TransactionID
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               Membership
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               Status
             </th>
-            <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+            <th className="p-1 md:p-3 text-left text-sm font-semibold">
               Paid At
             </th>
           </tr>
@@ -68,21 +68,16 @@ const PaymentHistory = () => {
           ) : (
             payments.map((payment, index) => {
               return (
-                <tr key={payment._id} className="odd:bg-blue-50">
-                  <td className="p-4 text-sm text-black">
-                    {index + 1 + page * 10 - 10}
-                  </td>
-                  <td className="p-4 text-sm text-black">
-                    {payment.paymentMethod}
-                  </td>
-                  <td className="p-4 text-sm text-black">
-                    {payment.transactionId}
-                  </td>
-                  <td className="p-4 text-sm text-black">
-                    {payment.membership}
-                  </td>
-                  <td className="p-4 text-sm text-black">{payment.status}</td>
-                  <td className="p-4 text-sm text-black">
+                <tr
+                  key={payment._id}
+                  className="odd:bg-blue-50 dark:odd:bg-opacity-15"
+                >
+                  <td className="p-4 text-sm">{index + 1 + page * 10 - 10}</td>
+                  <td className="p-4 text-sm">{payment.paymentMethod}</td>
+                  <td className="p-4 text-sm">{payment.transactionId}</td>
+                  <td className="p-4 text-sm">{payment.membership}</td>
+                  <td className="p-4 text-sm">{payment.status}</td>
+                  <td className="p-4 text-sm">
                     {moment(payment.paidAt).calendar()}
                   </td>
                 </tr>

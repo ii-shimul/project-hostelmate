@@ -67,22 +67,22 @@ const ManageUsers = () => {
         />
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
+        <table className="min-w-full bg-white dark:bg-inherit">
           <thead className="whitespace-nowrap">
             <tr>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 No.
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Image & Name
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Email
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Membership
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Make Admin
               </th>
             </tr>
@@ -95,8 +95,8 @@ const ManageUsers = () => {
             ) : (
               users.map((user, index) => {
                 return (
-                  <tr key={user._id} className="odd:bg-blue-50">
-                    <td className="p-4 text-sm text-black">{index + 1}</td>
+                  <tr key={user._id} className="odd:bg-blue-50 odd:dark:bg-opacity-10">
+                    <td className="p-4 text-sm">{index + 1}</td>
 
                     <td className="p-4 text-sm">
                       <div className="flex items-center cursor-pointer w-max">
@@ -105,12 +105,12 @@ const ManageUsers = () => {
                           className="w-9 h-9 rounded-full shrink-0"
                         />
                         <div className="ml-4">
-                          <p className="text-md text-black">{user.name}</p>
+                          <p className="text-md">{user.name}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="p-4 text-sm text-black">{user.email}</td>
-                    <td className="p-4 text-sm text-black">{user.badge}</td>
+                    <td className="p-4 text-sm">{user.email}</td>
+                    <td className="p-4 text-sm">{user.badge}</td>
                     <td className="p-4">
                       {user.role === "admin" ? (
                         "Admin"

@@ -56,7 +56,7 @@ const AddMeal = () => {
             type="text"
             placeholder="Title"
             {...register("title", { required: true })}
-            className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+            className="px-2 py-3 rounded-md bg-white dark:bg-gray-700 w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
           />
         </div>
         <div className="relative flex items-center">
@@ -82,7 +82,7 @@ const AddMeal = () => {
             type="number"
             placeholder="Price"
             {...register("price", { required: true })}
-            className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+            className="px-2 py-3 rounded-md bg-white dark:bg-gray-700 w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
           />
         </div>
         <div className="relative flex items-center">
@@ -90,7 +90,7 @@ const AddMeal = () => {
             type="text"
             placeholder="Ingredients (Chicken,Potato,Beef,Bread...)"
             {...register("ingredients", { required: true })}
-            className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+            className="px-2 py-3 rounded-md bg-white dark:bg-gray-700 w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
           />
         </div>
         <div className="relative flex items-center">
@@ -99,7 +99,7 @@ const AddMeal = () => {
             placeholder="Distributor name"
             defaultValue={user.displayName}
             readOnly
-            className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+            className="px-2 py-3 rounded-md bg-white dark:bg-gray-700 w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
           />
         </div>
         <div className="relative flex items-center">
@@ -108,7 +108,7 @@ const AddMeal = () => {
             placeholder="Distributor email"
             defaultValue={user.email}
             readOnly
-            className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+            className="px-2 py-3 rounded-md bg-white dark:bg-gray-700 w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
           />
         </div>
         <div className="relative flex items-center sm:col-span-2">
@@ -116,7 +116,7 @@ const AddMeal = () => {
             type="text"
             placeholder="Description"
             {...register("description", { required: true })}
-            className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+            className="px-2 py-3 rounded-md bg-white dark:bg-gray-700 w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
           />
         </div>
         <div className="max-w-md">
@@ -126,7 +126,7 @@ const AddMeal = () => {
           <input
             type="file"
             {...register("image", { required: true })}
-            className="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:text-gray-500 rounded"
+            className="w-full text-gray-400 font-semibold text-sm bg-white dark:bg-gray-700 border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:text-gray-500 rounded"
           />
           <p className="text-xs text-gray-400 mt-2">
             PNG, JPG SVG, WEBP, and GIF are Allowed.

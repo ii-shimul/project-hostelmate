@@ -60,7 +60,7 @@ const ModalForm = ({ isOpen, onRequestClose }) => {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       className={
-        "max-w-2xl mx-auto mt-16 lg:mt-40 rounded-lg border p-5 bg-white"
+        "max-w-2xl mx-auto mt-16 lg:mt-40 rounded-lg border p-5 bg-white dark:bg-black"
       }
     >
       <button onClick={onRequestClose} className="text-red-500 float-right">
@@ -76,7 +76,7 @@ const ModalForm = ({ isOpen, onRequestClose }) => {
               type="text"
               placeholder="Title"
               {...register("title", { required: true })}
-              className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+              className="px-2 py-3 rounded-md bg-white dark:bg-gray-700 w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
             />
           </div>
           <div className="relative flex items-center">
@@ -102,7 +102,7 @@ const ModalForm = ({ isOpen, onRequestClose }) => {
               type="number"
               placeholder="Price"
               {...register("price", { required: true })}
-              className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+              className="px-2 py-3 rounded-md bg-white dark:bg-gray-700 w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
             />
           </div>
           <div className="relative flex items-center">
@@ -110,7 +110,7 @@ const ModalForm = ({ isOpen, onRequestClose }) => {
               type="text"
               placeholder="Ingredients (Chicken,Potato,Beef,Bread...)"
               {...register("ingredients", { required: true })}
-              className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+              className="px-2 py-3 rounded-md bg-white dark:bg-gray-700 w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
             />
           </div>
           <div className="relative flex items-center">
@@ -119,7 +119,7 @@ const ModalForm = ({ isOpen, onRequestClose }) => {
               placeholder="Distributor name"
               defaultValue={user.displayName}
               readOnly
-              className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+              className="px-2 py-3 rounded-md bg-white dark:bg-gray-700 w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
             />
           </div>
           <div className="relative flex items-center">
@@ -128,7 +128,7 @@ const ModalForm = ({ isOpen, onRequestClose }) => {
               placeholder="Distributor email"
               defaultValue={user.email}
               readOnly
-              className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+              className="px-2 py-3 rounded-md bg-white dark:bg-gray-700 w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
             />
           </div>
           <div className="relative flex items-center sm:col-span-2">
@@ -136,7 +136,7 @@ const ModalForm = ({ isOpen, onRequestClose }) => {
               type="text"
               placeholder="Description"
               {...register("description", { required: true })}
-              className="px-2 py-3 rounded-md bg-white text-black w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
+              className="px-2 py-3 rounded-md bg-white dark:bg-gray-700 w-full text-sm border-b-2 focus:border-[#007bff] outline-none"
             />
           </div>
           <div className="max-w-md">
@@ -146,7 +146,7 @@ const ModalForm = ({ isOpen, onRequestClose }) => {
             <input
               type="file"
               {...register("image", { required: true })}
-              className="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:text-gray-500 rounded"
+              className="w-full text-gray-400 font-semibold text-sm bg-white dark:bg-gray-700 border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:text-gray-500 rounded"
             />
             <p className="text-xs text-gray-400 mt-2">
               PNG, JPG SVG, WEBP, and GIF are Allowed.
@@ -203,25 +203,25 @@ const UpcomingMealsDash = () => {
         </Button>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
+        <table className="min-w-full bg-white dark:bg-inherit">
           <thead className="whitespace-nowrap">
             <tr>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 No.
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Meal Title
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Distributor
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Likes
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Price
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Publish
               </th>
             </tr>
@@ -243,8 +243,11 @@ const UpcomingMealsDash = () => {
                   }
                 };
                 return (
-                  <tr key={meal._id} className="odd:bg-blue-50">
-                    <td className="p-4 text-sm text-black">
+                  <tr
+                    key={meal._id}
+                    className="odd:bg-blue-50 dark:odd:bg-opacity-15"
+                  >
+                    <td className="p-4 text-sm">
                       {index + 1 + page * 10 - 10}
                     </td>
 
@@ -255,15 +258,13 @@ const UpcomingMealsDash = () => {
                           className="w-9 h-9 rounded-full shrink-0"
                         />
                         <div className="ml-4">
-                          <p className="text-md text-black">{meal.title}</p>
+                          <p className="text-md">{meal.title}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="p-4 text-sm text-black">
-                      {meal.distributor.name}
-                    </td>
-                    <td className="p-4 text-sm text-black">{meal.likes}</td>
-                    <td className="p-4 text-sm text-black">{meal.price}</td>
+                    <td className="p-4 text-sm">{meal.distributor.name}</td>
+                    <td className="p-4 text-sm">{meal.likes}</td>
+                    <td className="p-4 text-sm">{meal.price}</td>
                     <td className="p-4 space-x-2">
                       <button
                         onClick={handlePublish}

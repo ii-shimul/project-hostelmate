@@ -61,31 +61,31 @@ const AllReviews = () => {
         />
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
+        <table className="min-w-full bg-white dark:bg-inherit">
           <thead className="whitespace-nowrap">
             <tr>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 No.
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Meal Title
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Likes
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Review Count
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Review
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Edit
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 Delete
               </th>
-              <th className="p-1 md:p-3 text-left text-sm font-semibold text-black">
+              <th className="p-1 md:p-3 text-left text-sm font-semibold">
                 View
               </th>
             </tr>
@@ -108,8 +108,11 @@ const AllReviews = () => {
                   }
                 };
                 return (
-                  <tr key={review._id} className="odd:bg-blue-50">
-                    <td className="p-4 text-sm text-black">
+                  <tr
+                    key={review._id}
+                    className="odd:bg-blue-50 dark:odd:bg-opacity-15"
+                  >
+                    <td className="p-4 text-sm">
                       {index + 1 + page * 10 - 10}
                     </td>
 
@@ -120,16 +123,14 @@ const AllReviews = () => {
                           className="w-9 h-9 rounded-full shrink-0"
                         />
                         <div className="ml-4">
-                          <p className="text-md text-black">{meal.title}</p>
+                          <p className="text-md">{meal.title}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="p-4 text-sm text-black">{meal.likes}</td>
-                    <td className="p-4 text-sm text-black">
-                      {meal.reviews_count}
-                    </td>
-                    <td className="p-4 text-sm text-black">{review.review}</td>
-                    <td className="p-4 text-sm text-black">
+                    <td className="p-4 text-sm">{meal.likes}</td>
+                    <td className="p-4 text-sm">{meal.reviews_count}</td>
+                    <td className="p-4 text-sm">{review.review}</td>
+                    <td className="p-4 text-sm">
                       <Edit className="text-blue-600 hover:text-blue-300 cursor-pointer" />
                     </td>
                     <td className="p-4">
@@ -150,7 +151,7 @@ const AllReviews = () => {
                         </svg>
                       </button>
                     </td>
-                    <td className="p-4 text-sm text-black">
+                    <td className="p-4 text-sm">
                       <Link to={`/meals/${review.mealId}`}>
                         <Wysiwyg className="hover:text-gray-600 cursor-pointer" />
                       </Link>
