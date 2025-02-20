@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import CheckAdmin from "./CheckAdmin";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import DropdownNav from "../../components/DropdownNav"
 
 const drawerWidth = 240;
 
@@ -36,6 +37,15 @@ function ResponsiveDrawer(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const location = useLocation();
   const isAdmin = CheckAdmin();
+    const [isDarkMode, setIsDarkMode] = React.useState(false);
+    React.useEffect(() => {
+      const localTheme = localStorage.getItem("theme");
+      if (localTheme === "dark") {
+        setIsDarkMode(true);
+      } else {
+        setIsDarkMode(false);
+      }
+    }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -69,7 +79,7 @@ function ResponsiveDrawer(props) {
           alignItems: "center",
           justifyContent: "center",
           padding: 1,
-          backgroundColor: "#f5f5f5",
+          backgroundColor: !isDarkMode && "#f5f5f5",
         }}
       >
         <Link to={"/"} className="flex items-center justify-center gap-2">
@@ -80,9 +90,10 @@ function ResponsiveDrawer(props) {
               maxWidth: "100%",
               maxHeight: "40px",
               objectFit: "contain",
+              borderRadius: "4px"
             }}
           />
-          <h1 className="text-primary text-2xl">HostelMate</h1>
+          <h1 className="text-primary text-2xl dark:text-secondary">HostelMate</h1>
         </Link>
       </Toolbar>
       <Divider />
@@ -116,15 +127,6 @@ function ResponsiveDrawer(props) {
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
-  const [isDarkMode, setIsDarkMode] = React.useState(false);
-  React.useEffect(() => {
-    const localTheme = localStorage.getItem("theme");
-    if (localTheme === "dark") {
-      setIsDarkMode(true);
-    } else {
-      setIsDarkMode(false);
-    }
-  }, []);
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <Box sx={{ display: "flex" }}>
@@ -132,13 +134,13 @@ function ResponsiveDrawer(props) {
         <AppBar
           position="fixed"
           sx={{
-            backgroundColor: "#ddeaf6",
-            color: "#235784",
+            backgroundColor: !isDarkMode && "#ddeaf6",
+            color: !isDarkMode && "#235784",
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
           }}
         >
-          <Toolbar>
+          <Toolbar className="justify-between">
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -151,6 +153,9 @@ function ResponsiveDrawer(props) {
             <Typography variant="h6" noWrap component="div">
               Dashboard
             </Typography>
+            <div>
+              <DropdownNav/>
+            </div>
           </Toolbar>
         </AppBar>
         <Box

@@ -9,11 +9,13 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import useAuth from "../hooks/useAuth";
-import { Dashboard } from "@mui/icons-material";
-import { Link } from "react-router";
+import { Dashboard, Home } from "@mui/icons-material";
+import { Link, useLocation } from "react-router";
 
 export default function DropdownNav() {
   const { user, logOut } = useAuth();
+  const location = useLocation();
+  const isDash = location.pathname.includes("dashboard");
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -87,12 +89,16 @@ export default function DropdownNav() {
           {user.email}
         </MenuItem>
         <Divider />
-        <Link to={"/dashboard"}>
+        <Link to={isDash ? "/" : "/dashboard"}>
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
-              <Dashboard fontSize="small" />
+              {isDash ? (
+                <Home fontSize="small" />
+              ) : (
+                <Dashboard fontSize="small" />
+              )}
             </ListItemIcon>
-            Dashboard
+            {isDash ? "Home" : "Dashboard"}
           </MenuItem>
         </Link>
         <MenuItem

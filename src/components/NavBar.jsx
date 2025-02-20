@@ -92,8 +92,8 @@ const NavBar = () => {
           )}
         </ul>
       </div>
-      <div className="flex gap-1 items-center">
-        <label className="swap swap-rotate mr-2">
+      <div className="flex items-center">
+        <label className="swap swap-rotate">
           <input type="checkbox" onClick={handleTheme} className="opacity-0" />
           <span className="swap-on icon-[tabler--sun] size-7 dark:text-white"></span>
           <span className="swap-off icon-[tabler--moon] size-7 dark:text-white"></span>
