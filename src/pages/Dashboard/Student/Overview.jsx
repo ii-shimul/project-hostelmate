@@ -53,7 +53,7 @@ const Overview = () => {
             />
           </svg>
           <h3 className="text-xl sm:text-3xl font-extrabold text-blue-600 dark:text-white mt-5">
-            {stats.mealRequests}+
+            {stats.mealRequests ? stats.mealRequests : 0}+
           </h3>
           <p className="text-base text-gray-800 dark:text-gray-400 font-semibold mt-3">
             Requests
@@ -73,7 +73,7 @@ const Overview = () => {
             />
           </svg>
           <h3 className="text-xl sm:text-3xl font-extrabold text-blue-600 dark:text-white mt-5">
-            {stats.reviews}+
+            {stats.reviews?stats.reviews:0}+
           </h3>
           <p className="text-base text-gray-800 dark:text-gray-400 font-semibold mt-3">
             Meal Reviews
@@ -84,7 +84,7 @@ const Overview = () => {
             <GrMoney className="text-[37px] text-blue-600" />
           </p>
           <h3 className="text-xl sm:text-3xl font-extrabold text-blue-600 dark:text-white mt-5">
-            {stats.payments[0].totalAmount}৳+
+            {stats?.payments[0]?.totalAmount?stats.payments[0].totalAmount:0}৳+
           </h3>
           <p className="text-base text-gray-800 dark:text-gray-400 font-semibold mt-3">
             Spent

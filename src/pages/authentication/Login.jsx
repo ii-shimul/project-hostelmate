@@ -60,7 +60,7 @@ const Login = () => {
                     <Button textSize="text-base" text="Student"></Button>
                   </span>
                 </div>
-                <p className="text-sm py-2 text-center">NOTE: Click Log in button three times if you fill the form with above buttons.</p>
+                <p className="text-sm py-2 text-center text-red-500">NOTE: Click Log in button three times if you fill the form with above buttons.</p>
               </div>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
@@ -118,30 +118,6 @@ const Login = () => {
                         data-original="#000000"
                       />
                     </svg>
-                  </div>
-                </div>
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center">
-                    <input
-                      id="remember-me"
-                      name="remember-me"
-                      type="checkbox"
-                      className="h-4 w-4 shrink-0 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                    />
-                    <label
-                      htmlFor="remember-me"
-                      className="ml-3 block text-sm text-gray-800"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                  <div className="text-sm">
-                    <a
-                      href=""
-                      className="text-blue-600 hover:underline font-semibold"
-                    >
-                      Forgot your password?
-                    </a>
                   </div>
                 </div>
                 <div className="!mt-8">
