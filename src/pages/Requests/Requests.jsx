@@ -33,6 +33,7 @@ const Requests = () => {
       </p>
     );
   }
+  console.log(meals);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -74,7 +75,7 @@ const Requests = () => {
                   </p>
                 </div>
                 <Link
-                  to={`/meals/${meal.requestedMeal._id}`}
+                  to={`/meals/${meal.requestedMeal.id}`}
                   type="button"
                   className="bg-primary text-center font-semibold hover:bg-gray-800 text-white text-sm px-2 py-2 w-full"
                 >
