@@ -11,6 +11,7 @@ import useAxios from "../../hooks/useAxios";
 import SocialLogin from "./SocialLogin";
 import Lottie from "lottie-react";
 import sign from "/src/assets/register.json"
+import { motion } from "framer-motion";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -75,7 +76,13 @@ const Register = () => {
       <div className="font-[sans-serif]">
         <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center py-6 px-4">
           <div className="flex flex-row-reverse max-md:flex-col-reverse items-center gap-6 max-w-6xl w-full">
-            <div className="flex-1 border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto">
+            <motion.div
+              className="flex-1 border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.2 }}
+            >
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="mb-8">
                   <h3 className="text-gray-800 text-3xl font-bold">Register</h3>
@@ -206,12 +213,14 @@ const Register = () => {
                   </div>
                 </div>
                 <div className="!mt-8">
-                  <button
+                  <motion.button
+                    whileHover={{ y: -2, scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
                     type="submit"
                     className="w-full shadow-xl py-2.5 px-4 text-sm tracking-wide rounded-lg text-white bg-primary hover:bg-blue-600 transition duration-300 focus:outline-none"
                   >
                     Create Account
-                  </button>
+                  </motion.button>
                 </div>
                 <p className="text-sm !mt-8 text-center text-gray-500">
                   Already have an account?
@@ -225,10 +234,16 @@ const Register = () => {
               </form>
               <hr className="my-2" />
               <SocialLogin></SocialLogin>
-            </div>
-            <div className="flex-1 w-full aspect-[71/50] max-md:w-4/5 mx-auto block object-cover">
+            </motion.div>
+            <motion.div
+              className="flex-1 w-full aspect-[71/50] max-md:w-4/5 mx-auto block object-cover"
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.2 }}
+            >
               <Lottie animationData={sign}></Lottie>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

@@ -34,6 +34,7 @@ HostelMate is a **food management web application** designed to help users **req
 ### 🔹 **Frontend**  
 - **React** – JavaScript library for building UI.  
 - **React Router DOM** – For routing and navigation.  
+- **Framer Motion** – For animations and transitions.  
 - **Tailwind CSS** – Utility-first CSS framework.  
 - **Material-UI (MUI)** – Prebuilt React components.  
 - **Lucide Icons** – Lightweight icon set.  
@@ -68,9 +69,9 @@ npm install
 
 3️⃣ **Start the development server**  
 ```bash
-npm start
+npm start dev
 ```
-> The app will run on `http://localhost:3000/`.  
+> The app will run on `http://localhost:5173/`.  
 
 ---
 
@@ -78,7 +79,7 @@ npm start
 
 ### **Admin Login Credentials**  
 - **Email:** hostel@mate.com  
-- **Password:** hostelmate  
+- **Password:** hostelmate
 
 ### **General Usage**  
 1. **Sign Up/Login** using Firebase authentication.  

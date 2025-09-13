@@ -7,6 +7,7 @@ import Lottie from "lottie-react";
 import login from "/src/assets/login.json";
 import Button from "../../components/Button";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const { user, logIn } = useAuth();
@@ -40,7 +41,13 @@ const Login = () => {
       <div className="font-[sans-serif]">
         <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center py-6 px-4">
           <div className="flex max-md:flex-col-reverse items-center gap-6 max-w-6xl w-full">
-            <div className="flex-1 border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto">
+            <motion.div
+              className="flex-1 border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.2 }}
+            >
               <div className="mb-3">
                 <h3 className="text-gray-800 text-3xl font-bold">Log in</h3>
                 <p className="text-gray-500 text-sm mt-4 leading-relaxed">
@@ -121,12 +128,14 @@ const Login = () => {
                   </div>
                 </div>
                 <div className="!mt-8">
-                  <button
+                  <motion.button
+                    whileHover={{ y: -2, scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
                     type="submit"
                     className="w-full shadow-xl py-2.5 px-4 text-sm tracking-wide rounded-lg text-white bg-primary hover:bg-blue-600 transition duration-300 focus:outline-none"
                   >
                     Log in
-                  </button>
+                  </motion.button>
                 </div>
                 <p className="text-sm !mt-8 text-center text-gray-500">
                   Don&apos;t have an account?
@@ -140,10 +149,16 @@ const Login = () => {
               </form>
               <hr className="my-3" />
               <SocialLogin></SocialLogin>
-            </div>
-            <div className="flex-1 w-full aspect-[71/50] max-md:w-4/5 mx-auto block object-cover">
+            </motion.div>
+            <motion.div
+              className="flex-1 w-full aspect-[71/50] max-md:w-4/5 mx-auto block object-cover"
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.2 }}
+            >
               <Lottie animationData={login}></Lottie>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
