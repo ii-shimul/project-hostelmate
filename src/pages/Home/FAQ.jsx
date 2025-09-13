@@ -1,4 +1,5 @@
 import SectionTitle from "../../components/SectionTitle";
+import { motion } from "framer-motion";
 const FAQ = () => {
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".accordion").forEach((elm) => {
@@ -20,7 +21,13 @@ const FAQ = () => {
     });
   });
   return (
-    <div className="divide-y rounded-lg max-w-5xl mx-auto px-4 mt-4 lg:mt-10 mb-6">
+    <motion.div
+      className="divide-y rounded-lg max-w-5xl mx-auto px-4 mt-4 lg:mt-10 mb-6"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      viewport={{ once: true, amount: 0.2 }}
+    >
       <SectionTitle title="Frequently Asked Questions" />
       <div className="accordion dark:text-gray-100" role="accordion">
         <button
@@ -172,7 +179,7 @@ const FAQ = () => {
           </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

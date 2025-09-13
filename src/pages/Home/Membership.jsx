@@ -1,7 +1,17 @@
 import { Link } from "react-router-dom";
 import SectionTitle from "../../components/SectionTitle";
+import { motion } from "framer-motion";
 
 const Membership = () => {
+  const container = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
+  const item = {
+    hidden: { opacity: 0, y: 16 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
+  };
+
   return (
     <div className="mt-10 p-4">
       <div className="max-w-5xl max-lg:max-w-2xl mx-auto">
@@ -11,8 +21,14 @@ const Membership = () => {
             "Subscribe to one of our membership plans according to your taste."
           }
         />
-        <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-6 mt-10 max-sm:max-w-sm max-sm:mx-auto">
-          <div className="border rounded-md p-6">
+        <motion.div
+          className="grid lg:grid-cols-3 sm:grid-cols-2 gap-6 mt-10 max-sm:max-w-sm max-sm:mx-auto"
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <motion.div className="border rounded-md p-6" variants={item} whileHover={{ y: -4, scale: 1.01 }} transition={{ type: "spring", stiffness: 250, damping: 20 }}>
             <h3 className="text-gray-800 dark:text-secondary text-xl font-semibold mb-2">Silver</h3>
             <p className="text-sm text-gray-500 dark:text-gray-300">
               For Individuals and Small Teams
@@ -113,8 +129,8 @@ const Membership = () => {
                 </button>
               </Link>
             </div>
-          </div>
-          <div className="border rounded-md p-6">
+          </motion.div>
+          <motion.div className="border rounded-md p-6" variants={item} whileHover={{ y: -4, scale: 1.01 }} transition={{ type: "spring", stiffness: 250, damping: 20 }}>
             <h3 className="text-gray-800 dark:text-secondary text-xl font-semibold mb-2 flex items-center">
               Gold
               <span className="px-2 py-1 text-xs font-semibold text-white bg-blue-500 rounded-md ml-3">
@@ -220,8 +236,8 @@ const Membership = () => {
                 </button>
               </Link>
             </div>
-          </div>
-          <div className="border rounded-md p-6">
+          </motion.div>
+          <motion.div className="border rounded-md p-6" variants={item} whileHover={{ y: -4, scale: 1.01 }} transition={{ type: "spring", stiffness: 250, damping: 20 }}>
             <h3 className="text-gray-800 dark:text-secondary text-xl font-semibold mb-2">
               Platinum
             </h3>
@@ -324,8 +340,8 @@ const Membership = () => {
                 </button>
               </Link>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

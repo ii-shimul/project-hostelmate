@@ -1,16 +1,39 @@
 import { Link } from "react-router-dom";
 import Button from "../../components/Button";
 import PropTypes from "prop-types";
+import { motion } from "framer-motion";
 
 const MealGrid = ({ meals }) => {
+  const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08 }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 16 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
+  };
+
   return (
     <div className="bg-white dark:bg-inherit mx-auto max-w-[1400px]">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 md:gap-6">
+      <motion.div
+        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 md:gap-6"
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {meals.map((meal) => {
           return (
-            <div
+            <motion.div
               key={meal._id}
               className="group overflow-hidden relative p-3 dark:bg-slate-700 dark:rounded-md"
+              variants={item}
+              whileHover={{ y: -4, scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 250, damping: 20 }}
             >
               <div className="bg-gray-100 w-full overflow-hidden">
                 <img
@@ -43,10 +66,10 @@ const MealGrid = ({ meals }) => {
                   </Link>
                 </div>
               </div>
-            </div>
+            </motion.div>
           );
         })}
-      </div>
+      </motion.div>
     </div>
   );
 };

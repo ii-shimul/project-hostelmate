@@ -1,14 +1,29 @@
 import SectionTitle from "../../components/SectionTitle";
+import { motion } from "framer-motion";
 
 const Testimonials = () => {
+  const container = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
+  const item = {
+    hidden: { opacity: 0, y: 16 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
+  };
   return (
     <div className="mb-20 mt-6 max-w-6xl max-md:max-w-md mx-auto">
       <div className="md:mb-28 mb-12 text-center">
         <SectionTitle title="Hear from our happy clients"></SectionTitle>
       </div>
-      <div className="grid md:grid-cols-3 gap-6 relative">
+      <motion.div
+        className="grid md:grid-cols-3 gap-6 relative"
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="bg-gradient-to-tr from-[#caf0f8] via-[#ade8f4] to-[#90e0ef] max-w-[65%] h-[145%] w-full -top-16 left-0 right-0 mx-auto rounded-3xl absolute max-md:hidden" />
-        <div className="h-auto p-6 rounded-2xl mx-auto bg-white dark:bg-gray-700 relative max-md:shadow-md">
+        <motion.div className="h-auto p-6 rounded-2xl mx-auto bg-white dark:bg-gray-700 relative max-md:shadow-md" variants={item} whileHover={{ y: -6 }} transition={{ type: "spring", stiffness: 250, damping: 20 }}>
           <div>
             <img
               src="https://readymadeui.com/profile_2.webp"
@@ -26,8 +41,8 @@ const Testimonials = () => {
               impressively prompt.
             </p>
           </div>
-        </div>
-        <div className="h-auto p-6 rounded-2xl mx-auto bg-white dark:bg-gray-700 relative max-md:shadow-md">
+        </motion.div>
+        <motion.div className="h-auto p-6 rounded-2xl mx-auto bg-white dark:bg-gray-700 relative max-md:shadow-md" variants={item} whileHover={{ y: -6 }} transition={{ type: "spring", stiffness: 250, damping: 20 }}>
           <div>
             <img
               src="https://readymadeui.com/profile_3.webp"
@@ -45,8 +60,8 @@ const Testimonials = () => {
               impressively prompt.
             </p>
           </div>
-        </div>
-        <div className="h-auto p-6 rounded-2xl mx-auto bg-white dark:bg-gray-700 relative max-md:shadow-md">
+        </motion.div>
+        <motion.div className="h-auto p-6 rounded-2xl mx-auto bg-white dark:bg-gray-700 relative max-md:shadow-md" variants={item} whileHover={{ y: -6 }} transition={{ type: "spring", stiffness: 250, damping: 20 }}>
           <div>
             <img
               src="https://readymadeui.com/profile_4.webp"
@@ -64,8 +79,8 @@ const Testimonials = () => {
               impressively prompt.
             </p>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

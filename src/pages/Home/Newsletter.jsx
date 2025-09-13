@@ -1,10 +1,17 @@
 import Button from "../../components/Button";
+import { motion } from "framer-motion";
 
 const Newsletter = () => {
   return (
     <div className="bg-secondary dark:bg-opacity-5 py-16 px-6">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center md:gap-6 gap-12">
-        <div className="max-md:order-1">
+        <motion.div
+          className="max-md:order-1"
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
           <h2 className="text-primary dark:text-secondary text-4xl font-extrabold mb-6">
             Subscribe to Our Newsletter
           </h2>
@@ -19,8 +26,14 @@ const Newsletter = () => {
             />
             <Button text="Subscribe" textSize="text-base"></Button>
           </div>
-        </div>
-        <div className="text-end">
+        </motion.div>
+        <motion.div
+          className="text-end"
+          initial={{ opacity: 0, x: 24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="sm:w-60 w-40 shrink-0 inline-block"
@@ -52,7 +65,7 @@ const Newsletter = () => {
               data-original="#2196f3"
             />
           </svg>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

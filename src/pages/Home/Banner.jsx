@@ -5,6 +5,7 @@ import buetLogo from "../../assets/buet-logo.png";
 import bannerImg from "../../assets/banner.jpg";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { motion } from "framer-motion";
 
 const Banner = () => {
   const [value, setValue] = useState("");
@@ -12,7 +13,13 @@ const Banner = () => {
   return (
     <div className="max-w-7xl w-[90%] max-md:max-w-md mx-auto lg:mt-10">
       <div className="grid md:grid-cols-2 items-center md:gap-8 gap-6">
-        <div className="max-md:order-1 max-md:text-center">
+        <motion.div
+          className="max-md:order-1 max-md:text-center"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
           <p className="text-sm font-bold text-blue-600 mb-2">
             <span className="rotate-90 inline-block mr-2">|</span> ALL IN ONE
             MEALS
@@ -81,14 +88,23 @@ const Banner = () => {
               <img src={buetLogo} className="w-28 mx-auto" alt="buet-logo" />
             </div>
           </div>
-        </div>
-        <div className="lg:h-[650px] md:h-[550px] flex items-center relative max-md:before:hidden before:absolute before:bg-blue-200 dark:before:bg-slate-500 before:h-full before:rounded-md before:w-3/4 before:right-0 before:z-0">
-          <img
+        </motion.div>
+        <motion.div
+          className="lg:h-[650px] md:h-[550px] flex items-center relative max-md:before:hidden before:absolute before:bg-blue-200 dark:before:bg-slate-500 before:h-full before:rounded-md before:w-3/4 before:right-0 before:z-0"
+          initial={{ opacity: 0, x: 24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <motion.img
             src={bannerImg}
             className="rounded-md  w-[95%] h-auto relative mx-auto"
             alt="Meal Experience"
+            initial={{ scale: 0.98 }}
+            whileHover={{ scale: 1.01 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
           />
-        </div>
+        </motion.div>
       </div>
     </div>
   );
