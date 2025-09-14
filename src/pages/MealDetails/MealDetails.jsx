@@ -11,6 +11,7 @@ import useAxios from "../../hooks/useAxios";
 import useUser from "../../hooks/useUser";
 import { Helmet } from "react-helmet";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { motion } from "framer-motion";
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
     color: "#1C64F2",
@@ -137,23 +138,52 @@ const MealDetails = () => {
   if (isPending || loading) {
     return <Loader />;
   }
+  const fadeIn = {
+    hidden: { opacity: 0, y: 24 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+  const slideInLeft = {
+    hidden: { opacity: 0, x: -24 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  };
+  const slideInRight = {
+    hidden: { opacity: 0, x: 24 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  };
+  const listContainer = {
+    hidden: { opacity: 1 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
+  };
+  const listItem = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
+  };
+
   return (
     <div className="bg-white dark:bg-inherit">
       <Helmet>
         <title>{meal.title} | HostelMate</title>
       </Helmet>
       <div className="p-4 lg:max-w-7xl max-w-4xl mx-auto">
-        <div className="grid items-start grid-cols-1 lg:grid-cols-5 gap-12 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6 rounded">
-          <div className="lg:col-span-3 w-full lg:sticky top-0 text-center">
+        <motion.div
+          className="grid items-start grid-cols-1 lg:grid-cols-5 gap-12 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6 rounded"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+        >
+          <motion.div className="lg:col-span-3 w-full lg:sticky top-0 text-center" variants={slideInLeft}>
             <div className=" rounded shadow-md relative">
-              <img
+              <motion.img
                 src={meal.image}
                 alt={meal.title}
                 className="w-full aspect-[251/171] rounded object-cover mx-auto"
+                initial={{ scale: 0.98 }}
+                whileHover={{ scale: 1.01 }}
+                transition={{ type: "spring", stiffness: 220, damping: 20 }}
               />
             </div>
-          </div>
-          <div className="lg:col-span-2 flex flex-col h-full">
+          </motion.div>
+          <motion.div className="lg:col-span-2 flex flex-col h-full" variants={slideInRight}>
             <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">{meal.title}</h3>
             <div className="flex items-center space-x-1 mt-2">
               <Stack spacing={1}>
@@ -181,87 +211,117 @@ const MealDetails = () => {
             </div>
             <div className="mt-3 md:mt-6 flex-1">
               <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">Ingredients</h3>
-              <div className="flex flex-col flex-wrap gap-1 mt-4">
-                {meal.ingredients.map((ingred, indx) => {
-                  return (
-                    <p key={indx}>
-                      {indx + 1}. {ingred}
-                    </p>
-                  );
-                })}
-              </div>
+              <motion.div
+                className="flex flex-col flex-wrap gap-1 mt-4"
+                variants={listContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+              >
+                {meal.ingredients.map((ingred, indx) => (
+                  <motion.p key={indx} variants={listItem}>
+                    {indx + 1}. {ingred}
+                  </motion.p>
+                ))}
+              </motion.div>
             </div>
             <div className="flex gap-4 mt-3 md:mt-12 max-w-md">
               {isRequested ? (
-                <Button size="large" fullWidth variant="contained" disabled>
-                  Request Meal
-                </Button>
+                <motion.div whileHover={{ y: -2, scale: 1.01 }}>
+                  <Button size="large" fullWidth variant="contained" disabled>
+                    Request Meal
+                  </Button>
+                </motion.div>
               ) : (
-                <Button
-                  onClick={handleRequest}
-                  size="large"
-                  fullWidth
-                  variant="contained"
-                >
-                  Request Meal
-                </Button>
+                <motion.div whileHover={{ y: -2, scale: 1.01 }}>
+                  <Button
+                    onClick={handleRequest}
+                    size="large"
+                    fullWidth
+                    variant="contained"
+                  >
+                    Request Meal
+                  </Button>
+                </motion.div>
               )}
               {isLiked ? (
-                <Button
-                  onClick={handleLike}
-                  variant="outlined"
-                  startIcon={<ThumbUp />}
-                  disabled
-                >
-                  Liked
-                </Button>
+                <motion.div whileHover={{ y: -2, scale: 1.01 }}>
+                  <Button
+                    onClick={handleLike}
+                    variant="outlined"
+                    startIcon={<ThumbUp />}
+                    disabled
+                  >
+                    Liked
+                  </Button>
+                </motion.div>
               ) : (
-                <Button
-                  onClick={handleLike}
-                  variant="outlined"
-                  startIcon={<ThumbUp />}
-                >
-                  Like
-                </Button>
+                <motion.div whileHover={{ y: -2, scale: 1.01 }}>
+                  <Button
+                    onClick={handleLike}
+                    variant="outlined"
+                    startIcon={<ThumbUp />}
+                  >
+                    Like
+                  </Button>
+                </motion.div>
               )}
             </div>
-          </div>
-        </div>
-        <div className="mt-5 md:mt-12 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6">
+          </motion.div>
+        </motion.div>
+        <motion.div
+          className="mt-5 md:mt-12 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6"
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">Meal information</h3>
-          <ul className="mt-4 space-y-2 text-gray-800 dark:text-gray-300">
-            <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
+          <motion.ul
+            className="mt-4 space-y-2 text-gray-800 dark:text-gray-300"
+            variants={listContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
               Category <span className="ml-4 float-right">{meal.category}</span>
-            </li>
-            <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
+            </motion.li>
+            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
               Distributor
               <span className="ml-4 float-right">{meal.distributor.name}</span>
-            </li>
-            <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
+            </motion.li>
+            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
               Distributor email
               <span className="ml-4 float-right">{meal.distributor.email}</span>
-            </li>
-            <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
+            </motion.li>
+            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
               Likes
               <span className="ml-4 float-right">{meal.likes}</span>
-            </li>
-            <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
+            </motion.li>
+            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
               Reviews
               <span className="ml-4 float-right">{reviews.length}</span>
-            </li>
-            <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
+            </motion.li>
+            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
               Rating <span className="ml-4 float-right">{meal.rating}</span>
-            </li>
-            <li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1">
+            </motion.li>
+            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
               Posted at
               <span className="ml-4 float-right">
                 {moment(meal.postTime).fromNow()}
               </span>
-            </li>
-          </ul>
-        </div>
+            </motion.li>
+          </motion.ul>
+        </motion.div>
 
-        <div className="p-4 mx-auto mt-5 md:mt-12 bg-secondary dark:bg-inherit dark:border bg-opacity-30 rounded-lg shadow-md max-w-5xl sm:p-6 grid grid-cols-1 lg:grid-cols-6 gap-6">
+        <motion.div
+          className="p-4 mx-auto mt-5 md:mt-12 bg-secondary dark:bg-inherit dark:border bg-opacity-30 rounded-lg shadow-md max-w-5xl sm:p-6 grid grid-cols-1 lg:grid-cols-6 gap-6"
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           <div className="lg:col-span-3 col-span-1">
             <form
               onSubmit={handleReview}
@@ -293,9 +353,13 @@ const MealDetails = () => {
               />
               <div className="text-right py-4">
                 {user?.email ? (
-                  <button className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3">
+                  <motion.button
+                    whileHover={{ y: -2, scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3"
+                  >
                     Post Review
-                  </button>
+                  </motion.button>
                 ) : (
                   <Link
                     to={"/login"}
@@ -337,9 +401,15 @@ const MealDetails = () => {
               </li>
             </ul>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="mt-5 md:mt-12 bg-gray-50 dark:bg-inherit rounded-md shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6">
+        <motion.div
+          className="mt-5 md:mt-12 bg-gray-50 dark:bg-inherit rounded-md shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6"
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">
             Reviews {reviews.length}
           </h3>
@@ -350,12 +420,20 @@ const MealDetails = () => {
                   What our happy customers say
                 </h2>
               </div>
-              <div className="columns-1 sm:columns-2 lg:columns-3 space-y-4 mt-12 max-sm:max-w-md max-sm:mx-auto">
+              <motion.div
+                className="columns-1 sm:columns-2 lg:columns-3 space-y-4 mt-12 max-sm:max-w-md max-sm:mx-auto"
+                variants={listContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+              >
                 {reviews.map((review) => {
                   return (
-                    <div
+                    <motion.div
                       key={review._id}
                       className="break-inside-avoid p-6 rounded-lg bg-white dark:bg-gray-800 shadow border"
+                      variants={listItem}
+                      whileHover={{ y: -3 }}
                     >
                       <div className="flex items-center">
                         <img
@@ -390,13 +468,13 @@ const MealDetails = () => {
                           />
                         </Stack>
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
-              </div>
+              </motion.div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
