@@ -33,7 +33,6 @@ const FAQ = () => {
     []
   );
 
-  // First item open by default to match previous UI
   const [openIndices, setOpenIndices] = useState([0]);
   const isOpen = (i) => openIndices.includes(i);
   const toggle = (i) => {
@@ -74,7 +73,6 @@ const FAQ = () => {
                 viewBox="0 0 42 42"
                 className="w-3 fill-current ml-auto shrink-0"
               >
-                {/* plus path shows when closed; minus path always present */}
                 <path
                   className={open ? "hidden" : "block"}
                   d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z"
@@ -109,3 +107,4 @@ const FAQ = () => {
 };
 
 export default FAQ;
+
