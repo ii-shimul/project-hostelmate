@@ -13,471 +13,520 @@ import { Helmet } from "react-helmet";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { motion } from "framer-motion";
 const StyledRating = styled(Rating)({
-  "& .MuiRating-iconFilled": {
-    color: "#1C64F2",
-  },
+	"& .MuiRating-iconFilled": {
+		color: "#1C64F2",
+	},
 });
 
 const MealDetails = () => {
-  const { user } = useAuth();
-  const { userDB, loading } = useUser();
-  const [isLiked, setIsLiked] = useState(false);
-  const [rating, setRating] = useState(0);
-  const [isRequested, setIsRequested] = useState(true);
-  const [meal, setMeal] = useState(useLoaderData());
-  const axiosSecure = useAxiosSecure();
-  const axiosPublic = useAxios();
-  // check if the user already requested for the meal
-  const checkIsRequested = async () => {
-    
-    const res = await axiosPublic.get(
-      `/requestedMeals/check?userEmail=${user?.email}&mealId=${meal._id}`,
-    );
-    if (!res.data) {
-      setIsRequested(false);
-    } else if (res.data._id) {
-      setIsRequested(true);
-    }
-  };
+	const { user } = useAuth();
+	const { userDB, loading } = useUser();
+	const [isLiked, setIsLiked] = useState(false);
+	const [rating, setRating] = useState(0);
+	const [isRequested, setIsRequested] = useState(true);
+	const [meal, setMeal] = useState(useLoaderData());
+	const axiosSecure = useAxiosSecure();
+	const axiosPublic = useAxios();
+	// check if the user already requested for the meal
+	const checkIsRequested = async () => {
+		const res = await axiosPublic.get(
+			`/requestedMeals/check?userEmail=${user?.email}&mealId=${meal._id}`
+		);
+		if (!res.data) {
+			setIsRequested(false);
+		} else if (res.data._id) {
+			setIsRequested(true);
+		}
+	};
 
-  if ((user?.email, meal?._id)) {
-    checkIsRequested();
-  }
+	if ((user?.email, meal?._id)) {
+		checkIsRequested();
+	}
 
-  const {
-    data: reviews,
-    isPending,
-    refetch,
-  } = useQuery({
-    queryKey: ["getReviews"],
-    queryFn: async () => {
-      const data = await axiosPublic.get(`/reviews/${meal._id}`);
-      return data.data;
-    },
-  });
+	const {
+		data: reviews,
+		isPending,
+		refetch,
+	} = useQuery({
+		queryKey: ["getReviews"],
+		queryFn: async () => {
+			const data = await axiosPublic.get(`/reviews/${meal._id}`);
+			return data.data;
+		},
+	});
 
-  const handleRequest = async () => {
-    if (!user) {
-      toast.error("You have to login first.");
-      return;
-    } else if (userDB.badge === "Bronze") {
-      toast.error(`You have to subscribe to a membership.`);
-      return;
-    } else if (isRequested) {
-      toast.error(`You've already requested for ${meal.title}`);
-      return;
-    }
-    const request = {
-      requester: {
-        name: user.displayName,
-        email: user.email,
-        image: user.photoURL,
-      },
-      requestedMeal: {
-        id: meal._id,
-        title: meal.title,
-        image: meal.image,
-      },
-      status: "Pending",
-      requestedAt: new Date().toISOString(),
-    };
-    const res = await axiosSecure.post("requestedMeals", request);
-    if (res.data.insertedId) {
-      setIsRequested(true);
-      toast.success(`Your request for ${meal.title} is submitted!`);
-    } else {
-      toast.error("Something went wrong!");
-    }
-  };
+	const handleRequest = async () => {
+		if (!user) {
+			toast.error("You have to login first.");
+			return;
+		} else if (userDB.badge === "Bronze") {
+			toast.error(`You have to subscribe to a membership.`);
+			return;
+		} else if (isRequested) {
+			toast.error(`You've already requested for ${meal.title}`);
+			return;
+		}
+		const request = {
+			requester: {
+				name: user.displayName,
+				email: user.email,
+				image: user.photoURL,
+			},
+			requestedMeal: {
+				id: meal._id,
+				title: meal.title,
+				image: meal.image,
+			},
+			status: "Pending",
+			requestedAt: new Date().toISOString(),
+		};
+		const res = await axiosSecure.post("requestedMeals", request);
+		if (res.data.insertedId) {
+			setIsRequested(true);
+			toast.success(`Your request for ${meal.title} is submitted!`);
+		} else {
+			toast.error("Something went wrong!");
+		}
+	};
 
-  const handleReview = async (event) => {
-    event.preventDefault();
-    if (!rating) {
-      return;
-    }
-    const review = event.target.review.value;
-    const postedAt = new Date().toISOString();
-    const newReview = {
-      mealId: meal._id,
-      reviewer: {
-        name: user.displayName,
-        email: user.email,
-        photoURL: user.photoURL,
-      },
-      review: review,
-      rating: rating,
-      postedAt: postedAt,
-    };
-    const response = await axiosSecure.post("/reviews", newReview);
-    if (response.data.reviewInsert.insertedId) {
-      refetch();
-      event.target.reset();
-      setRating(0);
-      toast.success("Your review is posted.");
-    } else {
-      toast.error("Something went wrong!");
-    }
-  };
+	const handleReview = async (event) => {
+		event.preventDefault();
+		if (!rating) {
+			return;
+		}
+		const review = event.target.review.value;
+		const postedAt = new Date().toISOString();
+		const newReview = {
+			mealId: meal._id,
+			reviewer: {
+				name: user.displayName,
+				email: user.email,
+				photoURL: user.photoURL,
+			},
+			review: review,
+			rating: rating,
+			postedAt: postedAt,
+		};
+		const response = await axiosSecure.post("/reviews", newReview);
+		if (response.data.reviewInsert.insertedId) {
+			refetch();
+			event.target.reset();
+			setRating(0);
+			toast.success("Your review is posted.");
+		} else {
+			toast.error("Something went wrong!");
+		}
+	};
 
-  const handleLike = async () => {
-    if (!user?.email) {
-      toast.error("You have to login first.");
-      return;
-    }
-    const res = await axiosSecure.put(`/likes/${meal._id}`);
-    if (res.data.modifiedCount > 0) {
-      const updatedMeal = await axiosPublic.get(`/meals/${meal._id}`);
-      setMeal(updatedMeal.data);
-      setIsLiked(true);
-      toast.success(`You liked ${meal.title}`);
-    } else {
-      toast.error("Something went wrong!");
-    }
-  };
+	const handleLike = async () => {
+		if (!user?.email) {
+			toast.error("You have to login first.");
+			return;
+		}
+		const res = await axiosSecure.put(`/likes/${meal._id}`);
+		if (res.data.modifiedCount > 0) {
+			const updatedMeal = await axiosPublic.get(`/meals/${meal._id}`);
+			setMeal(updatedMeal.data);
+			setIsLiked(true);
+			toast.success(`You liked ${meal.title}`);
+		} else {
+			toast.error("Something went wrong!");
+		}
+	};
 
-  if (isPending || loading) {
-    return <Loader />;
-  }
-  const fadeIn = {
-    hidden: { opacity: 0, y: 24 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-  };
-  const slideInLeft = {
-    hidden: { opacity: 0, x: -24 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
-  };
-  const slideInRight = {
-    hidden: { opacity: 0, x: 24 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
-  };
-  const listContainer = {
-    hidden: { opacity: 1 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
-  };
-  const listItem = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
-  };
+	if (isPending || loading) {
+		return <Loader />;
+	}
+	const fadeIn = {
+		hidden: { opacity: 0, y: 24 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			transition: { duration: 0.5, ease: "easeOut" },
+		},
+	};
+	const slideInLeft = {
+		hidden: { opacity: 0, x: -24 },
+		visible: {
+			opacity: 1,
+			x: 0,
+			transition: { duration: 0.6, ease: "easeOut" },
+		},
+	};
+	const slideInRight = {
+		hidden: { opacity: 0, x: 24 },
+		visible: {
+			opacity: 1,
+			x: 0,
+			transition: { duration: 0.6, ease: "easeOut" },
+		},
+	};
+	const listContainer = {
+		hidden: { opacity: 1 },
+		visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
+	};
+	const listItem = {
+		hidden: { opacity: 0, y: 10 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			transition: { duration: 0.35, ease: "easeOut" },
+		},
+	};
 
-  return (
-    <div className="bg-white dark:bg-inherit">
-      <Helmet>
-        <title>{meal.title} | HostelMate</title>
-      </Helmet>
-      <div className="p-4 lg:max-w-7xl max-w-4xl mx-auto">
-        <motion.div
-          className="grid items-start grid-cols-1 lg:grid-cols-5 gap-12 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6 rounded"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-        >
-          <motion.div className="lg:col-span-3 w-full lg:sticky top-0 text-center" variants={slideInLeft}>
-            <div className=" rounded shadow-md relative">
-              <motion.img
-                src={meal.image}
-                alt={meal.title}
-                className="w-full aspect-[251/171] rounded object-cover mx-auto"
-                initial={{ scale: 0.98 }}
-                whileHover={{ scale: 1.01 }}
-                transition={{ type: "spring", stiffness: 220, damping: 20 }}
-              />
-            </div>
-          </motion.div>
-          <motion.div className="lg:col-span-2 flex flex-col h-full" variants={slideInRight}>
-            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">{meal.title}</h3>
-            <div className="flex items-center space-x-1 mt-2">
-              <Stack spacing={1}>
-                <StyledRating
-                  name="customized-color"
-                  defaultValue={meal.rating}
-                  precision={0.1}
-                  readOnly
-                />
-              </Stack>
-              <h4 className="text-gray-500 dark:text-gray-400 text-base !ml-3">
-                {reviews.length} Reviews
-              </h4>
-              <h4 className="text-gray-500 dark:text-gray-400 text-base !ml-3">
-                {meal.likes} Likes
-              </h4>
-            </div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">{meal.description}</p>
-            <div className="flex flex-wrap gap-4 mt-3 md:mt-6">
-              <p className="text-gray-800 dark:text-gray-300 text-2xl font-bold">৳{meal.price}</p>
-              <p className="text-gray-500 dark:text-gray-400 text-base">
-                <strike>৳{Math.ceil(meal.price * 1.09)}</strike>
-                <span className="text-sm ml-1">Tax included</span>
-              </p>
-            </div>
-            <div className="mt-3 md:mt-6 flex-1">
-              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">Ingredients</h3>
-              <motion.div
-                className="flex flex-col flex-wrap gap-1 mt-4"
-                variants={listContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-              >
-                {meal.ingredients.map((ingred, indx) => (
-                  <motion.p key={indx} variants={listItem}>
-                    {indx + 1}. {ingred}
-                  </motion.p>
-                ))}
-              </motion.div>
-            </div>
-            <div className="flex gap-4 mt-3 md:mt-12 max-w-md">
-              {isRequested ? (
-                <motion.div whileHover={{ y: -2, scale: 1.01 }}>
-                  <Button size="large" fullWidth variant="contained" disabled>
-                    Request Meal
-                  </Button>
-                </motion.div>
-              ) : (
-                <motion.div whileHover={{ y: -2, scale: 1.01 }}>
-                  <Button
-                    onClick={handleRequest}
-                    size="large"
-                    fullWidth
-                    variant="contained"
-                  >
-                    Request Meal
-                  </Button>
-                </motion.div>
-              )}
-              {isLiked ? (
-                <motion.div whileHover={{ y: -2, scale: 1.01 }}>
-                  <Button
-                    onClick={handleLike}
-                    variant="outlined"
-                    startIcon={<ThumbUp />}
-                    disabled
-                  >
-                    Liked
-                  </Button>
-                </motion.div>
-              ) : (
-                <motion.div whileHover={{ y: -2, scale: 1.01 }}>
-                  <Button
-                    onClick={handleLike}
-                    variant="outlined"
-                    startIcon={<ThumbUp />}
-                  >
-                    Like
-                  </Button>
-                </motion.div>
-              )}
-            </div>
-          </motion.div>
-        </motion.div>
-        <motion.div
-          className="mt-5 md:mt-12 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6"
-          variants={fadeIn}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">Meal information</h3>
-          <motion.ul
-            className="mt-4 space-y-2 text-gray-800 dark:text-gray-300"
-            variants={listContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
-              Category <span className="ml-4 float-right">{meal.category}</span>
-            </motion.li>
-            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
-              Distributor
-              <span className="ml-4 float-right">{meal.distributor.name}</span>
-            </motion.li>
-            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
-              Distributor email
-              <span className="ml-4 float-right">{meal.distributor.email}</span>
-            </motion.li>
-            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
-              Likes
-              <span className="ml-4 float-right">{meal.likes}</span>
-            </motion.li>
-            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
-              Reviews
-              <span className="ml-4 float-right">{reviews.length}</span>
-            </motion.li>
-            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
-              Rating <span className="ml-4 float-right">{meal.rating}</span>
-            </motion.li>
-            <motion.li className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1" variants={listItem}>
-              Posted at
-              <span className="ml-4 float-right">
-                {moment(meal.postTime).fromNow()}
-              </span>
-            </motion.li>
-          </motion.ul>
-        </motion.div>
+	return (
+		<div className="bg-white dark:bg-inherit">
+			<Helmet>
+				<title>{meal.title} | HostelMate</title>
+			</Helmet>
+			<div className="p-4 lg:max-w-7xl max-w-4xl mx-auto">
+				<motion.div
+					className="grid items-start grid-cols-1 lg:grid-cols-5 gap-12 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6 rounded"
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true, amount: 0.15 }}
+				>
+					<motion.div
+						className="lg:col-span-3 w-full lg:sticky top-0 text-center"
+						variants={slideInLeft}
+					>
+						<div className=" rounded shadow-md relative">
+							<motion.img
+								src={meal.image}
+								alt={meal.title}
+								className="w-full aspect-[251/171] rounded object-cover mx-auto"
+								initial={{ scale: 0.98 }}
+								whileHover={{ scale: 1.01 }}
+								transition={{ type: "spring", stiffness: 220, damping: 20 }}
+							/>
+						</div>
+					</motion.div>
+					<motion.div
+						className="lg:col-span-2 flex flex-col h-full"
+						variants={slideInRight}
+					>
+						<h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">
+							{meal.title}
+						</h3>
+						<div className="flex items-center space-x-1 mt-2">
+							<Stack spacing={1}>
+								<StyledRating
+									name="customized-color"
+									defaultValue={meal.rating}
+									precision={0.1}
+									readOnly
+								/>
+							</Stack>
+							<h4 className="text-gray-500 dark:text-gray-400 text-base !ml-3">
+								{reviews.length} Reviews
+							</h4>
+							<h4 className="text-gray-500 dark:text-gray-400 text-base !ml-3">
+								{meal.likes} Likes
+							</h4>
+						</div>
+						<p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+							{meal.description}
+						</p>
+						<div className="flex flex-wrap gap-4 mt-3 md:mt-6">
+							<p className="text-gray-800 dark:text-gray-300 text-2xl font-bold">
+								৳{meal.price}
+							</p>
+							<p className="text-gray-500 dark:text-gray-400 text-base">
+								<strike>৳{Math.ceil(meal.price * 1.09)}</strike>
+								<span className="text-sm ml-1">Tax included</span>
+							</p>
+						</div>
+						<div className="mt-3 md:mt-6 flex-1">
+							<h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">
+								Ingredients
+							</h3>
+							<motion.div
+								className="flex flex-col flex-wrap gap-1 mt-4"
+								variants={listContainer}
+								initial="hidden"
+								whileInView="visible"
+								viewport={{ once: true, amount: 0.2 }}
+							>
+								{meal.ingredients.map((ingred, indx) => (
+									<motion.p key={indx} variants={listItem}>
+										{indx + 1}. {ingred}
+									</motion.p>
+								))}
+							</motion.div>
+						</div>
+						<div className="flex gap-4 mt-3 md:mt-12 max-w-md">
+							{isRequested ?
+								<motion.div whileHover={{ y: -2, scale: 1.01 }}>
+									<Button size="large" fullWidth variant="contained" disabled>
+										Request Meal
+									</Button>
+								</motion.div>
+							:	<motion.div whileHover={{ y: -2, scale: 1.01 }}>
+									<Button
+										onClick={handleRequest}
+										size="large"
+										fullWidth
+										variant="contained"
+									>
+										Request Meal
+									</Button>
+								</motion.div>
+							}
+							{isLiked ?
+								<motion.div whileHover={{ y: -2, scale: 1.01 }}>
+									<Button
+										onClick={handleLike}
+										variant="outlined"
+										startIcon={<ThumbUp />}
+										disabled
+									>
+										Liked
+									</Button>
+								</motion.div>
+							:	<motion.div whileHover={{ y: -2, scale: 1.01 }}>
+									<Button
+										onClick={handleLike}
+										variant="outlined"
+										startIcon={<ThumbUp />}
+									>
+										Like
+									</Button>
+								</motion.div>
+							}
+						</div>
+					</motion.div>
+				</motion.div>
+				<motion.div
+					className="mt-5 md:mt-12 shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6"
+					variants={fadeIn}
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true, amount: 0.2 }}
+				>
+					<h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">
+						Meal information
+					</h3>
+					<motion.ul
+						className="mt-4 space-y-2 text-gray-800 dark:text-gray-300"
+						variants={listContainer}
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true, amount: 0.2 }}
+					>
+						<motion.li
+							className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1"
+							variants={listItem}
+						>
+							Category <span className="ml-4 float-right">{meal.category}</span>
+						</motion.li>
+						<motion.li
+							className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1"
+							variants={listItem}
+						>
+							Distributor
+							<span className="ml-4 float-right">{meal.distributor.name}</span>
+						</motion.li>
+						<motion.li
+							className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1"
+							variants={listItem}
+						>
+							Distributor email
+							<span className="ml-4 float-right">{meal.distributor.email}</span>
+						</motion.li>
+						<motion.li
+							className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1"
+							variants={listItem}
+						>
+							Likes
+							<span className="ml-4 float-right">{meal.likes}</span>
+						</motion.li>
+						<motion.li
+							className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1"
+							variants={listItem}
+						>
+							Reviews
+							<span className="ml-4 float-right">{reviews.length}</span>
+						</motion.li>
+						<motion.li
+							className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1"
+							variants={listItem}
+						>
+							Rating <span className="ml-4 float-right">{meal.rating}</span>
+						</motion.li>
+						<motion.li
+							className="text-sm hover:bg-gray-100 transition-all duration-150 py-1 px-1"
+							variants={listItem}
+						>
+							Posted at
+							<span className="ml-4 float-right">
+								{moment(meal.postTime).fromNow()}
+							</span>
+						</motion.li>
+					</motion.ul>
+				</motion.div>
 
-        <motion.div
-          className="p-4 mx-auto mt-5 md:mt-12 bg-secondary dark:bg-inherit dark:border bg-opacity-30 rounded-lg shadow-md max-w-5xl sm:p-6 grid grid-cols-1 lg:grid-cols-6 gap-6"
-          variants={fadeIn}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          <div className="lg:col-span-3 col-span-1">
-            <form
-              onSubmit={handleReview}
-              action
-              method="POST"
-              className="space-y-4"
-            >
-              <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
-                Write a review
-              </h2>
-              <Stack spacing={1}>
-                <StyledRating
-                  name="customized-color"
-                  value={rating}
-                  precision={1}
-                  onChange={(event) => {
-                    setRating(parseInt(event.target.value));
-                  }}
-                  className="dark:bg-gray-500 rounded px-1"
-                />
-              </Stack>
-              <textarea
-                id="review"
-                name="review"
-                rows={4}
-                required
-                className="block w-full p-3 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Write your review"
-              />
-              <div className="text-right py-4">
-                {user?.email ? (
-                  <motion.button
-                    whileHover={{ y: -2, scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3"
-                  >
-                    Post Review
-                  </motion.button>
-                ) : (
-                  <Link
-                    to={"/login"}
-                    className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3"
-                  >
-                    Login to Post Review
-                  </Link>
-                )}
-              </div>
-            </form>
-          </div>
-          <div className="lg:col-span-3 hidden lg:flex flex-col space-y-2">
-            <h1 className="text-2xl font-semibold text-gray-700 dark:text-gray-300">
-              Review Guidelines
-            </h1>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              We value your feedback and encourage you to share your experience
-              with us. To ensure a positive and helpful environment, please keep
-              the following in mind when writing your review:
-            </p>
+				<motion.div
+					className="p-4 mx-auto mt-5 md:mt-12 bg-secondary dark:bg-inherit dark:border bg-opacity-30 rounded-lg shadow-md max-w-5xl sm:p-6 grid grid-cols-1 lg:grid-cols-6 gap-6"
+					variants={fadeIn}
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true, amount: 0.2 }}
+				>
+					<div className="lg:col-span-3 col-span-1">
+						<form
+							onSubmit={handleReview}
+							action
+							method="POST"
+							className="space-y-4"
+						>
+							<h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
+								Write a review
+							</h2>
+							<Stack spacing={1}>
+								<StyledRating
+									name="customized-color"
+									value={rating}
+									precision={1}
+									onChange={(event) => {
+										setRating(parseInt(event.target.value));
+									}}
+									className="dark:bg-gray-500 rounded px-1"
+								/>
+							</Stack>
+							<textarea
+								id="review"
+								name="review"
+								rows={4}
+								required
+								className="block w-full p-3 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+								placeholder="Write your review"
+							/>
+							<div className="text-right py-4">
+								{user?.email ?
+									<motion.button
+										whileHover={{ y: -2, scale: 1.01 }}
+										whileTap={{ scale: 0.98 }}
+										className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3"
+									>
+										Post Review
+									</motion.button>
+								:	<Link
+										to={"/login"}
+										className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3"
+									>
+										Login to Post Review
+									</Link>
+								}
+							</div>
+						</form>
+					</div>
+					<div className="lg:col-span-3 hidden lg:flex flex-col space-y-2">
+						<h1 className="text-2xl font-semibold text-gray-700 dark:text-gray-300">
+							Review Guidelines
+						</h1>
+						<p className="text-gray-700 dark:text-gray-300 mb-4">
+							We value your feedback and encourage you to share your experience
+							with us. To ensure a positive and helpful environment, please keep
+							the following in mind when writing your review:
+						</p>
 
-            <ul className="list-inside space-y-1 text-gray-700 dark:text-gray-300">
-              <li className="flex items-start">
-                <span className="font-bold">1. Be Respectful</span>
-              </li>
-              <li className="flex items-start">
-                <span className="font-bold">2. Be Honest and Specific</span>
-              </li>
-              <li className="flex items-start">
-                <span className="font-bold">3. Stay Relevant</span>
-              </li>
-              <li className="flex items-start">
-                <span className="font-bold">
-                  4. Avoid Sensitive Information
-                </span>
-              </li>
-              <li className="flex items-start">
-                <span className="font-bold">5. Keep it Appropriate</span>
-              </li>
-            </ul>
-          </div>
-        </motion.div>
+						<ul className="list-inside space-y-1 text-gray-700 dark:text-gray-300">
+							<li className="flex items-start">
+								<span className="font-bold">1. Be Respectful</span>
+							</li>
+							<li className="flex items-start">
+								<span className="font-bold">2. Be Honest and Specific</span>
+							</li>
+							<li className="flex items-start">
+								<span className="font-bold">3. Stay Relevant</span>
+							</li>
+							<li className="flex items-start">
+								<span className="font-bold">
+									4. Avoid Sensitive Information
+								</span>
+							</li>
+							<li className="flex items-start">
+								<span className="font-bold">5. Keep it Appropriate</span>
+							</li>
+						</ul>
+					</div>
+				</motion.div>
 
-        <motion.div
-          className="mt-5 md:mt-12 bg-gray-50 dark:bg-inherit rounded-md shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6"
-          variants={fadeIn}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">
-            Reviews {reviews.length}
-          </h3>
-          <div className="lg:p-10 p-6">
-            <div className="max-w-6xl max-lg:max-w-3xl mx-auto">
-              <div className="max-w-2xl">
-                <h2 className="text-gray-800 dark:text-gray-300 text-2xl font-bold">
-                  What our happy customers say
-                </h2>
-              </div>
-              <motion.div
-                className="columns-1 sm:columns-2 lg:columns-3 space-y-4 mt-12 max-sm:max-w-md max-sm:mx-auto"
-                variants={listContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-              >
-                {reviews.map((review) => {
-                  return (
-                    <motion.div
-                      key={review._id}
-                      className="break-inside-avoid p-6 rounded-lg bg-white dark:bg-gray-800 shadow border"
-                      variants={listItem}
-                      whileHover={{ y: -3 }}
-                    >
-                      <div className="flex items-center">
-                        <img
-                          src={review.reviewer.photoURL}
-                          className="w-11 h-11 rounded-full"
-                        />
-                        <div className="ml-4">
-                          <h4 className="text-gray-800 dark:text-gray-300 text-sm font-semibold">
-                            {review.reviewer.name}
-                          </h4>
-                          <p className="mt-0.5 text-xs text-gray-400">
-                            {review.reviewer.email}
-                          </p>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
-                            {moment(review.postedAt).fromNow()}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="mt-6">
-                        <p className="text-gray-800 dark:text-gray-300 text-sm leading-relaxed">
-                          {review.review}
-                        </p>
-                      </div>
-                      <div className="flex space-x-1 mt-4">
-                        <Stack spacing={1}>
-                          <StyledRating
-                            name="customized-color"
-                            defaultValue={review.rating}
-                            precision={0.5}
-                            readOnly
-                            size="small"
-                          />
-                        </Stack>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </motion.div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </div>
-  );
+				<motion.div
+					className="mt-5 md:mt-12 bg-gray-50 dark:bg-inherit rounded-md shadow-[0_2px_10px_-3px_rgba(169,170,172,0.8)] p-6"
+					variants={fadeIn}
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true, amount: 0.2 }}
+				>
+					<h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">
+						Reviews {reviews.length}
+					</h3>
+					<div className="lg:p-10 p-6">
+						<div className="max-w-6xl max-lg:max-w-3xl mx-auto">
+							<div className="max-w-2xl">
+								<h2 className="text-gray-800 dark:text-gray-300 text-2xl font-bold">
+									What our happy customers say
+								</h2>
+							</div>
+							<motion.div
+								className="columns-1 sm:columns-2 lg:columns-3 space-y-4 mt-12 max-sm:max-w-md max-sm:mx-auto"
+								variants={listContainer}
+								initial="hidden"
+								whileInView="visible"
+								viewport={{ once: true, amount: 0.2 }}
+							>
+								{reviews.map((review) => {
+									return (
+										<motion.div
+											key={review._id}
+											className="break-inside-avoid p-6 rounded-lg bg-white dark:bg-gray-800 shadow border"
+											variants={listItem}
+											whileHover={{ y: -3 }}
+										>
+											<div className="flex items-center">
+												<img
+													src={review.reviewer.photoURL}
+													className="w-11 h-11 rounded-full"
+												/>
+												<div className="ml-4">
+													<h4 className="text-gray-800 dark:text-gray-300 text-sm font-semibold">
+														{review.reviewer.name}
+													</h4>
+													<p className="mt-0.5 text-xs text-gray-400">
+														{review.reviewer.email}
+													</p>
+													<span className="text-xs text-gray-500 dark:text-gray-400">
+														{moment(review.postedAt).fromNow()}
+													</span>
+												</div>
+											</div>
+											<div className="mt-6">
+												<p className="text-gray-800 dark:text-gray-300 text-sm leading-relaxed">
+													{review.review}
+												</p>
+											</div>
+											<div className="flex space-x-1 mt-4">
+												<Stack spacing={1}>
+													<StyledRating
+														name="customized-color"
+														defaultValue={review.rating}
+														precision={0.5}
+														readOnly
+														size="small"
+													/>
+												</Stack>
+											</div>
+										</motion.div>
+									);
+								})}
+							</motion.div>
+						</div>
+					</div>
+				</motion.div>
+			</div>
+		</div>
+	);
 };
 
 export default MealDetails;
