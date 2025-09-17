@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SectionTitle from "../../components/SectionTitle";
 import useAxios from "../../hooks/useAxios";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -24,6 +24,15 @@ const Meals = () => {
   const [sort, setSort] = useState(0);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
+  const isFetchingRef = useRef(false);
+
+  const isStaticMode = Boolean(
+    (searchValue && String(searchValue).trim() !== "") ||
+      Number(minPrice) ||
+      Number(maxPrice) ||
+      (category && category !== "") ||
+      Number(sort)
+  );
   useEffect(() => {
     const searchMeals = async () => {
       try {
@@ -61,7 +70,10 @@ const Meals = () => {
 
   const fetchMeals = async () => {
     try {
-      const response = await axiosPublic.get(`/meals?page=${page}&limit=8`);
+      if (isFetchingRef.current || isStaticMode || !hasMore) return;
+      isFetchingRef.current = true;
+      const currentPage = page;
+      const response = await axiosPublic.get(`/meals?page=${currentPage}&limit=8`);
       const { meals: newMeals, hasMore: more } = response.data;
 
       setMeals((prevMeals) => [...prevMeals, ...newMeals]);
@@ -69,12 +81,27 @@ const Meals = () => {
       setHasMore(more);
     } catch (error) {
       console.error("Error fetching meals:", error);
+    } finally {
+      isFetchingRef.current = false;
     }
   };
 
-  if (!meals.length && page === 1) {
-    fetchMeals();
-  }
+  useEffect(() => {
+    if (isStaticMode) {
+      setHasMore(false);
+    } else {
+      setMeals([]);
+      setHasMore(true);
+      setPage(1);
+    }
+  }, [isStaticMode]);
+
+  useEffect(() => {
+    if (!isStaticMode && meals.length === 0 && hasMore && !isFetchingRef.current) {
+      fetchMeals();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isStaticMode, meals.length, hasMore]);
 
   return (
     <motion.div
@@ -140,29 +167,26 @@ const Meals = () => {
               sx={{ m: 1, minWidth: 120 }}
               className="dark:bg-slate-700 rounded-md"
             >
-              <InputLabel
-                className="dark:text-white"
-                id="demo-select-small-label"
-              >
+              <InputLabel className="dark:text-white" id="sort-select-label">
                 Sort by
               </InputLabel>
               <Select
-                labelId="demo-select-small-label"
-                id="demo-select-small"
-                value={category}
-                label="Category"
+                labelId="sort-select-label"
+                id="sort-select"
+                value={sort}
+                label="Sort by"
                 onChange={(event) => setSort(event.target.value)}
               >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={"1"}>Ascending price</MenuItem>
-                <MenuItem value={"-1"}>Descending price</MenuItem>
+                <MenuItem value={1}>Ascending price</MenuItem>
+                <MenuItem value={-1}>Descending price</MenuItem>
               </Select>
             </FormControl>
             <TextField
               id="outlined-basic"
-              onChange={(e) => setMinPrice(e.target.value)}
+              onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
               label="MinPrice"
               variant="outlined"
               InputProps={{
@@ -174,7 +198,7 @@ const Meals = () => {
             />
             <TextField
               id="outlined-basic"
-              onChange={(e) => setMaxPrice(e.target.value)}
+              onChange={(e) => setMaxPrice(Number(e.target.value) || 0)}
               label="MaxPrice"
               variant="outlined"
               InputProps={{
@@ -186,7 +210,7 @@ const Meals = () => {
             />
           </div>
         </div>
-        {searchValue !== "" ? (
+        {isStaticMode ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-2">
             <MealCard meals={meals} />
           </div>
